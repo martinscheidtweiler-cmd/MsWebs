@@ -238,7 +238,7 @@ export default function HaarhuyPage() {
               </div>
               <div className="hhLocatieBody">
                 <h3 className="hhLocatieName">'t Haarhuys {l.name}</h3>
-                <p className="hhLocatieAddr">{l.addr.split("\n").map((line, j) => <span key={j}>{line}<br /></span>)}</p>
+                <p className="hhLocatieAddr">{l.addr.map((line: string, j: number) => <span key={j}>{line}<br /></span>)}</p>
                 <div className="hhLocatieHours">
                   <span className="hhLocatieHoursTitle">Openingsuren</span>
                   {l.hours.map((h) => (
