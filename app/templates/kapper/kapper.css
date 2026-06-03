@@ -1,0 +1,876 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* ─── Reset & Base ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:   #F6F1EA;
+  --cream2:  #EDE7DC;
+  --cream3:  #D9D0C3;
+  --black:   #100D0A;
+  --black2:  #1C1714;
+  --black3:  #2A2420;
+  --gold:    #B8966A;
+  --gold2:   #D4AF82;
+  --gold3:   #8A6E4B;
+  --text:    #3A3330;
+  --muted:   #7A7068;
+  --border:  rgba(58,51,48,.12);
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ─── Nav ────────────────────────────────────────────────────────────────── */
+.kNav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 72px;
+  background: rgba(246,241,234,.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.kNavScrolled {
+  box-shadow: 0 1px 0 var(--gold);
+}
+
+.kNavLogo {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--black);
+}
+
+.kNavLinks {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.kNavLinks a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--black);
+  transition: color .2s;
+}
+.kNavLinks a:hover { color: var(--gold); }
+
+.kNavCta {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s !important;
+}
+.kNavCta:hover { color: var(--gold) !important; }
+
+/* mobile hamburger */
+.kHamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.kHamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--black);
+  transition: transform .3s, opacity .3s;
+}
+.kHamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.kHamburger.open span:nth-child(2) { opacity: 0; }
+.kHamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.kMobileNav {
+  display: none;
+  position: fixed;
+  top: 72px; left: 0; right: 0;
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 48px 40px;
+  z-index: 99;
+  flex-direction: column;
+  gap: 28px;
+}
+.kMobileNav.open { display: flex; }
+.kMobileNav a {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.kMobileNavCta {
+  color: var(--gold) !important;
+  font-weight: 500;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.kHero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.kHeroLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 120px 64px 80px;
+  background: var(--cream);
+}
+
+.kHeroEyebrow {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.kHeroEyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.kHeroTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 5vw, 78px);
+  font-weight: 300;
+  line-height: 1.08;
+  color: var(--black);
+  letter-spacing: -.01em;
+  margin-bottom: 28px;
+}
+.kHeroTitle em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.kHeroText {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 440px;
+  margin-bottom: 48px;
+}
+
+.kHeroActions {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.kHeroPrimary {
+  display: inline-block;
+  padding: 14px 36px;
+  background: var(--black);
+  color: var(--cream);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: background .25s, color .25s;
+}
+.kHeroPrimary:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.kHeroSecondary {
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--cream3);
+  padding-bottom: 1px;
+  transition: color .2s, border-color .2s;
+}
+.kHeroSecondary:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.kHeroRight {
+  position: relative;
+  overflow: hidden;
+}
+.kHeroRight img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.kHeroCard {
+  position: absolute;
+  bottom: 48px;
+  left: -28px;
+  background: var(--cream);
+  padding: 22px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 8px 40px rgba(16,13,10,.12);
+}
+.kHeroCard strong {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: -.01em;
+}
+.kHeroCard span {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+
+/* ─── Stats bar ──────────────────────────────────────────────────────────── */
+.kStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--black);
+}
+
+.kStatItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 24px;
+  border-right: 1px solid rgba(255,255,255,.06);
+  gap: 6px;
+}
+.kStatItem:last-child { border-right: none; }
+
+.kStatValue {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+
+.kStatLabel {
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(246,241,234,.45);
+}
+
+/* ─── Section utility ────────────────────────────────────────────────────── */
+.kSection {
+  padding: 100px 48px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.kSectionHead {
+  margin-bottom: 64px;
+}
+.kSectionHead.center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kEyebrow {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.kEyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.kSectionHead.center .kEyebrow::before { display: none; }
+
+.kSectionHead h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--black);
+  letter-spacing: -.01em;
+  max-width: 600px;
+}
+.kSectionHead h2 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* ─── Services (numbered rows) ───────────────────────────────────────────── */
+.kServiceList {
+  border-top: 1px solid var(--border);
+}
+
+.kServiceRow {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: baseline;
+  gap: 32px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+  cursor: default;
+}
+.kServiceRow:hover { background: rgba(184,150,106,.04); }
+
+.kServiceNr {
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  padding-top: 2px;
+}
+
+.kServiceBody h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: -.01em;
+  margin-bottom: 8px;
+}
+
+.kServiceBody p {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+.kServicePrice {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--gold3);
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* ─── Process ────────────────────────────────────────────────────────────── */
+.kProcessWrap {
+  padding: 100px 48px;
+  background: var(--black);
+}
+
+.kProcessInner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.kProcessInner .kSectionHead h2 { color: var(--cream); }
+.kProcessInner .kEyebrow { color: var(--gold2); }
+.kProcessInner .kEyebrow::before { background: var(--gold2); }
+
+.kProcessGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid rgba(255,255,255,.06);
+}
+
+.kProcessStep {
+  padding: 40px 36px;
+  border-right: 1px solid rgba(255,255,255,.06);
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.kProcessNr {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: rgba(184,150,106,.25);
+  letter-spacing: -.02em;
+  display: block;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.kProcessStep h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.kProcessStep p {
+  font-size: 14px;
+  color: rgba(246,241,234,.5);
+  line-height: 1.7;
+}
+
+/* ─── Split / About ──────────────────────────────────────────────────────── */
+.kSplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.kSplitText {
+  padding: 100px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--cream);
+}
+
+.kSplitText h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 3.5vw, 52px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--black);
+  letter-spacing: -.01em;
+  margin-bottom: 24px;
+}
+.kSplitText h2 em { font-style: italic; color: var(--gold); }
+
+.kSplitText p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+.kChecks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.kChecks span {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text);
+}
+.kChecks span::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.kSplitImg {
+  overflow: hidden;
+}
+.kSplitImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 600px;
+}
+
+/* ─── Team ───────────────────────────────────────────────────────────────── */
+.kTeamGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.kTeamCard {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--cream2);
+}
+
+.kTeamCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform .6s cubic-bezier(.25,.1,.25,1);
+}
+.kTeamCard:hover img { transform: scale(1.04); }
+
+.kTeamOverlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(16,13,10,.82) 0%, transparent 100%);
+  padding: 40px 28px 28px;
+}
+
+.kTeamOverlay h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.kTeamOverlay strong {
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+.kTeamOverlay p {
+  font-size: 13px;
+  color: rgba(246,241,234,.6);
+}
+
+/* ─── Gallery / Lookbook ─────────────────────────────────────────────────── */
+.kGalleryWrap {
+  padding: 0 48px 100px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.kGalleryHead {
+  margin-bottom: 48px;
+  text-align: center;
+}
+.kGalleryHead span {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.kGalleryHead h2 {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--black);
+  letter-spacing: -.01em;
+  margin-top: 10px;
+}
+
+.kGallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4px;
+  height: 700px;
+}
+
+.kGallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s cubic-bezier(.25,.1,.25,1);
+}
+.kGallery img:hover { transform: scale(1.02); }
+
+.kGallery img:first-child {
+  grid-row: 1 / 3;
+  object-position: center top;
+}
+
+/* ─── Prices ─────────────────────────────────────────────────────────────── */
+.kPricesWrap {
+  padding: 100px 48px;
+  background: var(--cream2);
+}
+
+.kPricesInner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.kPriceList {
+  margin-top: 16px;
+}
+
+.kPriceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px dotted var(--cream3);
+  gap: 16px;
+}
+
+.kPriceRow span {
+  font-size: 16px;
+  color: var(--text);
+}
+
+.kPriceRow strong {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--black);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ─── Reviews ────────────────────────────────────────────────────────────── */
+.kReviewsWrap {
+  padding: 100px 48px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.kReviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.kReviewCard {
+  padding: 56px 52px;
+  background: var(--cream2);
+  position: relative;
+}
+
+.kQuote {
+  font-family: var(--font-serif);
+  font-size: 96px;
+  line-height: .7;
+  color: var(--gold2);
+  opacity: .35;
+  position: absolute;
+  top: 40px;
+  left: 44px;
+  font-style: italic;
+}
+
+.kReviewText {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--black);
+  font-weight: 300;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+}
+
+.kReviewStars {
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: .06em;
+  margin-bottom: 12px;
+}
+
+.kReviewName {
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ─── Contact ────────────────────────────────────────────────────────────── */
+.kContact {
+  background: var(--black);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.kContactLeft {
+  padding: 100px 64px;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+
+.kContactLeft .kEyebrow { color: var(--gold2); }
+.kContactLeft .kEyebrow::before { background: var(--gold2); }
+
+.kContactLeft h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 24px;
+}
+.kContactLeft h2 em { font-style: italic; color: var(--gold2); }
+
+.kContactLeft p {
+  font-size: 15px;
+  color: rgba(246,241,234,.5);
+  line-height: 1.75;
+  max-width: 420px;
+}
+
+.kContactRight {
+  padding: 100px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+}
+
+.kContactLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.kContactLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  font-size: 14px;
+  letter-spacing: .06em;
+  color: rgba(246,241,234,.7);
+  transition: color .2s;
+}
+.kContactLink:hover { color: var(--gold2); }
+.kContactLink span { font-size: 18px; }
+
+.kContactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kContactInfo strong {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--cream);
+}
+.kContactInfo span {
+  font-size: 13px;
+  color: rgba(246,241,234,.4);
+  letter-spacing: .04em;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.kFooter {
+  background: var(--black2);
+  border-top: 1px solid rgba(255,255,255,.04);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kFooterLogo {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: .04em;
+}
+
+.kFooterSub {
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(246,241,234,.3);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .kNav { padding: 0 32px; }
+  .kNavLinks { gap: 28px; }
+  .kHeroLeft { padding: 120px 40px 64px; }
+  .kSection { padding: 80px 32px; }
+  .kProcessWrap { padding: 80px 32px; }
+  .kProcessGrid { grid-template-columns: repeat(2, 1fr); }
+  .kSplitText { padding: 80px 40px; }
+  .kGalleryWrap { padding: 0 32px 80px; }
+  .kPricesWrap { padding: 80px 32px; }
+  .kReviewsWrap { padding: 80px 32px; }
+  .kContactLeft { padding: 80px 40px; }
+  .kContactRight { padding: 80px 40px; }
+}
+
+@media (max-width: 768px) {
+  .kNav { padding: 0 24px; }
+  .kNavLinks { display: none; }
+  .kHamburger { display: flex; }
+  .kMobileNav { padding: 24px; }
+
+  .kHero { grid-template-columns: 1fr; min-height: auto; }
+  .kHeroLeft { padding: 120px 24px 56px; }
+  .kHeroRight { height: 70vw; }
+  .kHeroCard { display: none; }
+
+  .kStats { grid-template-columns: repeat(2, 1fr); }
+  .kStatItem:nth-child(2) { border-right: none; }
+
+  .kSection { padding: 64px 24px; }
+  .kSectionHead h2 { font-size: 36px; }
+
+  .kServiceRow { grid-template-columns: 40px 1fr; }
+  .kServicePrice { display: none; }
+
+  .kProcessWrap { padding: 64px 24px; }
+  .kProcessGrid { grid-template-columns: 1fr; border-left: none; }
+  .kProcessStep { border-left: 1px solid rgba(255,255,255,.06); }
+
+  .kSplit { grid-template-columns: 1fr; }
+  .kSplitImg { display: none; }
+  .kSplitText { padding: 64px 24px; }
+
+  .kTeamGrid { grid-template-columns: 1fr; }
+  .kTeamCard { aspect-ratio: 4/3; }
+
+  .kGallery { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
+  .kGallery img:first-child { grid-row: auto; height: 280px; }
+  .kGallery img { height: 220px; }
+
+  .kPricesWrap { padding: 64px 24px; }
+  .kReviewsWrap { padding: 64px 24px; }
+  .kReviewGrid { grid-template-columns: 1fr; }
+  .kReviewCard { padding: 40px 28px; }
+
+  .kContact { grid-template-columns: 1fr; }
+  .kContactLeft { padding: 64px 24px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .kContactRight { padding: 48px 24px; }
+
+  .kFooter { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
+  .kGalleryWrap { padding: 0 24px 64px; }
+}

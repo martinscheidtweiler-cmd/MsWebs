@@ -1,0 +1,612 @@
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+.agencyPage {
+  min-height: 100vh;
+  background: #080808;
+  color: #f2f0ec;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+.agencyPage a { color: inherit; text-decoration: none; }
+
+/* NAV */
+.agencyNav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(8,8,8,.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(242,240,236,.07);
+}
+.agencyBrand {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+.agencyBrand span { color: #ff4d1c; }
+.agencyNav nav { display: flex; gap: 28px; align-items: center; }
+.agencyNav nav a {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.45);
+  transition: .2s;
+}
+.agencyNav nav a:hover { color: #f2f0ec; }
+.agencyNavBtn {
+  padding: 11px 20px;
+  background: #ff4d1c;
+  color: #f2f0ec !important;
+  border-radius: 6px;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: .22s ease !important;
+}
+.agencyNavBtn:hover { background: #e6431a !important; }
+
+/* HERO */
+.agencyHero {
+  min-height: 100vh;
+  padding: 160px 5vw 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+.agencyHeroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,77,28,.18), transparent 38%),
+    radial-gradient(circle at 10% 90%, rgba(255,77,28,.1), transparent 30%),
+    #080808;
+}
+.agencyHeroEye {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.38);
+}
+.agencyHeroEye span {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #ff4d1c;
+  animation: agencyPulse 2s ease-in-out infinite;
+}
+@keyframes agencyPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+.agencyHero h1 {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(72px, 12vw, 190px);
+  line-height: .72;
+  letter-spacing: -.1em;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+.agencyHero h1 em {
+  display: block;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(242,240,236,.28);
+}
+.agencyHeroBottom {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: end;
+  border-top: 1px solid rgba(242,240,236,.08);
+  padding-top: 36px;
+}
+.agencyHeroBottom p {
+  max-width: 520px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: rgba(242,240,236,.55);
+}
+.agencyHeroActions { display: flex; gap: 14px; flex-wrap: wrap; }
+.agencyBtnPrimary {
+  padding: 16px 28px;
+  background: #ff4d1c;
+  color: #f2f0ec;
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: .22s ease;
+}
+.agencyBtnPrimary:hover { background: #e6431a; transform: translateY(-3px); }
+.agencyBtnSecondary {
+  padding: 16px 28px;
+  border: 1px solid rgba(242,240,236,.2);
+  border-radius: 6px;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: .22s ease;
+}
+.agencyBtnSecondary:hover { border-color: rgba(242,240,236,.5); }
+.agencyHeroStats { display: flex; gap: 32px; }
+.agencyHeroStats div { text-align: right; }
+.agencyHeroStats strong { display: block; font-size: 40px; letter-spacing: -.07em; color: #ff4d1c; line-height: 1; }
+.agencyHeroStats span { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(242,240,236,.38); }
+
+/* CLIENTS STRIP */
+.agencyClients {
+  border-top: 1px solid rgba(242,240,236,.07);
+  border-bottom: 1px solid rgba(242,240,236,.07);
+  padding: 24px 5vw;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  overflow: hidden;
+}
+.agencyClients span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.3);
+  white-space: nowrap;
+}
+.agencyClientList {
+  display: flex;
+  gap: 52px;
+  animation: agencyScroll 20s linear infinite;
+  width: max-content;
+}
+.agencyClientList strong {
+  font-size: 16px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.2);
+  white-space: nowrap;
+  transition: .2s;
+}
+.agencyClientList strong:hover { color: rgba(242,240,236,.6); }
+@keyframes agencyScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* SERVICES */
+.agencyServices {
+  padding: 130px 5vw;
+}
+.agencySectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.38);
+  margin-bottom: 44px;
+}
+.agencySectionLabel::before {
+  content: "";
+  display: block;
+  width: 26px; height: 2px;
+  background: #ff4d1c;
+}
+.agencyServicesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.agencyServiceCard {
+  padding: 46px 38px;
+  background: #111;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #111;
+  transition: .3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.agencyServiceCard::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: #ff4d1c;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: .3s ease;
+}
+.agencyServiceCard:hover {
+  background: #161616;
+  border-color: rgba(255,77,28,.25);
+  transform: translateY(-6px);
+}
+.agencyServiceCard:hover::after { transform: scaleX(1); }
+.agencyServiceCard span {
+  display: block;
+  color: #ff4d1c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 46px;
+}
+.agencyServiceCard h3 {
+  font-size: clamp(26px, 3vw, 42px);
+  letter-spacing: -.05em;
+  line-height: .9;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+.agencyServiceCard p {
+  color: rgba(242,240,236,.52);
+  font-size: 15px;
+  line-height: 1.7;
+  flex: 1;
+}
+.agencyServiceCard ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 22px;
+  border-top: 1px solid rgba(242,240,236,.08);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.agencyServiceCard li {
+  font-size: 13px;
+  color: rgba(242,240,236,.5);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.agencyServiceCard li::before { content: "↗"; color: #ff4d1c; font-size: 11px; }
+
+/* CASES */
+.agencyCases {
+  padding: 0 5vw 130px;
+}
+.agencySectionHead {
+  margin-bottom: 50px;
+}
+.agencySectionHead h2 {
+  font-size: clamp(52px, 8vw, 118px);
+  line-height: .76;
+  letter-spacing: -.1em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.agencyCaseList {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(242,240,236,.1);
+}
+.agencyCaseItem {
+  padding: 46px 0;
+  border-bottom: 1px solid rgba(242,240,236,.1);
+  display: grid;
+  grid-template-columns: 80px 1.4fr 0.8fr 0.7fr auto;
+  gap: 30px;
+  align-items: center;
+  transition: .25s ease;
+  cursor: pointer;
+}
+.agencyCaseItem:hover {
+  padding-left: 20px;
+  background: linear-gradient(90deg, rgba(255,77,28,.06), transparent);
+}
+.agencyCaseItem:hover .agencyCaseArrow { opacity: 1; transform: translateX(0); }
+.agencyCaseNr { color: rgba(242,240,236,.25); font-size: 12px; font-weight: 800; letter-spacing: .18em; }
+.agencyCaseItem h3 {
+  font-size: clamp(28px, 3.8vw, 54px);
+  letter-spacing: -.06em;
+  line-height: .9;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.agencyCaseItem p { color: rgba(242,240,236,.45); font-size: 14px; line-height: 1.6; }
+.agencyCaseTag {
+  padding: 8px 14px;
+  border: 1px solid rgba(242,240,236,.15);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.55);
+  width: fit-content;
+}
+.agencyCaseArrow {
+  font-size: 24px;
+  color: #ff4d1c;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: .25s ease;
+}
+
+/* NUMBERS */
+.agencyNumbers {
+  margin: 0 5vw 130px;
+  padding: 70px 60px;
+  border: 1px solid rgba(242,240,236,.08);
+  border-radius: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  background: #0f0f0f;
+  position: relative;
+  overflow: hidden;
+}
+.agencyNumbers::before {
+  content: "";
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,77,28,.12), transparent 70%);
+}
+.agencyNumberItem { position: relative; z-index: 2; }
+.agencyNumberItem strong {
+  display: block;
+  font-size: clamp(48px, 6vw, 90px);
+  letter-spacing: -.09em;
+  line-height: .85;
+  color: #ff4d1c;
+}
+.agencyNumberItem span {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.4);
+}
+
+/* TEAM */
+.agencyTeam {
+  padding: 0 5vw 130px;
+}
+.agencyTeamGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 50px;
+}
+.agencyTeamCard {
+  border: 1px solid rgba(242,240,236,.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: .3s ease;
+}
+.agencyTeamCard:hover {
+  border-color: rgba(255,77,28,.3);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(255,77,28,.1);
+}
+.agencyTeamImg {
+  height: 280px;
+  overflow: hidden;
+  background: #111;
+}
+.agencyTeamImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(.4) brightness(.75);
+  transition: .4s ease;
+}
+.agencyTeamCard:hover .agencyTeamImg img {
+  filter: grayscale(0) brightness(.85);
+  transform: scale(1.04);
+}
+.agencyTeamInfo { padding: 22px 22px 26px; background: #111; }
+.agencyTeamInfo h3 { font-size: 20px; letter-spacing: -.03em; margin-bottom: 4px; }
+.agencyTeamInfo strong {
+  display: block;
+  color: #ff4d1c;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.agencyTeamInfo p { color: rgba(242,240,236,.4); font-size: 13px; }
+
+/* TESTIMONIALS */
+.agencyTestimonials {
+  padding: 130px 5vw;
+  background: #0d0d0d;
+}
+.agencyTestGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 50px;
+}
+.agencyTestCard {
+  padding: 36px 32px;
+  border: 1px solid rgba(242,240,236,.08);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: .25s ease;
+}
+.agencyTestCard:hover {
+  border-color: rgba(255,77,28,.25);
+  transform: translateY(-5px);
+}
+.agencyTestStars { color: #ff4d1c; font-size: 15px; letter-spacing: 3px; }
+.agencyTestCard blockquote {
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(242,240,236,.65);
+  flex: 1;
+}
+.agencyTestAuthor {
+  padding-top: 18px;
+  border-top: 1px solid rgba(242,240,236,.08);
+}
+.agencyTestAuthor strong { display: block; font-size: 14px; }
+.agencyTestAuthor span { font-size: 12px; color: rgba(242,240,236,.38); letter-spacing: .1em; text-transform: uppercase; }
+
+/* CONTACT */
+.agencyContact {
+  padding: 130px 5vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: start;
+}
+.agencyContactLeft span {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,.38);
+  margin-bottom: 22px;
+}
+.agencyContactLeft span::before {
+  content: "";
+  width: 26px; height: 2px;
+  background: #ff4d1c;
+}
+.agencyContactLeft h2 {
+  font-size: clamp(52px, 7.5vw, 110px);
+  line-height: .76;
+  letter-spacing: -.09em;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.agencyContactLeft p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: rgba(242,240,236,.52);
+  margin-bottom: 38px;
+}
+.agencyContactLinks { display: flex; flex-direction: column; gap: 12px; }
+.agencyContactLinks a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: rgba(242,240,236,.5);
+  transition: .2s;
+}
+.agencyContactLinks a:hover { color: #f2f0ec; }
+.agencyContactLinks a::before { content: "↗"; color: #ff4d1c; }
+.agencyForm {
+  padding: 44px;
+  background: #111;
+  border: 1px solid rgba(242,240,236,.08);
+  border-radius: 16px;
+  display: grid;
+  gap: 14px;
+}
+.agencyForm h3 { font-size: 26px; letter-spacing: -.04em; margin-bottom: 6px; }
+.agencyForm input,
+.agencyForm select,
+.agencyForm textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(242,240,236,.12);
+  background: transparent;
+  color: #f2f0ec;
+  padding: 16px 4px;
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: .2s;
+}
+.agencyForm input::placeholder,
+.agencyForm textarea::placeholder { color: rgba(242,240,236,.25); }
+.agencyForm input:focus,
+.agencyForm textarea:focus { border-bottom-color: #ff4d1c; }
+.agencyForm select { cursor: pointer; color: rgba(242,240,236,.5); appearance: none; }
+.agencyForm select option { background: #111; }
+.agencyForm textarea { min-height: 130px; resize: vertical; }
+.agencyForm button {
+  margin-top: 10px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 6px;
+  background: #ff4d1c;
+  color: #f2f0ec;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .22s ease;
+}
+.agencyForm button:hover { background: #e6431a; }
+
+/* FOOTER */
+.agencyFooter {
+  padding: 34px 5vw;
+  border-top: 1px solid rgba(242,240,236,.07);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.agencyFooter strong { font-size: 16px; font-weight: 900; letter-spacing: .04em; }
+.agencyFooter strong span { color: #ff4d1c; }
+.agencyFooter p { font-size: 13px; color: rgba(242,240,236,.3); }
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .agencyServicesGrid { grid-template-columns: repeat(2, 1fr); }
+  .agencyTeamGrid { grid-template-columns: repeat(2, 1fr); }
+  .agencyNumbers { grid-template-columns: repeat(2, 1fr); }
+  .agencyCaseItem { grid-template-columns: 60px 1fr 1fr; }
+  .agencyCaseTag, .agencyCaseArrow { display: none; }
+}
+@media (max-width: 820px) {
+  .agencyNav nav a:not(.agencyNavBtn) { display: none; }
+  .agencyContact { grid-template-columns: 1fr; }
+  .agencyTestGrid { grid-template-columns: 1fr; }
+  .agencyHeroBottom { grid-template-columns: 1fr; gap: 30px; }
+  .agencyHeroStats { justify-content: flex-start; }
+}
+@media (max-width: 600px) {
+  .agencyHero, .agencyServices, .agencyCases, .agencyTeam, .agencyTestimonials, .agencyContact {
+    padding-left: 22px; padding-right: 22px;
+  }
+  .agencyHero { padding-top: 130px; }
+  .agencyNumbers { margin-left: 22px; margin-right: 22px; grid-template-columns: repeat(2, 1fr); padding: 40px 28px; }
+  .agencyServicesGrid, .agencyTeamGrid { grid-template-columns: 1fr; }
+  .agencyCaseItem { grid-template-columns: 1fr; gap: 8px; }
+  .agencyCaseNr { display: none; }
+  .agencyForm { padding: 28px; border-radius: 12px; }
+  .agencyFooter { flex-direction: column; gap: 10px; text-align: center; }
+}

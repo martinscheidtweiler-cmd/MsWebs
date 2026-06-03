@@ -1,0 +1,1174 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* ─── Reset & Base ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:  #FAF7F2;
+  --white2: #F2EDE5;
+  --white3: #E5DDD2;
+  --clay:   #C4622D;
+  --clay2:  #A04D22;
+  --clay3:  #E8C4AD;
+  --char:   #1A1614;
+  --char2:  #2B2320;
+  --char3:  #3F3733;
+  --olive:  #3D4A35;
+  --muted:  #7A726A;
+  --border: rgba(26,22,20,.1);
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--char);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ─── Nav ─────────────────────────────────────────────────────────────── */
+.rNav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 48px;
+  height: 72px;
+  transition: background .35s ease, box-shadow .35s ease;
+}
+
+.rNavScrolled {
+  background: rgba(250,247,242,.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.rNavLeft {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.rNavLeft a, .rNavRight a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.92);
+  transition: color .2s;
+}
+.rNavLeft a:hover, .rNavRight a:hover { color: #fff; }
+.rNavScrolled .rNavLeft a, .rNavScrolled .rNavRight a { color: var(--char3); }
+.rNavScrolled .rNavLeft a:hover, .rNavScrolled .rNavRight a:hover { color: var(--clay); }
+
+.rNavLogo {
+  text-align: center;
+}
+.rNavLogo span {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(250,247,242,.97);
+  letter-spacing: .08em;
+  display: block;
+  transition: color .35s;
+}
+.rNavScrolled .rNavLogo span { color: var(--char); }
+.rNavLogo small {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.55);
+  display: block;
+  margin-top: 1px;
+  transition: color .35s;
+}
+.rNavScrolled .rNavLogo small { color: var(--muted); }
+
+.rNavRight {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.rNavReserve {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: .12em;
+  color: rgba(250,247,242,.92) !important;
+  border-bottom: 1px solid rgba(250,247,242,.45);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s !important;
+}
+.rNavScrolled .rNavReserve { color: var(--char) !important; border-color: var(--clay); }
+.rNavReserve:hover { color: #fff !important; border-color: #fff; }
+.rNavScrolled .rNavReserve:hover { color: var(--clay) !important; border-color: var(--clay); }
+
+/* mobile */
+.rHamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.rHamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--char);
+  transition: transform .3s, opacity .3s;
+}
+.rHamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.rHamburger.open span:nth-child(2) { opacity: 0; }
+.rHamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.rMobileNav {
+  display: none;
+  position: fixed;
+  top: 72px; left: 0; right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 48px 40px;
+  z-index: 99;
+  flex-direction: column;
+  gap: 24px;
+}
+.rMobileNav.open { display: flex; }
+.rMobileNav a {
+  font-size: 14px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--char3);
+}
+.rMobileNavCta { color: var(--clay) !important; font-weight: 500; }
+
+/* ─── Hero ─────────────────────────────────────────────────────────────── */
+.rHero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rHeroBg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.rHeroGrad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(26,22,20,.25) 0%,
+    rgba(26,22,20,.1) 40%,
+    rgba(26,22,20,.65) 100%
+  );
+}
+
+.rHeroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  padding: 0 80px 88px;
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.rHeroLabel {
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.65);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.rHeroLabel::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.rHeroTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(56px, 8vw, 118px);
+  font-weight: 400;
+  line-height: .95;
+  color: var(--white);
+  letter-spacing: -.02em;
+  margin-bottom: 36px;
+}
+.rHeroTitle em {
+  font-style: italic;
+  color: var(--clay3);
+}
+
+.rHeroMeta {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.rHeroCta {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--clay);
+  color: var(--white);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: background .25s;
+}
+.rHeroCta:hover { background: var(--clay2); }
+
+.rHeroAlt {
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.6);
+  border-bottom: 1px solid rgba(250,247,242,.3);
+  padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.rHeroAlt:hover { color: rgba(250,247,242,.9); border-color: rgba(250,247,242,.6); }
+
+/* ─── Info strip ─────────────────────────────────────────────────────────── */
+.rStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.rStripItem {
+  padding: 40px 48px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rStripItem:last-child { border-right: none; }
+
+.rStripLabel {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+
+.rStripTitle {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--char);
+}
+
+.rStripSub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── Menu ───────────────────────────────────────────────────────────────── */
+.rMenuWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.rMenuTop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 80px;
+}
+
+.rMenuTop h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 400;
+  color: var(--char);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+}
+.rMenuTop h2 em { font-style: italic; color: var(--clay); }
+
+.rMenuTopRight {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rMenuTopRight p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.rMenuTopRight a {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--clay);
+  border-bottom: 1px solid var(--clay3);
+  padding-bottom: 2px;
+  align-self: flex-start;
+  transition: border-color .2s;
+}
+.rMenuTopRight a:hover { border-color: var(--clay); }
+
+.rMenuColumns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.rMenuGroup {
+  padding: 48px 40px 48px 0;
+  border-right: 1px solid var(--border);
+}
+.rMenuGroup:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+.rMenuGroup:nth-child(2) { padding-left: 40px; }
+
+.rMenuGroupName {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rMenuGroupName::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--clay3);
+}
+
+.rMenuItem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(26,22,20,.06);
+}
+.rMenuItem:last-child { border-bottom: none; }
+
+.rMenuItemName {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--char);
+  margin-bottom: 4px;
+}
+
+.rMenuItemSub {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.rMenuItemPrice {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--clay2);
+  white-space: nowrap;
+}
+
+/* ─── Statement image ────────────────────────────────────────────────────── */
+.rStatement {
+  position: relative;
+  height: 70vh;
+  min-height: 520px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rStatementBg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.rStatementOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,22,20,.55);
+}
+
+.rStatementText {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 48px;
+}
+
+.rStatementText blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.25;
+  max-width: 840px;
+  margin: 0 auto 20px;
+}
+
+.rStatementText cite {
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--clay3);
+  font-style: normal;
+}
+
+/* ─── Tasting ────────────────────────────────────────────────────────────── */
+.rTasting {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.rTastingImg {
+  overflow: hidden;
+  min-height: 600px;
+}
+.rTastingImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .7s cubic-bezier(.25,.1,.25,1);
+}
+.rTastingImg:hover img { transform: scale(1.03); }
+
+.rTastingText {
+  background: var(--char);
+  padding: 80px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rTastingEyebrow {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--clay3);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rTastingEyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.rTastingText h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 24px;
+}
+.rTastingText h2 em { font-style: italic; color: var(--clay3); }
+
+.rTastingText p {
+  font-size: 15px;
+  color: rgba(250,247,242,.5);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  max-width: 480px;
+}
+
+.rTastingPrice {
+  display: flex;
+  gap: 40px;
+  margin: 32px 0 40px;
+  padding: 32px 0;
+  border-top: 1px solid rgba(255,255,255,.07);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.rTastingPrice div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rTastingPrice strong {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--white);
+  letter-spacing: -.01em;
+}
+
+.rTastingPrice span {
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.35);
+}
+
+.rTastingCta {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--clay);
+  color: var(--white);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: background .25s;
+}
+.rTastingCta:hover { background: var(--clay2); }
+
+/* ─── Wine ───────────────────────────────────────────────────────────────── */
+.rWineWrap {
+  background: var(--olive);
+  padding: 100px 48px;
+}
+
+.rWineInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rWineTop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+
+.rWineTop h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+}
+.rWineTop h2 em { font-style: italic; color: var(--clay3); }
+
+.rWineEyebrow {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.45);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rWineEyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.rWineTop p {
+  font-size: 15px;
+  color: rgba(250,247,242,.5);
+  line-height: 1.75;
+}
+
+.rWineList {
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.rWineRow {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr auto;
+  gap: 32px;
+  align-items: baseline;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  transition: background .2s;
+}
+.rWineRow:hover { background: rgba(255,255,255,.02); }
+
+.rWineRegion {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--clay3);
+}
+
+.rWineName {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--white);
+  font-style: italic;
+}
+
+.rWineDesc {
+  font-size: 13px;
+  color: rgba(250,247,242,.45);
+  line-height: 1.6;
+}
+
+.rWinePrice {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--white);
+  text-align: right;
+}
+
+/* ─── Cocktails ──────────────────────────────────────────────────────────── */
+.rCocktailsWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.rCocktailsTop {
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+.rCocktailsTop span {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+
+.rCocktailsTop h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 400;
+  color: var(--char);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  margin-top: 12px;
+}
+.rCocktailsTop h2 em { font-style: italic; color: var(--clay); }
+
+.rCocktailGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.rCocktailCard {
+  background: var(--white2);
+  padding: 48px 40px;
+  transition: background .25s;
+}
+.rCocktailCard:hover { background: var(--clay3); }
+.rCocktailCard:hover .rCocktailNr { color: var(--clay2); }
+
+.rCocktailNr {
+  font-family: var(--font-serif);
+  font-size: 52px;
+  font-weight: 400;
+  color: rgba(26,22,20,.1);
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: 24px;
+  transition: color .25s;
+}
+
+.rCocktailCard h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--char);
+  margin-bottom: 10px;
+}
+
+.rCocktailCard p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.rCocktailCard em {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--clay2);
+  font-family: var(--font-serif);
+}
+
+/* ─── Private dining ─────────────────────────────────────────────────────── */
+.rPrivate {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.rPrivateText {
+  padding: 100px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--white2);
+}
+
+.rPrivateEyebrow {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--clay);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rPrivateEyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.rPrivateText h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 400;
+  color: var(--char);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 24px;
+}
+.rPrivateText h2 em { font-style: italic; color: var(--clay); }
+
+.rPrivateText p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  max-width: 480px;
+}
+
+.rPrivateFeatures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 32px;
+  margin: 32px 0 40px;
+}
+
+.rPrivateFeatures span {
+  font-size: 13px;
+  color: var(--char3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rPrivateFeatures span::before {
+  content: '';
+  width: 16px;
+  height: 1px;
+  background: var(--clay);
+  flex-shrink: 0;
+}
+
+.rPrivateBtn {
+  display: inline-block;
+  padding: 14px 36px;
+  border: 1px solid var(--char);
+  color: var(--char);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: background .25s, color .25s;
+}
+.rPrivateBtn:hover { background: var(--char); color: var(--white); }
+
+.rPrivateImg {
+  overflow: hidden;
+  min-height: 600px;
+}
+.rPrivateImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ─── Events ─────────────────────────────────────────────────────────────── */
+.rEventsWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 48px;
+}
+
+.rEventsTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 56px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rEventsTop h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  color: var(--char);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+}
+.rEventsTop h2 em { font-style: italic; color: var(--clay); }
+
+.rEventsTop span {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clay);
+}
+
+.rEventRow {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 40px;
+  align-items: center;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+  cursor: default;
+}
+.rEventRow:hover { background: rgba(196,98,45,.03); }
+
+.rEventDate {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--clay);
+  letter-spacing: .04em;
+}
+
+.rEventName {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--char);
+  margin-bottom: 6px;
+}
+
+.rEventDesc {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.rEventCta {
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--clay);
+  border-bottom: 1px solid var(--clay3);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  transition: border-color .2s;
+}
+.rEventCta:hover { border-color: var(--clay); }
+
+/* ─── Reservation / Contact ──────────────────────────────────────────────── */
+.rContact {
+  background: var(--char);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.rContactInfo {
+  padding: 100px 72px;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+
+.rContactEyebrow {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--clay3);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rContactEyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--clay);
+}
+
+.rContactInfo h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin-bottom: 48px;
+}
+.rContactInfo h2 em { font-style: italic; color: var(--clay3); }
+
+.rHoursGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,.07);
+  margin-bottom: 48px;
+}
+
+.rHoursRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.rHoursRow span {
+  font-size: 13px;
+  color: rgba(250,247,242,.45);
+  letter-spacing: .04em;
+}
+.rHoursRow strong {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(250,247,242,.8);
+}
+
+.rContactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rContactDetails a {
+  font-size: 13px;
+  color: rgba(250,247,242,.35);
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+.rContactDetails a:hover { color: var(--clay3); }
+
+.rReservationForm {
+  padding: 100px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rFormTitle {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.35);
+  margin-bottom: 16px;
+}
+
+.rReservationForm input,
+.rReservationForm select,
+.rReservationForm textarea {
+  width: 100%;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  padding: 14px 18px;
+  outline: none;
+  transition: border-color .2s;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+.rReservationForm input::placeholder,
+.rReservationForm textarea::placeholder { color: rgba(250,247,242,.3); }
+.rReservationForm input:focus,
+.rReservationForm select:focus,
+.rReservationForm textarea:focus { border-color: var(--clay); }
+.rReservationForm select { color: rgba(250,247,242,.7); cursor: pointer; }
+.rReservationForm select option { background: var(--char2); }
+.rReservationForm textarea { resize: none; }
+
+.rReservationForm button {
+  margin-top: 8px;
+  padding: 16px 40px;
+  background: var(--clay);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background .25s;
+  align-self: flex-start;
+}
+.rReservationForm button:hover { background: var(--clay2); }
+
+.rFormRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.rFooter {
+  background: var(--char2);
+  border-top: 1px solid rgba(255,255,255,.04);
+  padding: 40px 48px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.rFooterLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rFooterLeft span {
+  font-size: 12px;
+  color: rgba(250,247,242,.3);
+  letter-spacing: .06em;
+}
+
+.rFooterCenter {
+  text-align: center;
+}
+.rFooterCenter strong {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--white);
+  letter-spacing: .08em;
+  display: block;
+}
+.rFooterCenter small {
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(250,247,242,.3);
+}
+
+.rFooterRight {
+  text-align: right;
+}
+.rFooterRight span {
+  font-size: 12px;
+  color: rgba(250,247,242,.3);
+  letter-spacing: .06em;
+  display: block;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .rNav { padding: 0 32px; }
+  .rNavLeft, .rNavRight { gap: 20px; }
+  .rHeroContent { padding: 0 48px 72px; }
+  .rMenuWrap { padding: 80px 32px; }
+  .rMenuTop { gap: 48px; }
+  .rMenuColumns { grid-template-columns: 1fr; }
+  .rMenuGroup { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 0; }
+  .rMenuGroup:last-child { padding-left: 0; border-bottom: none; }
+  .rMenuGroup:nth-child(2) { padding-left: 0; }
+  .rWineWrap { padding: 80px 32px; }
+  .rWineRow { grid-template-columns: 80px 1fr auto; }
+  .rWineDesc { display: none; }
+  .rCocktailsWrap { padding: 80px 32px; }
+  .rEventsWrap { padding: 80px 32px; }
+  .rContactInfo { padding: 80px 40px; }
+  .rReservationForm { padding: 80px 40px; }
+}
+
+@media (max-width: 768px) {
+  .rNav { grid-template-columns: auto 1fr auto; padding: 0 24px; }
+  .rNavLeft { display: none; }
+  .rNavRight { display: none; }
+  .rHamburger { display: flex; }
+  .rMobileNav { padding: 24px; }
+  .rNavLogo { text-align: left; }
+
+  .rHero { min-height: 100svh; }
+  .rHeroContent { padding: 0 24px 56px; }
+  .rHeroTitle { font-size: clamp(44px, 12vw, 72px); }
+  .rHeroMeta { flex-direction: column; align-items: flex-start; gap: 20px; }
+
+  .rStrip { grid-template-columns: 1fr; }
+  .rStripItem { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  .rStripItem:last-child { border-bottom: none; }
+
+  .rMenuWrap { padding: 64px 24px; }
+  .rMenuTop { grid-template-columns: 1fr; gap: 24px; margin-bottom: 48px; }
+
+  .rStatement { height: 60vw; min-height: 360px; }
+  .rStatementText blockquote { font-size: clamp(22px, 5vw, 36px); }
+
+  .rTasting { grid-template-columns: 1fr; }
+  .rTastingImg { min-height: 56vw; }
+  .rTastingText { padding: 56px 24px; }
+
+  .rWineWrap { padding: 64px 24px; }
+  .rWineTop { grid-template-columns: 1fr; gap: 24px; }
+  .rWineRow { grid-template-columns: 80px 1fr auto; }
+
+  .rCocktailsWrap { padding: 64px 24px; }
+  .rCocktailsWrap { padding: 64px 24px; }
+  .rCocktailGrid { grid-template-columns: 1fr; }
+  .rPrivate { grid-template-columns: 1fr; }
+  .rPrivateImg { height: 56vw; }
+  .rEventsWrap { padding: 64px 24px; }
+  .rEventRow { grid-template-columns: auto 1fr; gap: 16px; }
+  .rEventCta { display: none; }
+  .rContact { grid-template-columns: 1fr; }
+  .rContactInfo { padding: 64px 24px; }
+  .rReservationForm { padding: 52px 24px; }
+  .rFormRow { grid-template-columns: 1fr; }
+  .rFooter { grid-template-columns: 1fr; gap: 8px; text-align: center; padding: 28px 24px; }
+  .rFooterLeft, .rFooterRight { align-items: center; }
+}
