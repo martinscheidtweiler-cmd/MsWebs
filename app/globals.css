@@ -2052,6 +2052,214 @@ button, select { font-family: inherit; cursor: pointer; }
   font-weight: 500;
 }
 
+.pfCardTagBtn {
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  font-family: inherit;
+}
+.pfCardTagBtn:hover {
+  background: rgba(124,60,255,.18);
+  border-color: rgba(124,60,255,.4);
+  color: #c5a0ff;
+}
+
+.pfCardTagMore {
+  background: rgba(255,255,255,.02);
+  color: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.04);
+}
+
+/* ── Portfolio toolbar (search + filters) ── */
+.pfToolbar {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: rgba(8, 3, 18, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 18px 0 0;
+}
+
+.pfToolbarInner {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Search */
+.pfSearchWrap {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.pfSearchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: rgba(255,255,255,.3);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.pfSearchInput {
+  width: 100%;
+  background: rgba(255,255,255,.05);
+  border: 1.5px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 12px 42px 12px 44px;
+  font-size: 14px;
+  color: #fff;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pfSearchInput::placeholder { color: rgba(255,255,255,.28); }
+.pfSearchInput:focus {
+  border-color: rgba(124,60,255,.55);
+  background: rgba(124,60,255,.06);
+}
+
+.pfSearchClear {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.12);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: rgba(255,255,255,.6);
+  line-height: 1;
+  transition: background 0.15s;
+}
+.pfSearchClear:hover { background: rgba(255,255,255,.22); color: #fff; }
+
+/* Category chips */
+.pfCategoryRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.pfCategoryRow::-webkit-scrollbar { display: none; }
+
+.pfCatChip {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255,255,255,.1);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,.5);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: all 0.18s;
+}
+.pfCatChip:hover {
+  border-color: rgba(255,255,255,.25);
+  color: rgba(255,255,255,.85);
+}
+.pfCatChip.active {
+  background: linear-gradient(135deg, #7c3cff, #a855f7);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Result bar */
+.pfResultBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+}
+
+.pfResultCount {
+  font-size: 12px;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .02em;
+}
+.pfResultCount strong {
+  color: rgba(255,255,255,.7);
+  font-weight: 600;
+}
+
+.pfClearAll {
+  font-size: 12px;
+  color: rgba(124,60,255,.8);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  transition: color 0.18s;
+}
+.pfClearAll:hover { color: #a855f7; }
+.pfClearAllLarge {
+  margin-top: 20px;
+  font-size: 14px;
+  padding: 10px 28px;
+  border: 1.5px solid rgba(124,60,255,.4);
+  border-radius: 999px;
+  background: rgba(124,60,255,.08);
+  color: #c5a0ff;
+}
+.pfClearAllLarge:hover {
+  background: rgba(124,60,255,.18);
+  border-color: rgba(124,60,255,.7);
+}
+
+/* No results */
+.pfNoResults {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+  color: rgba(255,255,255,.4);
+}
+.pfNoResultsIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.pfNoResultsIcon svg {
+  width: 26px;
+  height: 26px;
+  color: rgba(255,255,255,.25);
+}
+.pfNoResults h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 8px;
+  letter-spacing: -.03em;
+}
+.pfNoResults p { font-size: 14px; color: rgba(255,255,255,.35); }
+
 /* Bottom CTA section */
 .pfCta {
   padding: 100px 0 120px;
@@ -2088,4 +2296,6 @@ button, select { font-family: inherit; cursor: pointer; }
   .pfGridInner { grid-template-columns: 1fr; padding: 0 22px; }
   .pfCtaInner { padding: 0 22px; }
   .pfHeroStats { max-width: 100%; }
+  .pfToolbarInner { padding: 0 20px; }
+  .pfSearchWrap { max-width: 100%; }
 }

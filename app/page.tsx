@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { supabase } from "../lib/supabase";
 import "./globals.css";
 
 type Lang = "nl" | "fr" | "en";
@@ -557,16 +556,10 @@ export default function Home() {
     async function loadBookedSlots() {
       setLoadingSlots(true);
 
-      const { data } = await supabase
-        .from("appointments")
-        .select("appointment_date, appointment_time");
-
-      if (data) {
-        setBookedSlots(
-          data.map(
-            (item) => `${item.appointment_date}_${item.appointment_time}`
-          )
-        );
+      const res = await fetch("/api/booked-slots");
+      const json = await res.json();
+      if (json.slots) {
+        setBookedSlots(json.slots);
       }
 
       setLoadingSlots(false);
