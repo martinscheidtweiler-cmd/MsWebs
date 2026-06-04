@@ -8,12 +8,13 @@ export default function KapperNijlenPage() {
 
   return (
     <div className="kn-root">
+
       {/* ── Navigation ── */}
       <nav className="kn-nav">
         <div className="kn-nav-inner">
           <div className="kn-logo">
             <div className="kn-logo-main">
-              Kapsalon <span>Nijlen</span>
+              KAPSALON <span>NIJLEN</span>
             </div>
             <div className="kn-logo-sub">Imad &amp; Mahmoud</div>
           </div>
@@ -25,39 +26,30 @@ export default function KapperNijlenPage() {
             <li><a href="#contact">Contact</a></li>
           </ul>
           <div className="kn-nav-right">
-            <a
-              className="kn-nav-book"
-              href="https://www.fresha.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Afspraak Maken
+            <a className="kn-nav-book" href="#contact">
+              Geen Afspraak Nodig
             </a>
             <button
               className="kn-hamburger"
               aria-label="Menu"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              <span />
-              <span />
-              <span />
+              <span /><span /><span />
             </button>
           </div>
         </div>
-        <div className={`kn-mobile-menu ${menuOpen ? "open" : ""}`}>
+        <div className={`kn-mobile-menu${menuOpen ? " open" : ""}`}>
           <a href="#diensten" onClick={() => setMenuOpen(false)}>Diensten</a>
           <a href="#over" onClick={() => setMenuOpen(false)}>Over ons</a>
           <a href="#tarieven" onClick={() => setMenuOpen(false)}>Tarieven</a>
           <a href="#reviews" onClick={() => setMenuOpen(false)}>Reviews</a>
           <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
           <a
-            href="https://www.fresha.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contact"
             onClick={() => setMenuOpen(false)}
-            style={{ color: "var(--kn-gold)", marginTop: 8 }}
+            style={{ color: "var(--kn-red)", marginTop: 8 }}
           >
-            → Afspraak Maken
+            ✓ Geen afspraak nodig — loop gewoon binnen!
           </a>
         </div>
       </nav>
@@ -65,50 +57,59 @@ export default function KapperNijlenPage() {
       {/* ── Hero ── */}
       <section className="kn-hero">
         <div className="kn-hero-bg" />
-        <div className="kn-hero-lines" />
+        <div className="kn-hero-stripes" />
         <div className="kn-hero-inner">
+
           {/* Left: copy */}
           <div>
-            <div className="kn-hero-tag">Kapsalon Nijlen</div>
+            <div className="kn-hero-eyebrow">
+              <div className="kn-hero-eyebrow-bar" />
+              <span className="kn-hero-eyebrow-text">Gemeentestraat 16/b · 2560 Nijlen</span>
+            </div>
             <h1 className="kn-hero-h1">
-              Imad
-              <em>&amp; Mahmoud</em>
+              KAPSALON
+              <br />
+              <span className="red">NIJLEN</span>
             </h1>
+            <div className="kn-hero-names">
+              <span>Imad</span>
+              <span className="kn-hero-names-amp">&amp;</span>
+              <span>Mahmoud</span>
+            </div>
+            <div className="kn-hero-divider" />
             <p className="kn-hero-body">
-              Twee broers, één passie. Al meer dan 6 jaar dé kapper van Nijlen
-              voor een perfect kapsel, strakke baard of kinderkapper. Modern
-              concept, persoonlijke aanpak.
+              Al meer dan 6 jaar de vaste kapper van Nijlen voor scherpe fades,
+              strakke baarden en coole kinderkapsels.
             </p>
+            <div className="kn-hero-walkin">
+              <span className="kn-hero-walkin-icon">✓</span>
+              <span><strong>Geen afspraak nodig</strong> — gewoon binnenlopen!</span>
+            </div>
             <div className="kn-hero-actions">
-              <a
-                className="kn-btn kn-btn-dark"
-                href="https://www.fresha.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Boek via Fresha
+              <a className="kn-btn kn-btn-red" href="#contact">
+                Bekijk openingsuren
               </a>
-              <a className="kn-btn kn-btn-outline" href="#diensten">
+              <a className="kn-btn kn-btn-white" href="#diensten">
                 Onze diensten
               </a>
             </div>
-            <div className="kn-hero-stars">
+            <div className="kn-hero-score">
               <span className="kn-stars">★★★★★</span>
               <span className="kn-star-text">
-                <strong>4,5 / 5</strong> — 311 Google reviews
+                <strong>4,5 / 5</strong> &nbsp;·&nbsp; 311 Google reviews
               </span>
             </div>
           </div>
 
-          {/* Right: visual placeholder */}
+          {/* Right: visual */}
           <div className="kn-hero-visual">
             <div className="kn-hero-img-main">Foto kapsalon</div>
-            <div className="kn-hero-badges">
+            <div className="kn-hero-badge-wrap">
               <div className="kn-hero-badge">
                 <div className="kn-hero-badge-num">6+</div>
-                <div className="kn-hero-badge-label">Jaar ervaring</div>
+                <div className="kn-hero-badge-label">Jaar</div>
               </div>
-              <div className="kn-hero-badge">
+              <div className="kn-hero-badge blue">
                 <div className="kn-hero-badge-num">311</div>
                 <div className="kn-hero-badge-label">Reviews</div>
               </div>
@@ -117,37 +118,101 @@ export default function KapperNijlenPage() {
         </div>
       </section>
 
-      {/* ── Services strip ── */}
-      <section className="kn-services-strip" id="diensten">
-        <div className="kn-services-grid">
-          {[
-            {
-              num: "01",
-              title: "Knippen",
-              desc: "Heren-, dames- en kinderkapsels. Nauwkeurig afgewerkt met klassieke of moderne stijl.",
-            },
-            {
-              num: "02",
-              title: "Baard",
-              desc: "Strakke baard, contour shave of volledig baardonderhoud. Inclusief warme handdoek.",
-            },
-            {
-              num: "03",
-              title: "Kinderen",
-              desc: "Speciaal voor de kleine klanten. Geduldig, snel en op een kindvriendelijke manier.",
-            },
-            {
-              num: "04",
-              title: "Behandelingen",
-              desc: "Haarbehandelingen, highlights en speciale stylingservices op aanvraag.",
-            },
-          ].map((s) => (
-            <div className="kn-svc-item" key={s.num}>
-              <div className="kn-svc-num">{s.num}</div>
-              <div className="kn-svc-title">{s.title}</div>
-              <p className="kn-svc-desc">{s.desc}</p>
+      {/* ── Services ── */}
+      <section className="kn-diensten" id="diensten">
+        <div className="kn-container">
+          <div className="kn-diensten-header">
+            <div className="kn-label">Diensten</div>
+            <h2 className="kn-diensten-title">WAT WE DOEN</h2>
+            <p className="kn-diensten-sub">
+              Bij Kapsalon Nijlen ben je aan het juiste adres voor alles wat met haar en baard te maken heeft.
+              Geen afspraak nodig — gewoon binnenlopen.
+            </p>
+          </div>
+          <div className="kn-diensten-grid">
+
+            {/* Knippen */}
+            <div className="kn-dienst-card">
+              <div className="kn-dienst-num">01</div>
+              <div className="kn-dienst-icon">✂</div>
+              <h3 className="kn-dienst-title">Knippen</h3>
+              <p className="kn-dienst-desc">
+                Van klassieke taper en skin fade tot moderne textuurkapsels. We knippen heren, dames en kinderen.
+                Elk kapsel wordt nauwkeurig afgewerkt met tondeuse en schaar.
+              </p>
+              <ul className="kn-dienst-list">
+                <li>Skin fade &amp; taper fade</li>
+                <li>Klassiek herenkапsel</li>
+                <li>Damesknippen</li>
+                <li>Wassen &amp; föhnen</li>
+              </ul>
+              <div className="kn-dienst-price">Vanaf €12</div>
             </div>
-          ))}
+
+            {/* Baard */}
+            <div className="kn-dienst-card">
+              <div className="kn-dienst-num">02</div>
+              <div className="kn-dienst-icon">⚔</div>
+              <h3 className="kn-dienst-title">Baard</h3>
+              <p className="kn-dienst-desc">
+                Een strakke baard maakt het verschil. We trimmen, scheren en contouren elke baardstijl —
+                van stoppelbaard tot volle baard. Inclusief warme handdoek bij scheren.
+              </p>
+              <ul className="kn-dienst-list">
+                <li>Baard trimmen &amp; scheren</li>
+                <li>Contour &amp; lijnen bijwerken</li>
+                <li>Hot towel shave</li>
+                <li>Knippen + baard combo</li>
+              </ul>
+              <div className="kn-dienst-price">Vanaf €12</div>
+            </div>
+
+            {/* Kinderen */}
+            <div className="kn-dienst-card">
+              <div className="kn-dienst-num">03</div>
+              <div className="kn-dienst-icon">★</div>
+              <h3 className="kn-dienst-title">Kinderen</h3>
+              <p className="kn-dienst-desc">
+                Voor de kleine klanten nemen we alle tijd. Geduldig, rustig en vriendelijk — ook voor
+                kinderen die voor het eerst naar de kapper komen. Speciaal kindertarief onder 12 jaar.
+              </p>
+              <ul className="kn-dienst-list">
+                <li>Kinderkapsels (alle leeftijden)</li>
+                <li>Eerste kapselbeurt</li>
+                <li>Speels &amp; modern</li>
+                <li>Snel &amp; kindvriendelijk</li>
+              </ul>
+              <div className="kn-dienst-price">Vanaf €12</div>
+            </div>
+
+            {/* Behandelingen */}
+            <div className="kn-dienst-card">
+              <div className="kn-dienst-num">04</div>
+              <div className="kn-dienst-icon">◈</div>
+              <h3 className="kn-dienst-title">Behandelingen</h3>
+              <p className="kn-dienst-desc">
+                Naast knippen bieden we ook haarbehandelingen aan voor kleur, glans en verzorging.
+                Vraag gerust naar de mogelijkheden bij je bezoek.
+              </p>
+              <ul className="kn-dienst-list">
+                <li>Highlights &amp; balayage</li>
+                <li>Haar kleuren (volledig)</li>
+                <li>Scalp behandeling</li>
+                <li>Keratine behandeling</li>
+              </ul>
+              <div className="kn-dienst-price">Vanaf €35</div>
+            </div>
+
+          </div>
+
+          {/* Walk-in banner */}
+          <div className="kn-diensten-walkin">
+            <span className="kn-diensten-walkin-check">✓</span>
+            <div>
+              <strong>Geen afspraak nodig</strong>
+              <span> — kom gewoon binnen tijdens de openingsuren. Ma–Vr 09:00–18:30 · Za 09:00–17:00</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -165,39 +230,30 @@ export default function KapperNijlenPage() {
             </div>
             <div className="kn-about-content">
               <div className="kn-label">Over ons</div>
-              <h2>
-                Twee broers,
-                <br />
-                één kapsalon.
-              </h2>
+              <h2>TWEE BROERS. ÉÉN MISSIE.</h2>
               <p>
-                Kapsalon Nijlen werd meer dan zes jaar geleden opgericht door
-                de broers Imad en Mahmoud. Wat begon als een droom groeide uit
-                tot de vaste kapper van heel Nijlen en omgeving.
+                Kapsalon Nijlen staat voor vakmanschap, stijl en een warm
+                welkom. Imad en Mahmoud runden dit kapsalon al meer dan 6 jaar
+                als twee broers die dag in dag uit hetzelfde doel nastreven:
+                elke klant het kapsel geven dat hij verdient.
               </p>
               <p>
-                Na een grondige renovatie presenteren we ons vernieuwd modern
-                concept: strak interieur, topproducten en de persoonlijke
-                service waarvoor we altijd bekend stonden. Elk bezoek voelt als
-                thuis.
+                Na een volledige renovatie presenteren ze een vernieuwd modern
+                concept — strak interieur, topproducten en de persoonlijke
+                aanpak waarvoor ze al jaren bekend staan in Nijlen.
               </p>
               <div className="kn-about-names">
                 <div className="kn-about-name">
                   <div className="kn-about-name-role">Kapper &amp; oprichter</div>
-                  <div className="kn-about-name-name">Imad</div>
+                  <div className="kn-about-name-name">IMAD</div>
                 </div>
                 <div className="kn-about-name">
                   <div className="kn-about-name-role">Kapper &amp; partner</div>
-                  <div className="kn-about-name-name">Mahmoud</div>
+                  <div className="kn-about-name-name">MAHMOUD</div>
                 </div>
               </div>
-              <a
-                className="kn-btn kn-btn-outline-dark"
-                href="https://www.fresha.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Maak een afspraak
+              <a className="kn-btn kn-btn-outline-dark" href="#contact">
+                Bekijk openingsuren
               </a>
             </div>
           </div>
@@ -208,16 +264,13 @@ export default function KapperNijlenPage() {
       <section className="kn-pricing" id="tarieven">
         <div className="kn-container">
           <div className="kn-pricing-header">
-            <div className="kn-label" style={{ justifyContent: "center" }}>
-              Tarieven
-            </div>
-            <h2>Eerlijke prijzen</h2>
-            <p>Alle prijzen zijn inclusief BTW. Exacte prijs kan variëren naargelang de complexiteit.</p>
+            <div className="kn-label" style={{ justifyContent: "center" }}>Tarieven</div>
+            <h2>EERLIJKE PRIJZEN</h2>
+            <p>Alle prijzen inclusief BTW. Exacte prijs afhankelijk van complexiteit.</p>
           </div>
           <div className="kn-pricing-grid">
-            {/* Knippen */}
             <div className="kn-pricing-col">
-              <div className="kn-pricing-col-title">Knippen</div>
+              <div className="kn-pricing-col-title">KNIPPEN</div>
               {[
                 ["Heren — knippen", "€18"],
                 ["Heren — knippen + wassen", "€22"],
@@ -226,18 +279,13 @@ export default function KapperNijlenPage() {
                 ["Fringe bijknippen", "€8"],
               ].map(([name, price]) => (
                 <div className="kn-price-row" key={name}>
-                  <span
-                    className="kn-price-row-name"
-                    dangerouslySetInnerHTML={{ __html: name }}
-                  />
+                  <span className="kn-price-row-name" dangerouslySetInnerHTML={{ __html: name }} />
                   <span className="kn-price-row-price">{price}</span>
                 </div>
               ))}
             </div>
-
-            {/* Baard & Styling */}
             <div className="kn-pricing-col">
-              <div className="kn-pricing-col-title">Baard &amp; Styling</div>
+              <div className="kn-pricing-col-title">BAARD &amp; STYLING</div>
               {[
                 ["Baard trimmen", "€12"],
                 ["Baard scheren + contour", "€18"],
@@ -251,10 +299,8 @@ export default function KapperNijlenPage() {
                 </div>
               ))}
             </div>
-
-            {/* Behandelingen */}
             <div className="kn-pricing-col">
-              <div className="kn-pricing-col-title">Behandelingen</div>
+              <div className="kn-pricing-col-title">BEHANDELINGEN</div>
               {[
                 ["Highlights (partieel)", "v.a. €35"],
                 ["Volledig kleuren", "v.a. €45"],
@@ -270,8 +316,7 @@ export default function KapperNijlenPage() {
             </div>
           </div>
           <div className="kn-pricing-note">
-            Prijzen zijn indicatief. Neem contact op voor een exacte prijsopgave bij speciale diensten.
-            Afspraken via Fresha — annuleren graag 24 uur op voorhand.
+            Prijzen zijn indicatief. Afspraken via Fresha — annuleren graag 24u op voorhand.
           </div>
         </div>
       </section>
@@ -280,10 +325,8 @@ export default function KapperNijlenPage() {
       <section className="kn-reviews" id="reviews">
         <div className="kn-container">
           <div className="kn-reviews-header">
-            <div className="kn-label" style={{ justifyContent: "center" }}>
-              Reviews
-            </div>
-            <h2>Wat klanten zeggen</h2>
+            <div className="kn-label" style={{ justifyContent: "center" }}>Reviews</div>
+            <h2>WAT KLANTEN ZEGGEN</h2>
             <div className="kn-reviews-score">
               <span className="kn-reviews-score-num">4,5</span>
               <span className="kn-reviews-score-stars">★★★★★</span>
@@ -332,16 +375,11 @@ export default function KapperNijlenPage() {
         <div className="kn-container">
           <div className="kn-cta-inner">
             <div>
-              <h2>Klaar voor een nieuwe look?</h2>
-              <p>Boek eenvoudig online via Fresha — in minder dan 2 minuten geregeld.</p>
+              <h2>KLAAR VOOR EEN NIEUWE LOOK?</h2>
+              <p>Geen afspraak nodig — gewoon binnenlopen tijdens de openingsuren.</p>
             </div>
-            <a
-              className="kn-cta-btn"
-              href="https://www.fresha.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Afspraak Maken via Fresha →
+            <a className="kn-cta-btn" href="#contact">
+              Openingsuren bekijken →
             </a>
           </div>
         </div>
@@ -352,7 +390,7 @@ export default function KapperNijlenPage() {
         <div className="kn-container">
           <div className="kn-contact-grid">
             <div>
-              <h2>Bezoek ons</h2>
+              <h2>BEZOEK ONS</h2>
               <div className="kn-contact-info">
                 <div>
                   <div className="kn-contact-block-label">Adres</div>
@@ -360,7 +398,7 @@ export default function KapperNijlenPage() {
                     Gemeentestraat 16/b<br />2560 Nijlen
                   </div>
                 </div>
-                <div>
+              <div>
                   <div className="kn-contact-block-label">Telefoon</div>
                   <div className="kn-contact-block-val">
                     <a href="tel:0488761110">0488 76 11 10</a>
@@ -369,11 +407,7 @@ export default function KapperNijlenPage() {
                 <div>
                   <div className="kn-contact-block-label">Website</div>
                   <div className="kn-contact-block-val">
-                    <a
-                      href="https://kapsalon-nijlen.be"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <a href="https://kapsalon-nijlen.be" target="_blank" rel="noopener noreferrer">
                       kapsalon-nijlen.be
                     </a>
                   </div>
@@ -400,11 +434,7 @@ export default function KapperNijlenPage() {
                 <div>
                   <div className="kn-contact-block-label">Volg ons</div>
                   <div className="kn-contact-block-val">
-                    <a
-                      href="https://www.facebook.com/KapsalonNijlen"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <a href="https://www.facebook.com/KapsalonNijlen" target="_blank" rel="noopener noreferrer">
                       Facebook: KapsalonNijlen
                     </a>
                   </div>
@@ -418,14 +448,12 @@ export default function KapperNijlenPage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
+      {/* Footer */}
       <footer className="kn-footer">
         <div className="kn-container">
           <div className="kn-footer-inner">
             <div>
-              <div className="kn-footer-logo-main">
-                Kapsalon <span>Nijlen</span>
-              </div>
+              <div className="kn-footer-logo-main">KAPSALON <span>NIJLEN</span></div>
               <div className="kn-footer-logo-sub">Imad &amp; Mahmoud</div>
             </div>
             <nav className="kn-footer-links">
@@ -435,11 +463,12 @@ export default function KapperNijlenPage() {
               <a href="#contact">Contact</a>
             </nav>
             <div className="kn-footer-copy">
-              © {new Date().getFullYear()} Kapsalon Nijlen — Gemeentestraat 16/b, 2560 Nijlen
+              © {new Date().getFullYear()} Kapsalon Nijlen — BTW BE0666.838.079
             </div>
           </div>
         </div>
       </footer>
+
     </div>
   );
 }

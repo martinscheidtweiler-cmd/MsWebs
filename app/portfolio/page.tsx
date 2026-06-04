@@ -223,6 +223,14 @@ const projects = [
     tags: ["Events", "Sport", "Paarden", "Springconcours", "Tickets", "Live", "Agenda"],
   },
   {
+    title: "HAAR — Dameskapsalon",
+    type: "Dameskapsalon website",
+    url: "/templates/haar",
+    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+    category: "beauty",
+    tags: ["Kapsalon", "Dames", "Kleuren", "Balayage", "Minimalistisch", "Elegant", "Behandelingen", "Bruid", "Highlights"],
+  },
+  {
     title: "Kapsalon Nijlen — Imad & Mahmoud",
     type: "Barbershop website",
     url: "/templates/kapper-nijlen",
@@ -465,7 +473,7 @@ export default function PortfolioPage() {
         <div className="footerInner">
           <div className="footerBrand">
             <img src="/portfolio/logo.png" alt="MS Webdesign" />
-            <p>Premium webdesign voor ambitieuze bedrijven.</p>
+                        <p>Premium webdesign voor ambitieuze bedrijven.</p>
           </div>
           <nav className="footerNav">
             <a href="/portfolio">{t.portfolio}</a>
