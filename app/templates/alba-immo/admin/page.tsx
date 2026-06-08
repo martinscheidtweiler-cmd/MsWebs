@@ -448,7 +448,7 @@ function Dashboard({ properties, blog, partners, onSection }: { properties: Prop
             <button key={a.label} onClick={() => onSection(a.section)}
               style={{ display: "flex", alignItems: "center", gap: 12, width: "100%", padding: "12px 0", background: "none", border: "none", cursor: "pointer", borderBottom: `1px solid ${C.border}`, textAlign: "left" }}>
               <span style={{ fontSize: 18 }}>{a.icon}</span>
-              <span style={{ color: C.text, fontSize: 14 }}>{NAV_LABELS[a.id] ?? a.id}</span>
+              <span style={{ color: C.text, fontSize: 14 }}>{a.label}</span>
               <span style={{ marginLeft: "auto", color: C.muted }}>→</span>
             </button>
           ))}
