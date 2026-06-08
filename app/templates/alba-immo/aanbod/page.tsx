@@ -19,15 +19,14 @@ const WARM_GRADS = [
 ];
 const warmGrad = (i: number) => WARM_GRADS[i % WARM_GRADS.length];
 
-const TYPES     = ["Stoeterij", "Manège", "Pensionstallen", "Landgoed", "Kasteeldomein", "Hoeve"];
-const PROVINCES = ["Antwerpen", "Oost-Vlaanderen", "Limburg", "Namen", "Calvados"];
+const TYPES = ["Stoeterij", "Manège", "Pensionstallen", "Landgoed", "Kasteeldomein", "Hoeve"];
 const COUNTRIES = ["België", "Nederland", "Frankrijk"];
 const PRICE_RANGES = [
-  { label: "< €1.000.000", min: 0,       max: 999999 },
-  { label: "€1M – €2M",    min: 1000000, max: 2000000 },
-  { label: "€2M – €4M",    min: 2000000, max: 4000000 },
-  { label: "> €4M",        min: 4000001, max: Infinity },
-  { label: "Op aanvraag",  min: -1,      max: -1 },
+  { label: "< €1M",       min: 0,       max: 999999 },
+  { label: "€1M – €2M",   min: 1000000, max: 2000000 },
+  { label: "€2M – €4M",   min: 2000000, max: 4000000 },
+  { label: "> €4M",       min: 4000001, max: Infinity },
+  { label: "Op aanvraag", min: -1,      max: -1 },
 ];
 
 export default function AanbodPage() {
@@ -52,21 +51,15 @@ export default function AanbodPage() {
 
   const [search,      setSearch]      = useState("");
   const [typeFilter,  setTypeFilter]  = useState<string | null>(null);
-  const [provFilter,  setProvFilter]  = useState<string | null>(null);
   const [countFilter, setCountFilter] = useState<string | null>(null);
   const [priceIdx,    setPriceIdx]    = useState<number | null>(null);
-  const [indoorOnly,  setIndoorOnly]  = useState(false);
-  const [outdoorOnly, setOutdoorOnly] = useState(false);
   const [sortBy,      setSortBy]      = useState<"default" | "price_asc" | "price_desc" | "surface">("default");
 
   const filtered = useMemo(() => {
     let list = allProps.filter((p) => {
       if (search && !`${p.title} ${p.location} ${p.type}`.toLowerCase().includes(search.toLowerCase())) return false;
-      if (typeFilter  && p.type     !== typeFilter)  return false;
-      if (provFilter  && p.province !== provFilter)  return false;
-      if (countFilter && p.country  !== countFilter) return false;
-      if (indoorOnly  && !p.indoorArena)  return false;
-      if (outdoorOnly && !p.outdoorArena) return false;
+      if (typeFilter  && p.type    !== typeFilter)  return false;
+      if (countFilter && p.country !== countFilter) return false;
       if (priceIdx !== null) {
         const pr = PRICE_RANGES[priceIdx];
         if (pr.min === -1) { if (!p.priceOnRequest) return false; }
@@ -80,127 +73,83 @@ export default function AanbodPage() {
     if (sortBy === "price_desc") list = [...list].sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
     if (sortBy === "surface")    list = [...list].sort((a, b) => b.groundSurface - a.groundSurface);
     return list;
-  }, [allProps, search, typeFilter, provFilter, countFilter, priceIdx, indoorOnly, outdoorOnly, sortBy]);
+  }, [allProps, search, typeFilter, countFilter, priceIdx, sortBy]);
 
-  const hasFilters = search || typeFilter || provFilter || countFilter || priceIdx !== null || indoorOnly || outdoorOnly;
+  const hasFilters = !!(search || typeFilter || countFilter || priceIdx !== null);
   const resetFilters = () => {
-    setSearch(""); setTypeFilter(null); setProvFilter(null);
-    setCountFilter(null); setPriceIdx(null); setIndoorOnly(false);
-    setOutdoorOnly(false); setSortBy("default");
+    setSearch(""); setTypeFilter(null); setCountFilter(null);
+    setPriceIdx(null); setSortBy("default");
   };
 
-  /* Sidebar pill toggle */
-  const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
+  const Pill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
     <button
       onClick={onClick}
       style={{
-        display: "block",
-        width: "100%",
-        textAlign: "left",
-        padding: "9px 14px",
-        borderRadius: 3,
-        border: `1px solid ${active ? "var(--orange)" : "transparent"}`,
-        background: active ? "rgba(237,110,33,0.12)" : "transparent",
-        color: active ? "var(--orange)" : "var(--stone)",
-        fontSize: 13,
-        letterSpacing: "0.02em",
+        padding: "8px 18px",
+        border: `1px solid ${active ? "var(--orange)" : "rgba(255,255,255,0.12)"}`,
+        borderRadius: 40,
+        background: active ? "var(--orange)" : "transparent",
+        color: active ? "#fff" : "var(--stone)",
+        fontSize: 12,
+        fontWeight: 500,
+        letterSpacing: "0.05em",
         cursor: "pointer",
-        transition: "all 0.18s ease",
+        transition: "all 0.2s ease",
+        whiteSpace: "nowrap" as const,
       }}
     >
-      {active && <span style={{ marginRight: 8, fontSize: 10 }}>●</span>}
       {label}
     </button>
   );
 
-  const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-    <p style={{
-      fontSize: 10,
-      letterSpacing: "0.14em",
-      textTransform: "uppercase" as const,
-      color: "var(--orange)",
-      fontWeight: 600,
-      marginBottom: 10,
-      paddingBottom: 8,
-      borderBottom: "1px solid rgba(237,110,33,0.2)",
-    }}>
-      {children}
-    </p>
-  );
-
   return (
-    <div className="hi-page" style={{ background: "var(--black)", minHeight: "100vh" }}>
+    <div className="hi-page" style={{ background: "var(--black)" }}>
 
-      {/* ── HERO ───────────────────────────────────────── */}
-      <section
-        style={{
-          paddingTop: "var(--nav-h)",
-          background: "linear-gradient(135deg, #1a0e04 0%, #2d1a08 40%, #1a0e04 100%)",
-          borderBottom: "1px solid rgba(237,110,33,0.15)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Warm radial glow */}
+      {/* HERO */}
+      <section style={{
+        paddingTop: "var(--nav-h)",
+        background: "linear-gradient(160deg, #2a1200 0%, #3d1c00 35%, #1e0c00 100%)",
+        position: "relative",
+        overflow: "hidden",
+      }}>
         <div style={{
           position: "absolute", inset: 0, pointerEvents: "none",
-          background: "radial-gradient(ellipse at 60% 50%, rgba(237,110,33,0.18) 0%, rgba(237,110,33,0.04) 45%, transparent 70%)",
+          background: "radial-gradient(ellipse at 55% 60%, rgba(237,110,33,0.28) 0%, rgba(237,110,33,0.06) 50%, transparent 75%)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(237,110,33,0.4), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(237,110,33,0.5), transparent)",
         }} />
 
-        <div className="hi-container" style={{ padding: "80px 60px 64px", position: "relative", zIndex: 2 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "flex-end", gap: 40 }}>
+        <div className="hi-container" style={{ padding: "80px 80px 48px", position: "relative", zIndex: 2 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap" as const, gap: 32 }}>
             <div>
-              <span className="hi-label hi-r" style={{ display: "block", marginBottom: 16, color: "var(--orange)" }}>
+              <span className="hi-label hi-r" style={{ display: "block", marginBottom: 14, color: "rgba(237,110,33,0.8)" }}>
                 {t.aanbod_label}
               </span>
-              <h1
-                className="hi-r hi-r-d1"
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(38px, 5.5vw, 72px)",
-                  fontWeight: 400,
-                  lineHeight: 1.04,
-                  letterSpacing: "-0.03em",
-                  color: "var(--warm-white)",
-                }}
-              >
+              <h1 className="hi-r hi-r-d1" style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(38px, 5.5vw, 74px)",
+                fontWeight: 400,
+                lineHeight: 1.03,
+                letterSpacing: "-0.03em",
+                color: "var(--warm-white)",
+              }}>
                 {t.aanbod_title1}<br />
                 <em style={{ fontStyle: "italic", color: "var(--orange)" }}>{t.aanbod_title2}</em>
               </h1>
             </div>
-            <div className="hi-r hi-r-d2" style={{ paddingBottom: 6, textAlign: "right" }}>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 48, color: "var(--orange)", lineHeight: 1 }}>
+            <div className="hi-r hi-r-d2" style={{ textAlign: "right" as const, paddingBottom: 4 }}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: 52, color: "var(--orange)", lineHeight: 1 }}>
                 {filtered.length}
               </div>
-              <div style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "var(--stone)", marginTop: 4 }}>
+              <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>
                 {t.aanbod_results ?? "eigendommen"}
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ── BODY: sidebar + grid ───────────────────────── */}
-      <div
-        className="hi-container"
-        style={{
-          padding: "0 60px",
-          display: "grid",
-          gridTemplateColumns: "280px 1fr",
-          gap: 48,
-          alignItems: "start",
-        }}
-      >
-
-        {/* ── SIDEBAR ──────────────────────────────────── */}
-        <aside style={{ paddingTop: 48, paddingBottom: 80, position: "sticky", top: "var(--nav-h)" }}>
-
-          {/* Search */}
-          <div style={{ marginBottom: 32 }}>
+          <div style={{ marginTop: 40, maxWidth: 480 }}>
             <div className="hi-search-wrap">
               <span className="hi-search-icon">⌕</span>
               <input
@@ -211,151 +160,117 @@ export default function AanbodPage() {
               />
             </div>
           </div>
+        </div>
 
-          {/* Type */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Type eigendom</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+        {/* FILTER BAR */}
+        <div style={{ borderTop: "1px solid rgba(237,110,33,0.15)" }}>
+          <div className="hi-container" style={{ padding: "20px 80px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 8, alignItems: "center" }}>
+              <span style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(237,110,33,0.6)", marginRight: 2 }}>Type</span>
               {TYPES.map((type) => (
-                <FilterPill
-                  key={type}
-                  label={type}
-                  active={typeFilter === type}
-                  onClick={() => setTypeFilter(typeFilter === type ? null : type)}
-                />
+                <Pill key={type} label={type} active={typeFilter === type}
+                  onClick={() => setTypeFilter(typeFilter === type ? null : type)} />
               ))}
-            </div>
-          </div>
-
-          {/* Country */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Land</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              <span style={{ width: 1, height: 18, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
+              <span style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(237,110,33,0.6)", marginRight: 2 }}>Land</span>
               {COUNTRIES.map((c) => (
-                <FilterPill
-                  key={c}
-                  label={c}
-                  active={countFilter === c}
-                  onClick={() => setCountFilter(countFilter === c ? null : c)}
-                />
+                <Pill key={c} label={c} active={countFilter === c}
+                  onClick={() => setCountFilter(countFilter === c ? null : c)} />
               ))}
-            </div>
-          </div>
-
-          {/* Province */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Provincie</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
-              {PROVINCES.map((p) => (
-                <FilterPill
-                  key={p}
-                  label={p}
-                  active={provFilter === p}
-                  onClick={() => setProvFilter(provFilter === p ? null : p)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Price */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Prijsklasse</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              <span style={{ width: 1, height: 18, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
+              <span style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(237,110,33,0.6)", marginRight: 2 }}>Prijs</span>
               {PRICE_RANGES.map((pr, i) => (
-                <FilterPill
-                  key={pr.label}
-                  label={pr.label}
-                  active={priceIdx === i}
-                  onClick={() => setPriceIdx(priceIdx === i ? null : i)}
-                />
+                <Pill key={pr.label} label={pr.label} active={priceIdx === i}
+                  onClick={() => setPriceIdx(priceIdx === i ? null : i)} />
               ))}
+              {hasFilters && (
+                <>
+                  <span style={{ width: 1, height: 18, background: "rgba(255,255,255,0.1)", margin: "0 6px" }} />
+                  <button onClick={resetFilters} style={{
+                    background: "transparent", border: "none",
+                    color: "var(--orange)", fontSize: 12,
+                    cursor: "pointer", letterSpacing: "0.04em",
+                    textDecoration: "underline", textUnderlineOffset: 3,
+                  }}>Wissen</button>
+                </>
+              )}
             </div>
-          </div>
-
-          {/* Infra */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Infrastructuur</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
-              <FilterPill
-                label="Overdekte rijhal"
-                active={indoorOnly}
-                onClick={() => setIndoorOnly(!indoorOnly)}
-              />
-              <FilterPill
-                label="Buitenpiste"
-                active={outdoorOnly}
-                onClick={() => setOutdoorOnly(!outdoorOnly)}
-              />
-            </div>
-          </div>
-
-          {/* Sort */}
-          <div style={{ marginBottom: 28 }}>
-            <SectionTitle>Sorteren</SectionTitle>
-            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12 }}>
+              <span style={{ fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(237,110,33,0.6)", marginRight: 2 }}>Sorteren</span>
               {([
                 { key: "default",    label: "Standaard" },
-                { key: "price_asc",  label: "Prijs laag → hoog" },
-                { key: "price_desc", label: "Prijs hoog → laag" },
-                { key: "surface",    label: "Grootste oppervlakte" },
+                { key: "price_asc",  label: "Prijs ↑" },
+                { key: "price_desc", label: "Prijs ↓" },
+                { key: "surface",    label: "Oppervlakte" },
               ] as const).map((s) => (
-                <FilterPill
-                  key={s.key}
-                  label={s.label}
-                  active={sortBy === s.key}
-                  onClick={() => setSortBy(s.key)}
-                />
+                <Pill key={s.key} label={s.label} active={sortBy === s.key}
+                  onClick={() => setSortBy(s.key)} />
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Reset */}
-          {hasFilters && (
-            <button
-              onClick={resetFilters}
-              style={{
-                width: "100%",
-                padding: "11px",
-                border: "1px solid var(--orange)",
-                borderRadius: 3,
-                background: "transparent",
-                color: "var(--orange)",
-                fontSize: 12,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase" as const,
-                cursor: "pointer",
-                transition: "background 0.2s",
-              }}
-            >
-              Filters wissen
-            </button>
-          )}
-        </aside>
-
-        {/* ── MAIN GRID ────────────────────────────────── */}
-        <div style={{ paddingTop: 48, paddingBottom: 80 }}>
-
+      {/* RESULTS */}
+      <section style={{ background: "var(--black)", padding: "64px 0 100px" }}>
+        <div className="hi-container" style={{ padding: "0 80px" }}>
           {filtered.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "100px 24px",
-                border: "1px solid var(--border-dark)",
-                borderRadius: 4,
-                color: "var(--stone)",
-              }}
-            >
+            <div style={{
+              textAlign: "center", padding: "100px 24px",
+              border: "1px solid var(--border-dark)", borderRadius: 4, color: "var(--stone)",
+            }}>
               <div style={{ fontFamily: "var(--font-display)", fontSize: 36, marginBottom: 12, color: "var(--warm-white)" }}>
                 {t.aanbod_noResults}
               </div>
-              <button onClick={resetFilters} className="hi-btn hi-btn-orange" style={{ margin: "24px auto 0", display: "inline-flex" }}>
+              <button onClick={resetFilters} className="hi-btn hi-btn-orange"
+                style={{ margin: "24px auto 0", display: "inline-flex" }}>
                 {t.aanbod_noResultsBtn ?? "Filters wissen"}
               </button>
             </div>
           ) : (
             <div className="hi-prop-grid">
               {filtered.map((p, i) => (
-                <Link
-                  key={p.id}
-                  href={`${BASE}/aanbod/${p.id}`}
-                  className={`hi-prop-card hi-r hi-r-d${(i % 3) + 
+                <Link key={p.id} href={`${BASE}/aanbod/${p.id}`}
+                  className={`hi-prop-card hi-r hi-r-d${(i % 3) + 1}`}>
+                  <div className="hi-prop-img-wrap hi-img-reveal">
+                    <div className="hi-prop-img-placeholder" style={{ background: warmGrad(i) }} />
+                  </div>
+                  {p.tag && <span className="hi-prop-tag">{p.tag}</span>}
+                  {p.featured && <span className="hi-prop-featured-badge">{t.feat_featured}</span>}
+                  <div className="hi-prop-body">
+                    <p className="hi-prop-loc">{p.province}, {p.country}</p>
+                    <h3 className="hi-prop-title">{p.title}</h3>
+                    <p style={{ fontSize: 13, color: "var(--grey)", marginBottom: 14, lineHeight: 1.5 }}>{p.subtitle}</p>
+                    <div className="hi-prop-stats">
+                      <span className="hi-prop-stat">{formatSurface(p.groundSurface)}</span>
+                      <span className="hi-prop-stat">{p.stalls} {t.aanbod_stalls}</span>
+                      <span className="hi-prop-stat">{p.type}</span>
+                    </div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" as const, marginBottom: 14 }}>
+                      {p.indoorArena && (
+                        <span style={{ padding: "2px 8px", border: "1px solid var(--border)", borderRadius: 40, fontSize: 11, color: "var(--orange)" }}>Rijhal</span>
+                      )}
+                      {p.outdoorArena && (
+                        <span style={{ padding: "2px 8px", border: "1px solid var(--border-dark)", borderRadius: 40, fontSize: 11, color: "var(--stone)" }}>Buitenpiste</span>
+                      )}
+                      {p.residence && (
+                        <span style={{ padding: "2px 8px", border: "1px solid var(--border-dark)", borderRadius: 40, fontSize: 11, color: "var(--stone)" }}>Woning</span>
+                      )}
+                    </div>
+                    <div className="hi-prop-divider" />
+                    <div className="hi-prop-footer">
+                      <span className="hi-prop-price">
+                        {p.priceOnRequest ? t.aanbod_onRequest : formatPrice(p.price!)}
+                      </span>
+                      <span className="hi-prop-link">{t.aanbod_details}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
