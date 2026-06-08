@@ -1,38 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "../../../../../lib/supabase-server";
 
-const BUCKET = "hippique";
-
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params: paramsPromise }: { params: Promise<{ id: string }> }) {
+  const { id } = await paramsPromise;
   const sb = supabaseServer();
-  const folder = "properties/" + params.id;
-  const { data } = await sb.storage.from(BUCKET).list(folder);
-
-  const IMAGE_EXTS = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"]);
-  const files = (data ?? []).filter((f) => {
-    const ext = f.name.split(".").pop();
-    return ext && IMAGE_EXTS.has("." + ext.toLowerCase());
+  const folder = "properties/" + id;
+  const { data, error } = await sb.storage.from("hippique").list(folder);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const urls = (data ?? []).map((f) => {
+    const { data: urlData } = sb.storage.from("hippique").getPublicUrl(folder + "/" + f.name);
+    return { name: f.name, url: urlData.publicUrl };
   });
-
-  const urls = files.map((f) => {
-    const { data: urlData } = sb.storage
-      .from(BUCKET)
-      .getPublicUrl(folder + "/" + f.name);
-    return urlData.publicUrl;
-  });
-
   return NextResponse.json(urls);
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params: paramsPromise }: { params: Promise<{ id: string }> }) {
+  const { id } = await paramsPromise;
   const { filename } = await req.json();
-  if (!filename) return NextResponse.json({ error: "Missing filename" }, { status: 400 });
-
+  const safeFilename = String(filename).replace(/[^a-zA-Z0-9._-]/g, "");
   const sb = supabaseServer();
-  const safeFilename = (filename as string).split("/").pop() as string;
-  const path = "properties/" + params.id + "/" + safeFilename;
-
-  const { error } = await sb.storage.from(BUCKET).remove([path]);
+  const path = "properties/" + id + "/" + safeFilename;
+  const { error } = await sb.storage.from("hippique").remove([path]);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
