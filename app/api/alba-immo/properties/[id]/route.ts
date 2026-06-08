@@ -1,3 +1,4 @@
+// Next.js 16: params is a Promise
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseServer } from "../../../../../lib/supabase-server";
 import { propFromRow, propToRow, Property } from "../../_helpers";
