@@ -94,7 +94,7 @@ export default function HippiqueHome() {
         <div
           ref={heroBg}
           className="hi-hero-bg"
-          style={{ position: "absolute", inset: "-8%", transformOrigin: "center center", overflow: "hidden" }}
+          style={{ position: "absolute", inset: 0, overflow: "hidden" }}
         >
           <video
             autoPlay muted loop playsInline
@@ -116,36 +116,6 @@ export default function HippiqueHome() {
           }} />
         </div>
         <div className="hi-hero-grain" />
-
-        {/* Decorative line grid */}
-        <svg
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            opacity: 0.04,
-            zIndex: 1,
-          }}
-          preserveAspectRatio="none"
-        >
-          {Array.from({ length: 12 }).map((_, i) => (
-            <line
-              key={i}
-              x1={`${(i / 11) * 100}%`} y1="0"
-              x2={`${(i / 11) * 100}%`} y2="100%"
-              stroke="white" strokeWidth="0.5"
-            />
-          ))}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <line
-              key={i + 100}
-              x1="0" y1={`${(i / 7) * 100}%`}
-              x2="100%" y2={`${(i / 7) * 100}%`}
-              stroke="white" strokeWidth="0.5"
-            />
-          ))}
-        </svg>
 
         <div className="hi-hero-content" style={{ position: "relative", zIndex: 2 }}>
           {/* Eyebrow */}

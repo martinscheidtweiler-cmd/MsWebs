@@ -32,9 +32,9 @@ export default function HipNav() {
           {/* Logo */}
           <Link href={BASE} className="hi-logo">
             <img
-              src="/hippique/logo.png"
+              src="/hippique/logo-dark.png"
               alt="Hippique.immo"
-              style={{ height: 40, width: "auto", borderRadius: 6 }}
+              style={{ height: 64, width: "auto", borderRadius: 4 }}
               onError={(e) => {
                 const img = e.currentTarget;
                 img.style.display = "none";
@@ -168,5 +168,5 @@ export default function HipNav() {
         </div>
       )}
     </>
-  );
+);
 }

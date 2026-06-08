@@ -96,8 +96,8 @@ const ADMIN_T = {
     tekst_saving: "Opslaan…",
     foto_deleted: "Foto verwijderd",
     foto_del_confirm: "Foto verwijderen?",
-    foto_empty: aT.foto_empty,
-    foto_select: aT.foto_select,
+    foto_empty: "Nog geen foto's geüpload",
+    foto_select: "Kies een afbeelding",
     btn_save: "✓ Opslaan",
     btn_add: "+ Toevoegen",
     btn_uploading: "Uploaden…",
@@ -402,6 +402,8 @@ function Sidebar({ section, onSection, onLogout, counts }: { section: Section; o
 // ═══════════════════════════════════════════════════════════════════
 
 function Dashboard({ properties, blog, partners, onSection }: { properties: Property[]; blog: BlogPost[]; partners: Partner[]; onSection: (s: Section) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const stats = [
     { label: "Actieve panden", value: properties.length, color: C.orange, section: "panden" as Section },
     { label: "Blog berichten", value: blog.length, color: C.info, section: "blog" as Section },
