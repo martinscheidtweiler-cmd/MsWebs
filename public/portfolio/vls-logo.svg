@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 120" role="img" aria-label="VLS Verwarming">
+  <!-- Flame above V -->
+  <g transform="translate(22,4)">
+    <path d="M0,28 C2,20 6,14 4,6 C8,12 10,8 8,0 C14,8 16,14 12,22 C16,16 18,10 16,4 C22,14 20,22 14,28 Z" fill="#dd2020"/>
+  </g>
+
+  <!-- Faucet above S -->
+  <g transform="translate(196,2)">
+    <!-- Faucet body -->
+    <rect x="8" y="0" width="18" height="8" rx="2" fill="#1a52a8"/>
+    <rect x="14" y="8" width="6" height="10" rx="1" fill="#1a52a8"/>
+    <!-- Spout -->
+    <path d="M14,14 Q6,14 6,20" stroke="#1a52a8" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- Water drop -->
+    <path d="M6,22 C4,24 3,26 6,28 C9,26 8,24 6,22Z" fill="#1a52a8"/>
+  </g>
+
+  <!-- V -->
+  <text x="10" y="100" font-family="'Arial Black','Arial',sans-serif" font-size="90" font-weight="900" fill="#1a52a8">V</text>
+  <!-- L -->
+  <text x="90" y="100" font-family="'Arial Black','Arial',sans-serif" font-size="90" font-weight="900" fill="#1a52a8">L</text>
+  <!-- S -->
+  <text x="178" y="100" font-family="'Arial Black','Arial',sans-serif" font-size="90" font-weight="900" fill="#1a52a8">S</text>
+</svg>

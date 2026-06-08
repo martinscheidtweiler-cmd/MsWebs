@@ -1,0 +1,545 @@
+@import url(\'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Open+Sans:wght@300;400;500;600;700&display=swap\');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green:#2d5a27;--green2:#3a7232;--green3:#e8f0e6;--green4:#f4f8f3;
+  --white:#ffffff;--offwhite:#f9f7f4;--text:#1a1a1a;--muted:#666;
+  --border:#e0dcd6;--gold:#c9a84c;
+  --ff:\'Open Sans\',system-ui,sans-serif;
+  --fd:\'Playfair Display\',Georgia,serif;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--offwhite);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ============ NAV ============ */
+.gsNav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:80px;
+  transition:background .35s,box-shadow .35s;
+}
+.gsNavScrolled{
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(20px);
+  box-shadow:0 2px 20px rgba(0,0,0,.08);
+}
+.gsNavLogo img{height:52px;object-fit:contain}
+.gsNavRight{display:flex;align-items:center;gap:32px}
+.gsNavLinks{display:flex;gap:0}
+.gsNavLinks a{
+  font-size:13px;font-weight:600;letter-spacing:.03em;
+  color:rgba(255,255,255,.9);
+  padding:8px 14px;
+  transition:color .2s;
+  position:relative;
+}
+.gsNavScrolled .gsNavLinks a{color:var(--text)}
+.gsNavLinks a:hover{color:var(--gold)}
+.gsNavScrolled .gsNavLinks a:hover{color:var(--green)}
+.gsNavLang{
+  display:flex;gap:6px;align-items:center;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.6);
+  letter-spacing:.06em;
+}
+.gsNavScrolled .gsNavLang{color:var(--muted)}
+.gsNavLang a{transition:color .2s}
+.gsNavLang a:hover,.gsNavLang a.active{color:var(--white)}
+.gsNavScrolled .gsNavLang a:hover,.gsNavScrolled .gsNavLang a.active{color:var(--green)}
+.gsNavLang span{opacity:.4}
+
+/* ============ HERO SLIDER ============ */
+.gsHero{
+  position:relative;height:100vh;overflow:hidden;
+  background:var(--text);
+}
+.gsSlide{
+  position:absolute;inset:0;
+  opacity:0;transition:opacity 1.2s ease;
+}
+.gsSlide.active{opacity:1}
+.gsSlide img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.62);
+}
+.gsSlideCaption{
+  position:absolute;bottom:72px;left:0;right:0;
+  text-align:center;color:rgba(255,255,255,.8);
+  font-size:13px;font-style:italic;letter-spacing:.04em;
+  padding:0 40px;
+}
+.gsSlideName{
+  display:block;font-size:17px;font-weight:600;font-style:normal;
+  color:var(--white);margin-bottom:4px;
+}
+.gsHeroOverlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,transparent 40%,rgba(0,0,0,.45) 100%);
+  pointer-events:none;
+}
+.gsHeroBrand{
+  position:absolute;
+  bottom:140px;left:0;right:0;
+  text-align:center;color:var(--white);
+  pointer-events:none;
+}
+.gsHeroBrand h1{
+  font-family:var(--fd);
+  font-size:clamp(52px,8vw,110px);
+  font-weight:700;letter-spacing:.06em;
+  line-height:1;
+  text-shadow:0 4px 32px rgba(0,0,0,.4);
+}
+.gsHeroBrand h1 span{
+  display:block;
+  font-style:italic;font-weight:400;
+  font-size:.52em;letter-spacing:.1em;
+  margin-top:4px;
+}
+.gsHeroArrows{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+}
+.gsHeroDot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.35);cursor:pointer;
+  transition:background .3s,transform .3s;border:none;
+}
+.gsHeroDot.active{background:var(--white);transform:scale(1.3)}
+.gsHeroActions{
+  position:absolute;bottom:160px;left:50%;transform:translateX(-50%);
+  display:flex;gap:16px;
+}
+.gsHeroBtn{
+  padding:12px 32px;font-size:13px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  border-radius:2px;transition:all .2s;
+}
+.gsHeroBtnPrimary{
+  background:var(--green);color:var(--white);border:1px solid var(--green);
+}
+.gsHeroBtnPrimary:hover{background:var(--green2);border-color:var(--green2)}
+.gsHeroBtnOutline{
+  background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5);
+}
+.gsHeroBtnOutline:hover{background:rgba(255,255,255,.1)}
+
+/* ============ NIEUWS ============ */
+.gsNieuws{padding:80px 0;background:var(--white)}
+.gsContainer{max-width:1180px;margin:0 auto;padding:0 48px}
+.gsSectionTitle{
+  font-family:var(--fd);font-size:clamp(28px,3.5vw,40px);
+  color:var(--text);font-weight:700;margin-bottom:8px;
+}
+.gsSectionTitle em{font-style:italic;color:var(--green)}
+.gsSectionSub{font-size:14px;color:var(--muted);margin-bottom:40px}
+.gsNieuwsGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.gsNieuwsCard{
+  border-radius:4px;overflow:hidden;background:var(--offwhite);
+  transition:box-shadow .3s,transform .3s;
+  border:1px solid var(--border);
+}
+.gsNieuwsCard:hover{
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  transform:translateY(-4px);
+}
+.gsNieuwsImg{aspect-ratio:16/9;overflow:hidden}
+.gsNieuwsImg img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s;filter:brightness(.92) saturate(.85);
+}
+.gsNieuwsCard:hover .gsNieuwsImg img{transform:scale(1.05)}
+.gsNieuwsBody{padding:22px 22px 26px}
+.gsNieuwsDate{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green);margin-bottom:10px;
+}
+.gsNieuwsBody h3{
+  font-family:var(--fd);font-size:18px;font-weight:700;
+  color:var(--text);margin-bottom:10px;line-height:1.3;
+}
+.gsNieuwsBody p{font-size:13px;color:var(--muted);line-height:1.7}
+.gsNieuwsMore{
+  margin-top:36px;text-align:center;
+  font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--green);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.gsNieuwsMore:hover{color:var(--green2)}
+.gsNieuwsMoreRow{text-align:center;margin-top:36px}
+
+/* ============ WELKOM ============ */
+.gsWelkom{
+  padding:80px 0;
+  background:var(--offwhite);
+  border-top:1px solid var(--border);
+}
+.gsWelkomInner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:72px;align-items:center;
+}
+.gsWelkomImg{
+  border-radius:4px;overflow:hidden;
+  aspect-ratio:4/3;
+}
+.gsWelkomImg img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.9) saturate(.85);
+}
+.gsWelkomText h2{
+  font-family:var(--fd);font-size:clamp(28px,3.5vw,42px);
+  font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.2;
+}
+.gsWelkomText h2 em{font-style:italic;color:var(--green)}
+.gsWelkomText p{
+  font-size:14.5px;color:var(--muted);line-height:1.85;margin-bottom:16px;
+}
+.gsWelkomBtn{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:24px;padding:13px 30px;
+  background:var(--green);color:var(--white);
+  font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:2px;border:none;cursor:pointer;
+  transition:background .2s;
+}
+.gsWelkomBtn:hover{background:var(--green2)}
+.gsWelkomBtn strong{font-weight:800}
+
+/* ============ HENGSTEN ============ */
+.gsHengsten{
+  padding:80px 0;background:var(--white);
+  border-top:1px solid var(--border);
+}
+.gsHengstenTop{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:40px;
+}
+.gsHengstenLink{
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green);border-bottom:1px solid var(--green);
+  padding-bottom:2px;transition:opacity .2s;
+}
+.gsHengstenLink:hover{opacity:.7}
+.gsHengstenGrid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.gsHengstenCard{
+  border-radius:4px;overflow:hidden;background:var(--offwhite);
+  border:1px solid var(--border);
+  transition:box-shadow .3s,transform .3s;cursor:pointer;
+}
+.gsHengstenCard:hover{
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  transform:translateY(-4px);
+}
+.gsHengstenImg{aspect-ratio:3/4;overflow:hidden}
+.gsHengstenImg img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s;filter:brightness(.9) saturate(.8);
+}
+.gsHengstenCard:hover .gsHengstenImg img{transform:scale(1.06)}
+.gsHengstenBody{padding:16px 16px 20px}
+.gsHengstenName{
+  font-family:var(--fd);font-size:16px;font-weight:700;
+  color:var(--text);margin-bottom:4px;
+}
+.gsHengstenBred{font-size:11px;color:var(--muted);font-style:italic;line-height:1.5}
+.gsHengstenSperma{
+  margin-top:36px;text-align:center;
+}
+.gsHengstenSpermaBtn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 28px;border:1.5px solid var(--green);
+  color:var(--green);font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  border-radius:2px;background:transparent;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.gsHengstenSpermaBtn:hover{background:var(--green);color:var(--white)}
+
+/* ============ SPONSORS ============ */
+.gsSponsors{
+  padding:52px 0;background:var(--offwhite);
+  border-top:1px solid var(--border);
+}
+.gsSponsorsLabel{
+  text-align:center;font-size:11px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:32px;
+}
+.gsSponsorsRow{
+  display:flex;justify-content:center;align-items:center;
+  gap:56px;flex-wrap:wrap;
+}
+.gsSponsorLogo{
+  height:44px;object-fit:contain;
+  opacity:.55;filter:grayscale(1);
+  transition:opacity .3s,filter .3s;
+}
+.gsSponsorLogo:hover{opacity:.9;filter:grayscale(0)}
+
+/* ============ FOOTER ============ */
+.gsFooter{
+  background:var(--green);
+  padding:56px 0 32px;color:var(--white);
+}
+.gsFooterInner{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:40px;align-items:start;
+  max-width:1180px;margin:0 auto;padding:0 48px;
+}
+.gsFooterLogo img{height:64px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.gsFooterCenter{text-align:center}
+.gsFooterLinks{
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.gsFooterLinks a{
+  font-size:12px;color:rgba(255,255,255,.65);
+  font-weight:600;letter-spacing:.04em;
+  transition:color .2s;
+}
+.gsFooterLinks a:hover{color:var(--white)}
+.gsFooterRight{text-align:right}
+.gsFooterAddress{
+  font-size:13px;color:rgba(255,255,255,.65);
+  line-height:1.8;
+}
+.gsFooterAddress strong{color:var(--white);font-weight:600}
+.gsFooterBottom{
+  max-width:1180px;margin:40px auto 0;padding:20px 48px 0;
+  border-top:1px solid rgba(255,255,255,.15);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.gsFooterCopy{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.04em}
+.gsFooterSocial{display:flex;gap:14px}
+.gsFooterSocial a{
+  font-size:11px;color:rgba(255,255,255,.45);font-weight:600;
+  letter-spacing:.06em;transition:color .2s;
+}
+.gsFooterSocial a:hover{color:var(--white)}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1100px){
+  .gsHengstenGrid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:900px){
+  .gsNav{padding:0 24px}
+  .gsContainer{padding:0 24px}
+  .gsWelkomInner{grid-template-columns:1fr;gap:36px}
+  .gsNieuwsGrid{grid-template-columns:1fr 1fr}
+  .gsHengstenGrid{grid-template-columns:repeat(2,1fr)}
+  .gsHengstenTop{flex-direction:column;align-items:flex-start;gap:16px}
+  .gsFooterInner{grid-template-columns:1fr;gap:28px}
+  .gsFooterRight{text-align:left}
+  .gsNavLinks{display:none}
+}
+@media(max-width:600px){
+  .gsNieuwsGrid{grid-template-columns:1fr}
+  .gsHengstenGrid{grid-template-columns:1fr 1fr}
+}
+
+/* ============ SUB-PAGE HERO ============ */
+.gsPageHero{
+  position:relative;height:42vh;min-height:320px;overflow:hidden;
+  margin-top:0;background:var(--text);
+  display:flex;align-items:flex-end;
+}
+.gsPageHero img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:brightness(.45) saturate(.6);
+}
+.gsPageHeroOverlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.55));
+}
+.gsPageHeroContent{
+  position:relative;z-index:2;
+  max-width:1180px;margin:0 auto;width:100%;
+  padding:0 48px 48px;
+}
+.gsPageHeroCrumb{
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:10px;
+}
+.gsPageHeroTitle{
+  font-family:var(--fd);font-size:clamp(36px,5vw,68px);
+  font-weight:700;color:var(--white);line-height:1.05;
+  text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.gsPageHeroTitle em{font-style:italic;color:#c9d8a8}
+.gsPageHeroSub{
+  font-size:15px;color:rgba(255,255,255,.55);margin-top:12px;
+  font-style:italic;font-family:var(--fd);
+}
+
+/* Padding top fix for sub-pages (nav is fixed) */
+.gsPageHero{padding-top:80px}
+
+/* Contact form */
+.gsContactForm{display:flex;flex-direction:column;gap:18px}
+.gsFormRow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.gsFormGroup{display:flex;flex-direction:column;gap:6px}
+.gsFormGroup label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gsFormGroup input,.gsFormGroup textarea,.gsFormGroup select{
+  padding:12px 16px;border:1.5px solid var(--border);border-radius:3px;
+  font-size:14px;font-family:var(--ff);color:var(--text);background:var(--white);
+  outline:none;transition:border-color .2s;resize:none;
+}
+.gsFormGroup input:focus,.gsFormGroup textarea:focus,.gsFormGroup select:focus{
+  border-color:var(--green);
+}
+.gsFormSubmit{
+  padding:14px 36px;background:var(--green);color:var(--white);
+  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  border:none;border-radius:3px;cursor:pointer;transition:background .2s;
+  align-self:flex-start;
+}
+.gsFormSubmit:hover{background:var(--green2)}
+@media(max-width:700px){.gsFormRow{grid-template-columns:1fr}.gsPageHeroContent{padding:0 24px 40px}}
+
+/* ============ UTILITY ============ */
+.gsSection{padding:80px 0}
+.gsSectionHeader{text-align:center;max-width:680px;margin:0 auto 48px}
+.gsSectionTag{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--green);margin-bottom:12px;
+}
+.gsBtn{
+  display:inline-block;padding:13px 32px;
+  background:var(--green);color:var(--white);
+  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  border:none;border-radius:3px;cursor:pointer;transition:background .2s;
+}
+.gsBtn:hover{background:var(--green2)}
+
+/* Page hero aliases */
+.gsPageHeroBg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:brightness(.45) saturate(.6);
+}
+.gsPageHeroBreadcrumb{
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:10px;
+}
+.gsPageHeroBreadcrumb span{color:rgba(255,255,255,.7)}
+
+/* ============ CTA BANNER ============ */
+.gsCtaBanner{
+  background:var(--green);padding:72px 48px;text-align:center;
+}
+.gsCtaBannerInner{max-width:700px;margin:0 auto}
+.gsCtaBanner h2{
+  font-family:var(--fd);font-size:clamp(28px,3.5vw,42px);
+  color:var(--white);font-weight:700;margin-bottom:16px;
+}
+.gsCtaBanner p{
+  font-size:15px;color:rgba(255,255,255,.7);margin-bottom:32px;line-height:1.7;
+}
+.gsCtaBanner .gsBtn,.gsCtaBanner .gsHeroBtn{
+  background:var(--white);color:var(--green);
+}
+.gsCtaBanner .gsBtn:hover,.gsCtaBanner .gsHeroBtn:hover{
+  background:var(--gold);color:var(--white);
+}
+
+/* ============ REFERENTIES ============ */
+.gsRefGrid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+}
+.gsRefCard{
+  background:var(--white);border:1px solid var(--border);border-radius:4px;
+  overflow:hidden;transition:box-shadow .3s,transform .3s;
+}
+.gsRefCard:hover{box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-4px)}
+.gsRefImg{position:relative;aspect-ratio:4/3;overflow:hidden}
+.gsRefImg img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.9) saturate(.85);
+  transition:transform .5s;
+}
+.gsRefCard:hover .gsRefImg img{transform:scale(1.06)}
+.gsRefRas{
+  position:absolute;bottom:10px;left:10px;
+  background:rgba(0,0,0,.55);color:var(--white);
+  font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:2px;backdrop-filter:blur(4px);
+}
+.gsRefBody{padding:20px 22px 24px}
+.gsRefNaam{
+  font-family:var(--fd);font-size:18px;font-weight:700;
+  color:var(--text);margin-bottom:12px;
+}
+.gsRefPrestatie,.gsRefEigenaar{
+  font-size:13px;color:var(--muted);margin-bottom:6px;line-height:1.6;
+}
+.gsRefLabel{
+  display:block;font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--green);margin-bottom:2px;
+}
+@media(max-width:900px){.gsRefGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.gsRefGrid{grid-template-columns:1fr}}
+
+/* ============ CONTACT PAGE ============ */
+.gsContactGrid{
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;
+}
+.gsContactInfo{}
+.gsContactBlock{
+  display:flex;gap:16px;align-items:flex-start;
+  margin-bottom:24px;
+}
+.gsContactIcon{
+  font-size:22px;flex-shrink:0;margin-top:2px;
+}
+.gsContactBlock strong{
+  display:block;font-size:13px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text);margin-bottom:4px;
+}
+.gsContactBlock p{font-size:14px;color:var(--muted);line-height:1.7}
+.gsMapEmbed{
+  position:relative;height:220px;border-radius:4px;overflow:hidden;
+  margin-top:28px;border:1px solid var(--border);
+}
+.gsMapPin{
+  position:absolute;bottom:10px;left:10px;
+  background:var(--green);color:var(--white);
+  font-size:12px;font-weight:600;padding:5px 12px;border-radius:2px;
+}
+.gsContactFormWrap{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:4px;padding:40px;
+}
+.gsFormTitle{
+  font-family:var(--fd);font-size:24px;font-weight:700;
+  color:var(--text);margin-bottom:28px;
+}
+.gsFormBtn{
+  padding:14px 36px;background:var(--green);color:var(--white);
+  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  border:none;border-radius:3px;cursor:pointer;transition:background .2s;
+  align-self:flex-start;font-family:var(--ff);
+  margin-top:8px;
+}
+.gsFormBtn:hover{background:var(--green2)}
+.gsFormSuccess{
+  text-align:center;padding:40px 20px;
+}
+.gsFormSuccessIcon{
+  font-size:48px;color:var(--green);font-weight:700;
+  margin-bottom:16px;
+}
+.gsFormSuccess h3{
+  font-family:var(--fd);font-size:26px;color:var(--text);margin-bottom:12px;
+}
+.gsFormSuccess p{
+  font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:28px;
+}
+@media(max-width:900px){
+  .gsContactGrid{grid-template-columns:1fr;gap:48px}
+  .gsContactFormWrap{padding:28px 24px}
+}

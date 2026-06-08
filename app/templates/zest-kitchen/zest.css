@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&family=Fraunces:ital,wght@0,700;1,700;1,800&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#15803d;--green2:#16a34a;--green3:#86efac;
+  --lime:#d9f99d;--bg:#ffffff;--bg2:#f8fff8;--bg3:#f0fdf4;
+  --text:#052e16;--muted:#4d7a5a;--border:rgba(21,128,61,.12);
+  --ff:'Nunito',system-ui,sans-serif;--fs:'Fraunces',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+
+/* NAV */
+.zNav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:background .35s,box-shadow .35s}
+.zNavScrolled{background:rgba(255,255,255,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--border)}
+.zLogo{font-family:var(--fs);font-size:22px;font-style:italic;font-weight:700;color:var(--green);letter-spacing:-.03em}
+.zNavLinks{display:flex;gap:32px;align-items:center}
+.zNavLinks a{font-size:14px;font-weight:600;color:rgba(5,46,22,.55);transition:color .2s}
+.zNavLinks a:hover{color:var(--green)}
+.zNavCta{padding:10px 22px;border-radius:999px;background:var(--green);color:#fff;font-size:14px;font-weight:700;transition:transform .2s,box-shadow .2s}
+.zNavCta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(21,128,61,.35)}
+
+/* HERO */
+.zHero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding:88px 0 0}
+.zHeroLeft{display:flex;flex-direction:column;justify-content:center;padding:60px 60px 60px 80px}
+.zHeroEye{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:var(--bg3);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--green);letter-spacing:.04em;margin-bottom:36px;width:fit-content}
+.zHeroEye span{width:7px;height:7px;border-radius:50%;background:var(--green);display:block}
+.zHeroTitle{font-family:var(--fs);font-size:clamp(48px,5.5vw,80px);line-height:.9;letter-spacing:-.04em;color:var(--text);margin-bottom:8px}
+.zHeroTitle em{font-style:italic;color:var(--green)}
+.zHeroSub{font-size:17px;color:var(--muted);line-height:1.75;max-width:420px;margin:28px 0 44px;font-weight:400}
+.zHeroCta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.zBtn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:var(--green);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.zBtn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(21,128,61,.38)}
+.zBtnGhost{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:transparent;color:var(--text);font-size:15px;font-weight:700;border:1.5px solid rgba(5,46,22,.15);cursor:pointer;transition:border-color .2s,background .2s}
+.zBtnGhost:hover{border-color:var(--green);background:var(--bg3)}
+.zHeroRight{position:relative;overflow:hidden}
+.zHeroRight img{width:100%;height:100%;object-fit:cover;object-position:center}
+.zHeroRight::after{content:"";position:absolute;left:0;top:0;bottom:0;width:80px;background:linear-gradient(90deg,var(--bg),transparent)}
+
+/* SPECIALS STRIP */
+.zStrip{background:var(--green);padding:18px 0;overflow:hidden}
+.zStripInner{display:flex;gap:48px;animation:marquee 22s linear infinite;white-space:nowrap}
+.zStripItem{font-family:var(--fs);font-size:17px;font-style:italic;color:rgba(255,255,255,.85);flex-shrink:0}
+.zStripDot{color:var(--green3);flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* MENU */
+.zMenu{padding:120px 0;background:var(--bg)}
+.zMenuInner{max-width:1200px;margin:0 auto;padding:0 48px}
+.zMenuTop{text-align:center;margin-bottom:72px}
+.zEye{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+.zEye::before,.zEye::after{content:"";display:block;width:24px;height:1.5px;background:var(--green)}
+.zMenuTop h2{font-family:var(--fs);font-size:clamp(38px,5vw,62px);line-height:.9;letter-spacing:-.04em;color:var(--text)}
+.zMenuTop h2 em{font-style:italic;color:var(--green)}
+.zMenuGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.zMenuCard{border-radius:20px;overflow:hidden;background:var(--bg3);border:1px solid var(--border);transition:transform .3s,box-shadow .3s}
+.zMenuCard:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(21,128,61,.12)}
+.zMenuImg{aspect-ratio:4/3;overflow:hidden}
+.zMenuImg img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.zMenuCard:hover .zMenuImg img{transform:scale(1.05)}
+.zMenuInfo{padding:22px}
+.zMenuCat{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.zMenuInfo h3{font-family:var(--fs);font-size:20px;letter-spacing:-.03em;color:var(--text);margin-bottom:6px}
+.zMenuInfo p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.zMenuPrice{font-size:18px;font-weight:800;color:var(--green)}
+
+/* ABOUT */
+.zAbout{padding:120px 0;background:var(--bg2)}
+.zAboutInner{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.zAboutImg{border-radius:28px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 32px 80px rgba(21,128,61,.14)}
+.zAboutImg img{width:100%;height:100%;object-fit:cover}
+.zAboutText h2{font-family:var(--fs);font-size:clamp(36px,4vw,56px);line-height:.9;letter-spacing:-.04em;margin:20px 0 28px;color:var(--text)}
+.zAboutText h2 em{font-style:italic;color:var(--green)}
+.zAboutText p{color:var(--muted);line-height:1.82;font-size:16px;font-weight:400;margin-bottom:20px}
+.zFactRow{display:flex;gap:32px;margin-top:36px;padding-top:36px;border-top:1px solid var(--border)}
+.zFact{}
+.zFactNum{font-family:var(--fs);font-size:36px;font-style:italic;color:var(--green);line-height:1}
+.zFactLabel{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+
+/* HOURS */
+.zHours{padding:80px 0;background:var(--green)}
+.zHoursInner{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;align-items:center}
+.zHoursTitle{font-family:var(--fs);font-size:clamp(32px,4vw,50px);font-style:italic;color:#fff;line-height:.95}
+.zHoursRow{display:flex;flex-direction:column;gap:16px}
+.zHoursItem{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.15)}
+.zHoursItem:last-child{border-bottom:none;padding-bottom:0}
+.zHoursDay{font-size:14px;font-weight:600;color:rgba(255,255,255,.7)}
+.zHoursTime{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#fff}
+.zHoursCtaBox{display:flex;flex-direction:column;gap:16px;align-items:flex-end}
+.zHoursCtaBox p{color:rgba(255,255,255,.7);font-size:15px;line-height:1.7;text-align:right}
+.zBtnWhite{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:#fff;color:var(--green);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.zBtnWhite:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.18)}
+
+/* FOOTER */
+.zFooter{background:var(--text);padding:60px 0}
+.zFooterInner{max-width:1200px;margin:0 auto;padding:0 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:32px}
+.zFooterLogo{font-family:var(--fs);font-size:24px;font-style:italic;font-weight:700;color:#fff}
+.zFooterNav{display:flex;gap:28px}
+.zFooterNav a{font-size:13px;color:rgba(255,255,255,.45);font-weight:500;transition:color .2s}
+.zFooterNav a:hover{color:#fff}
+.zFooterCopy{font-size:12px;color:rgba(255,255,255,.25)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .zNav{padding:0 24px}
+  .zHero{grid-template-columns:1fr}
+  .zHeroLeft{padding:40px 24px 60px}
+  .zHeroRight{height:60vw}
+  .zMenuGrid{grid-template-columns:1fr 1fr}
+  .zAboutInner{grid-template-columns:1fr}
+  .zHoursInner{grid-template-columns:1fr}
+  .zHoursCtaBox{align-items:flex-start}
+  .zHoursCtaBox p{text-align:left}
+  .zMenuInner,.zAboutInner,.zHoursInner,.zFooterInner{padding:0 24px}
+}
+@media(max-width:600px){
+  .zMenuGrid{grid-template-columns:1fr}
+  .zNavLinks{display:none}
+}

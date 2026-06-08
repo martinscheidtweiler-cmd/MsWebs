@@ -1,0 +1,72 @@
+@import url(\'https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap\');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1a3a2a;--forest2:#254d3a;--forest3:#d4e8dc;--forest4:#eef5f0;
+  --champagne:#c9a96e;--champagne2:#e2c48d;--parchment:#faf5eb;--parchment2:#f5edd8;
+  --white:#fff;--text:#1a1208;--muted:#7a6a5a;--border:rgba(26,58,42,.1);
+  --ff:\'EB Garamond\',Georgia,serif;--fh:\'Marcellus\',Georgia,serif;--fsc:\'Marcellus SC\',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--parchment);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+.ceNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 64px;height:84px;transition:background .4s,box-shadow .4s}
+.ceNavScrolled{background:rgba(250,245,235,.98);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.ceLogo{font-family:var(--fsc);font-size:16px;letter-spacing:.2em;color:var(--white);transition:color .4s}
+.ceNavScrolled .ceLogo{color:var(--forest)}
+.ceLogo span{color:var(--champagne)}
+.ceNavLinks{display:flex;gap:44px}
+.ceNavLinks a{font-family:var(--fsc);font-size:11px;letter-spacing:.18em;color:rgba(255,255,255,.5);transition:color .2s}
+.ceNavLinks a:hover{color:var(--champagne)}
+.ceNavScrolled .ceNavLinks a{color:var(--muted)}
+.ceNavScrolled .ceNavLinks a:hover{color:var(--champagne)}
+.ceNavPhone{font-family:var(--fsc);font-size:11px;letter-spacing:.12em;color:var(--champagne)}
+.ceHero{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;overflow:hidden;text-align:center}
+.ceHeroBg{position:absolute;inset:0}
+.ceHeroBg img{width:100%;height:100%;object-fit:cover}
+.ceHeroOverlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,58,42,.35) 0%,rgba(26,18,8,.72) 100%)}
+.ceHeroContent{position:relative;z-index:2;max-width:1000px;padding:0 48px 100px}
+.ceHeroEmblem{font-size:40px;margin-bottom:24px;display:block;opacity:.7}
+.ceHeroTitle{font-family:var(--fh);font-size:clamp(44px,5.5vw,84px);color:var(--white);line-height:1.05;letter-spacing:.04em;margin-bottom:20px}
+.ceHeroTitle em{font-style:italic;color:var(--champagne2);display:block;font-family:var(--ff)}
+.ceHeroSub{font-size:17px;color:rgba(255,255,255,.45);line-height:1.9;max-width:540px;margin:0 auto 48px;font-style:italic}
+.ceBtns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.ceBtn{padding:14px 36px;border:1px solid var(--champagne);color:var(--champagne);font-family:var(--fsc);font-size:11px;letter-spacing:.18em;background:transparent;cursor:pointer;transition:background .2s,color .2s}
+.ceBtn:hover{background:var(--champagne);color:var(--forest)}
+.ceBtnFull{padding:14px 36px;background:var(--champagne);color:var(--forest);font-family:var(--fsc);font-size:11px;letter-spacing:.18em;border:1px solid var(--champagne);cursor:pointer;transition:background .2s}
+.ceBtnFull:hover{background:var(--champagne2)}
+.cePhilosophy{padding:120px 0;background:var(--parchment)}
+.cePhilInner{max-width:1200px;margin:0 auto;padding:0 64px;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center}
+.cePhilImg{border-radius:2px;overflow:hidden;aspect-ratio:3/4}
+.cePhilImg img{width:100%;height:100%;object-fit:cover;filter:brightness(.85) saturate(.75)}
+.cePhilText div{font-family:var(--fsc);font-size:10px;letter-spacing:.28em;color:var(--champagne);display:block;margin-bottom:24px}
+.cePhilText h2{font-family:var(--fh);font-size:clamp(34px,4vw,52px);color:var(--forest);margin-bottom:28px;line-height:1.12;letter-spacing:.02em}
+.cePhilText h2 em{font-style:italic;font-family:var(--ff);color:var(--champagne)}
+.cePhilText p{font-size:17px;color:var(--muted);line-height:1.95;font-style:italic;margin-bottom:16px}
+.cePhilText p:last-of-type{margin-bottom:36px}
+.ceServices{padding:110px 0;background:var(--forest)}
+.ceServInner{max-width:1200px;margin:0 auto;padding:0 64px}
+.ceServHead{text-align:center;margin-bottom:72px}
+.ceServHead div{font-family:var(--fsc);font-size:10px;letter-spacing:.28em;color:var(--champagne);display:block;margin-bottom:20px}
+.ceServHead h2{font-family:var(--fh);font-size:clamp(36px,4.5vw,60px);color:var(--white);letter-spacing:.04em}
+.ceServGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ceServCard{background:rgba(255,255,255,.04);padding:44px 36px;border:1px solid rgba(255,255,255,.06);transition:background .3s,border-color .3s}
+.ceServCard:hover{background:rgba(255,255,255,.07);border-color:rgba(201,169,110,.25)}
+.ceServNum{font-family:var(--ff);font-size:40px;font-style:italic;color:rgba(201,169,110,.2);margin-bottom:20px;line-height:1}
+.ceServCard h3{font-family:var(--fh);font-size:20px;color:var(--white);margin-bottom:12px;letter-spacing:.04em}
+.ceServCard p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.85;font-style:italic}
+.ceCta{padding:100px 0;background:var(--parchment2);text-align:center}
+.ceCtaInner{max-width:600px;margin:0 auto;padding:0 48px}
+.ceCtaEmblem{font-size:32px;margin-bottom:20px;opacity:.5}
+.ceCtaInner h2{font-family:var(--fh);font-size:clamp(32px,4vw,52px);color:var(--forest);margin-bottom:20px;letter-spacing:.04em}
+.ceCtaInner p{font-size:16px;font-style:italic;color:var(--muted);line-height:1.9;margin-bottom:44px}
+.ceFooter{background:var(--forest);padding:60px 0}
+.ceFooterInner{max-width:1200px;margin:0 auto;padding:0 64px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.ceFooterLogo{font-family:var(--fsc);font-size:14px;letter-spacing:.2em;color:var(--white)}
+.ceFooterLogo span{color:var(--champagne)}
+.ceFooterCopy{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.06em}
+@media(max-width:1024px){
+  .ceNav{padding:0 24px}.ceHeroContent{padding:0 24px 80px}
+  .cePhilInner,.ceServInner,.ceFooterInner{padding:0 24px}
+  .cePhilInner{grid-template-columns:1fr}.ceServGrid{grid-template-columns:1fr 1fr}
+  .ceNavLinks{display:none}
+}

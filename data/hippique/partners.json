@@ -1,0 +1,8 @@
+[
+  { "id": "de-brabander", "name": "De Brabander · Stal De Muze", "file": "partners/de-brabander.png", "dark": false },
+  { "id": "roose", "name": "Strohandel Roose", "file": "partners/roose.png", "dark": true },
+  { "id": "krismar", "name": "Krismar Horse Trucks", "file": "partners/krismar.png", "dark": false },
+  { "id": "dm-equine", "name": "DM Equine", "file": "partners/dm-equine.png", "dark": true },
+  { "id": "bosdreef", "name": "Bosdreef Veterinary", "file": "partners/bosdreef.png", "dark": false },
+  { "id": "feral-group", "name": "Feral Group", "file": "partners/feral-group.png", "dark": false }
+]

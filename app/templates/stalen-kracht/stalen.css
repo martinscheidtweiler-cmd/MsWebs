@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --slate:#0f172a;--slate2:#1e293b;--slate3:#334155;
+  --steel:#94a3b8;--white:#f1f5f9;--border:rgba(148,163,184,.1);
+  --ff:'Inter',system-ui,sans-serif;--fb:'Barlow Condensed',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--slate);color:var(--white);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+.skNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:68px;background:rgba(15,23,42,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.skLogo{font-family:var(--fb);font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--white)}
+.skLogo span{color:var(--steel)}
+.skNavLinks{display:flex;gap:36px}
+.skNavLinks a{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--steel);transition:color .2s}
+.skNavLinks a:hover{color:var(--white)}
+.skNavBtn{padding:10px 22px;border:1px solid var(--steel);color:var(--white);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;transition:background .2s,border-color .2s;border-radius:2px}
+.skNavBtn:hover{background:var(--steel);color:var(--slate)}
+.skHero{position:relative;height:100vh;display:flex;align-items:flex-end;overflow:hidden}
+.skHeroBg{position:absolute;inset:0}
+.skHeroBg img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(.6)}
+.skHeroContent{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 52px 80px;width:100%}
+.skHeroLabel{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--steel);display:block;margin-bottom:20px}
+.skHeroTitle{font-family:var(--fb);font-size:clamp(72px,10vw,140px);font-weight:800;text-transform:uppercase;line-height:.82;letter-spacing:-.01em;margin-bottom:40px}
+.skHeroTitle em{font-style:normal;color:var(--steel)}
+.skHeroRow{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.skHeroSub{font-size:16px;color:rgba(241,245,249,.5);max-width:420px;line-height:1.75;font-weight:300}
+.skBtn{padding:14px 30px;background:var(--white);color:var(--slate);font-family:var(--fb);font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;transition:transform .2s;border-radius:2px}
+.skBtn:hover{transform:translateY(-3px)}
+.skServices{padding:110px 0;background:var(--slate2)}
+.skServInner{max-width:1200px;margin:0 auto;padding:0 52px}
+.skServTop{margin-bottom:64px}
+.skLabel{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel);font-weight:600;display:block;margin-bottom:16px}
+.skServTop h2{font-family:var(--fb);font-size:clamp(44px,6vw,80px);font-weight:800;text-transform:uppercase;line-height:.85;letter-spacing:-.01em}
+.skServGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.skServCard{background:var(--slate3);padding:36px 28px;transition:background .2s}
+.skServCard:hover{background:#3d4f64}
+.skServNum{font-family:'Space Mono',monospace;font-size:11px;color:var(--steel);font-weight:700;letter-spacing:.1em;margin-bottom:20px}
+.skServCard h3{font-family:var(--fb);font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:12px}
+.skServCard p{font-size:13px;color:var(--steel);line-height:1.65}
+.skProjects{padding:110px 0;background:var(--slate)}
+.skProjInner{max-width:1200px;margin:0 auto;padding:0 52px}
+.skProjGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:52px}
+.skProjCard{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:4px}
+.skProjCard img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:brightness(.7) saturate(.6)}
+.skProjCard:hover img{transform:scale(1.05);filter:brightness(.85) saturate(.8)}
+.skProjCard::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,23,42,.85) 0%,transparent 60%)}
+.skProjInfo{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:24px 22px}
+.skProjCat{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);margin-bottom:8px}
+.skProjName{font-family:var(--fb);font-size:20px;font-weight:700;text-transform:uppercase}
+.skCerts{padding:80px 0;background:var(--slate3)}
+.skCertsInner{max-width:1200px;margin:0 auto;padding:0 52px;display:flex;justify-content:space-around;align-items:center;flex-wrap:wrap;gap:32px}
+.skCert{text-align:center}
+.skCertNum{font-family:var(--fb);font-size:48px;font-weight:800;color:var(--white);line-height:1}
+.skCertLabel{font-size:12px;color:var(--steel);margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+.skFooter{background:var(--slate2);border-top:1px solid var(--border);padding:52px 0}
+.skFooterInner{max-width:1200px;margin:0 auto;padding:0 52px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.skFooterCopy{font-size:11px;color:var(--steel);font-family:'Space Mono',monospace}
+@media(max-width:900px){
+  .skNav{padding:0 24px}.skHeroContent{padding:0 24px 60px}
+  .skServGrid{grid-template-columns:1fr 1fr}.skProjGrid{grid-template-columns:1fr 1fr}
+  .skServInner,.skProjInner,.skCertsInner,.skFooterInner{padding:0 24px}
+  .skNavLinks{display:none}
+}

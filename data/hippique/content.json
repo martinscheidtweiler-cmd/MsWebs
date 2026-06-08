@@ -1,0 +1,50 @@
+{
+  "hero": {
+    "tagline": "Specialist in hippisch vastgoed",
+    "title": "Het vaakst geraden.",
+    "titleAccent": "Nooit overtroffen.",
+    "subtitle": "Stoeterijen · Maneges · Landgoederen · Hippische eigendommen in België, Nederland en Noord-Frankrijk",
+    "cta1Label": "Ontdek ons aanbod",
+    "cta2Label": "Gratis schatting"
+  },
+  "stats": [
+    { "value": "14", "label": "Jaar expertise" },
+    { "value": "200+", "label": "Panden verkocht" },
+    { "value": "3", "label": "Landen actief" },
+    { "value": "98%", "label": "Klanttevredenheid" }
+  ],
+  "contact": {
+    "phone": "+32 494 00 00 00",
+    "email": "info@hippique.immo",
+    "address": "Brusselsesteenweg 100, 3090 Overijse",
+    "kvk": "BE 0123.456.789"
+  },
+  "footer": {
+    "tagline": "Het meest gespecialiseerde kantoor voor hippisch vastgoed in de Benelux en Noord-Frankrijk.",
+    "instagramUrl": "#",
+    "linkedinUrl": "#",
+    "youtubeUrl": "#"
+  },
+  "aboutPage": {
+    "title": "Over Hippique.immo",
+    "intro": "Wij zijn het meest gespecialiseerde vastgoedkantoor voor hippisch vastgoed in de Benelux en Noord-Frankrijk. Met meer dan 14 jaar ervaring in de sector kennen wij de noden van kopers en verkopers van stoeterijen, maneges, landgoederen en hippische eigendommen als geen ander.",
+    "story": "Hippique.immo werd opgericht vanuit een echte passie voor paarden en vastgoed. Onze oprichters, zelf paardenmensen, begrepen dat hippisch vastgoed een heel specifieke expertise vereist — kennis van infrastructuur, vergunningen, agrarische wetgeving én de hippische markt. Dat is onze kracht."
+  },
+  "verkopenPage": {
+    "heroTitle": "Verkoop uw hippisch vastgoed",
+    "heroSubtitle": "Met onze gespecialiseerde kennis en internationaal netwerk bereiken we de juiste koper voor uw uniek eigendom.",
+    "step1Title": "Gratis schatting",
+    "step1Text": "Wij komen ter plaatse en maken een gedetailleerde waardebepaling op basis van infrastructuur, locatie en marktanalyse.",
+    "step2Title": "Professionele presentatie",
+    "step2Text": "Professionele fotografie, drone-opnames, gedetailleerd dossier en publicatie op onze exclusieve kanalen.",
+    "step3Title": "Gericht netwerk",
+    "step3Text": "Wij bereiken actief geïnteresseerden via ons internationaal netwerk van hippische professionals en investeerders.",
+    "step4Title": "Begeleiding tot akte",
+    "step4Text": "Van kandidaat-koper tot notariële akte — wij begeleiden u door het volledige verkoopproces."
+  },
+  "contactPage": {
+    "title": "Neem contact op",
+    "subtitle": "Heeft u een vraag over ons aanbod, wenst u een gratis schatting of wilt u gewoon vrijblijvend praten? Wij zijn er voor u.",
+    "formTitle": "Stuur ons een bericht"
+  }
+}

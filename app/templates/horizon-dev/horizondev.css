@@ -1,0 +1,75 @@
+@import url(\'https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap\');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0d9488;--teal2:#0f766e;--teal3:#ccfbf1;--teal4:#f0fdfa;
+  --slate:#0f2027;--slate2:#1a2f38;--white:#fff;
+  --text:#0f2027;--muted:#6b8d94;--border:rgba(13,148,136,.12);
+  --ff:\'Sora\',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--white);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+.hdNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:76px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.hdLogo{font-size:18px;font-weight:800;letter-spacing:-.02em;color:var(--text)}
+.hdLogo span{color:var(--teal)}
+.hdNavLinks{display:flex;gap:36px}
+.hdNavLinks a{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--muted);transition:color .2s}
+.hdNavLinks a:hover{color:var(--teal)}
+.hdNavBtn{padding:12px 26px;border-radius:10px;background:var(--teal);color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:background .2s,transform .2s}
+.hdNavBtn:hover{background:var(--teal2);transform:translateY(-2px)}
+.hdHero{min-height:100vh;padding-top:76px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,var(--slate) 0%,var(--slate2) 60%,#1a3540 100%);position:relative;overflow:hidden;text-align:center}
+.hdHeroBg{position:absolute;inset:0;opacity:.08}
+.hdHeroBg img{width:100%;height:100%;object-fit:cover}
+.hdHeroContent{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:80px 48px}
+.hdHeroChip{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;background:rgba(13,148,136,.2);border:1px solid rgba(13,148,136,.3);font-size:11px;font-weight:700;color:var(--teal3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.hdHeroTitle{font-size:clamp(48px,7vw,96px);font-weight:800;color:#fff;line-height:.9;letter-spacing:-.04em;margin-bottom:28px}
+.hdHeroTitle em{font-style:normal;color:var(--teal3)}
+.hdHeroSub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.85;max-width:580px;margin:0 auto 52px;font-weight:300}
+.hdHeroBtns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.hdBtn{padding:15px 36px;border-radius:12px;background:var(--teal);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.hdBtn:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(13,148,136,.4)}
+.hdBtnGhost{padding:15px 36px;border-radius:12px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:background .2s}
+.hdBtnGhost:hover{background:rgba(255,255,255,.12)}
+.hdMetrics{background:var(--teal4);border-bottom:1px solid var(--border)}
+.hdMetricsInner{max-width:1200px;margin:0 auto;padding:0 56px;display:grid;grid-template-columns:repeat(4,1fr)}
+.hdMetric{padding:44px 20px;text-align:center;border-right:1px solid var(--border)}
+.hdMetric:last-child{border-right:none}
+.hdMetricNum{font-size:44px;font-weight:800;color:var(--teal);letter-spacing:-.03em;line-height:1}
+.hdMetricLabel{font-size:12px;font-weight:600;color:var(--muted);margin-top:6px;letter-spacing:.04em}
+.hdProjects{padding:110px 0;background:var(--white)}
+.hdProjInner{max-width:1200px;margin:0 auto;padding:0 56px}
+.hdProjHead{margin-bottom:56px}
+.hdTag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:14px}
+.hdProjHead h2{font-size:clamp(36px,4.5vw,60px);font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1}
+.hdProjGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.hdProjCard{border-radius:20px;overflow:hidden;background:var(--white);box-shadow:0 4px 24px rgba(0,0,0,.06);transition:box-shadow .3s,transform .3s}
+.hdProjCard:hover{box-shadow:0 16px 48px rgba(13,148,136,.12);transform:translateY(-4px)}
+.hdProjImg{aspect-ratio:4/3;overflow:hidden}
+.hdProjImg img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.hdProjCard:hover .hdProjImg img{transform:scale(1.05)}
+.hdProjBody{padding:24px}
+.hdProjStatus{display:inline-block;padding:4px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.hdProjStatus.available{background:var(--teal3);color:var(--teal2)}
+.hdProjStatus.sold{background:#fee2e2;color:#b91c1c}
+.hdProjStatus.soon{background:#fef9c3;color:#854d0e}
+.hdProjBody h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.02em}
+.hdProjLoc{font-size:13px;color:var(--muted);margin-bottom:14px}
+.hdProjMeta{display:flex;justify-content:space-between;align-items:center}
+.hdProjPrice{font-size:18px;font-weight:800;color:var(--teal);letter-spacing:-.02em}
+.hdProjUnits{font-size:12px;color:var(--muted);font-weight:600}
+.hdCta{padding:110px 0;background:linear-gradient(135deg,var(--teal) 0%,var(--teal2) 100%);text-align:center}
+.hdCtaInner{max-width:620px;margin:0 auto;padding:0 48px}
+.hdCtaInner h2{font-size:clamp(36px,5vw,60px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:20px;line-height:1}
+.hdCtaInner p{font-size:16px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:44px}
+.hdBtnWhite{padding:16px 40px;border-radius:12px;background:#fff;color:var(--teal2);font-size:15px;font-weight:800;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;letter-spacing:-.02em}
+.hdBtnWhite:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.18)}
+.hdFooter{background:var(--slate);padding:60px 0}
+.hdFooterInner{max-width:1200px;margin:0 auto;padding:0 56px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.hdFooterLogo{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hdFooterLogo span{color:var(--teal3)}
+.hdFooterCopy{font-size:11px;color:rgba(255,255,255,.25)}
+@media(max-width:1024px){
+  .hdNav,.hdMetricsInner,.hdProjInner,.hdFooterInner{padding-left:24px;padding-right:24px}
+  .hdMetricsInner{grid-template-columns:repeat(2,1fr)}
+  .hdProjGrid{grid-template-columns:1fr 1fr}.hdNavLinks{display:none}
+}

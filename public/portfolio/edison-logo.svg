@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Edison Electricity">
+  <!-- Top prong -->
+  <rect x="0" y="32" width="108" height="32" rx="4" fill="#3a4252"/>
+  <!-- Bottom prong -->
+  <rect x="0" y="136" width="108" height="32" rx="4" fill="#3a4252"/>
+
+  <!-- Plug body left (antracite) -->
+  <rect x="106" y="8" width="88" height="184" rx="0" fill="#3a4252"/>
+
+  <!-- Teal D-shape (right half of plug body) -->
+  <path d="M 194,8 A 92,92 0 0,1 194,192 Z" fill="#18b4c8"/>
+
+  <!-- Text: EDISON -->
+  <text
+    x="168"
+    y="102"
+    font-family="'Arial', 'Helvetica', sans-serif"
+    font-size="30"
+    font-weight="800"
+    fill="#ffffff"
+    text-anchor="middle"
+    letter-spacing="3"
+  >EDISON</text>
+
+  <!-- Text: ELECTRICITY -->
+  <text
+    x="168"
+    y="130"
+    font-family="'Arial', 'Helvetica', sans-serif"
+    font-size="16"
+    font-weight="400"
+    fill="rgba(255,255,255,0.85)"
+    text-anchor="middle"
+    letter-spacing="3"
+  >ELECTRICITY</text>
+</svg>

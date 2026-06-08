@@ -1,301 +1,256 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import "../globals.css";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import "./portfolio.css";
 
-type Lang = "nl" | "fr" | "en";
+/* ─────────────────────────────────────────────
+   DATA MODEL
+───────────────────────────────────────────── */
 
-const translations = {
-  nl: {
-    portfolio: "Portfolio",
-    packages: "Abonnementen",
-    booking: "Afspraak inplannen",
-    language: "Taal",
-    heroLabel: "Portfolio",
-    heroTitle: "Websites die meteen\nvertrouwen uitstralen.",
-    heroText: "Van high-end kapsalons tot marketing agencies — elk project hieronder is gebouwd als een echte, moderne website.",
-    stat1Value: "15+",
-    stat1Label: "Templates",
-    stat2Value: "12+",
-    stat2Label: "Sectoren",
-    stat3Value: "100%",
-    stat3Label: "Op maat",
-    ctaLabel: "Jouw website",
-    ctaTitle: "Ook een website die direct vertrouwen uitstraalt?",
-    ctaBtn: "Afspraak inplannen →",
-    viewLive: "Live bekijken →",
-    viewSite: "Website bekijken →",
-    searchPlaceholder: "Zoek op sector, stijl of functie…",
-    allCategories: "Alle",
-    results: "resultaten",
-    noResults: "Geen resultaten gevonden",
-    noResultsSub: "Probeer een andere zoekterm of filter.",
-    clearSearch: "Zoekopdracht wissen",
-  },
-  fr: {
-    portfolio: "Portfolio",
-    packages: "Abonnements",
-    booking: "Prendre rendez-vous",
-    language: "Langue",
-    heroLabel: "Portfolio",
-    heroTitle: "Des sites qui inspirent\nconfiance immédiatement.",
-    heroText: "Des salons haut de gamme aux agences marketing — chaque projet est conçu comme un vrai site moderne et professionnel.",
-    stat1Value: "15+",
-    stat1Label: "Templates",
-    stat2Value: "12+",
-    stat2Label: "Secteurs",
-    stat3Value: "100%",
-    stat3Label: "Sur mesure",
-    ctaLabel: "Votre site",
-    ctaTitle: "Vous aussi, un site qui inspire confiance dès le premier regard ?",
-    ctaBtn: "Prendre rendez-vous →",
-    viewLive: "Voir en ligne →",
-    viewSite: "Voir le site →",
-    searchPlaceholder: "Rechercher par secteur, style ou fonction…",
-    allCategories: "Tous",
-    results: "résultats",
-    noResults: "Aucun résultat",
-    noResultsSub: "Essayez un autre terme ou filtre.",
-    clearSearch: "Effacer la recherche",
-  },
-  en: {
-    portfolio: "Portfolio",
-    packages: "Subscriptions",
-    booking: "Book a call",
-    language: "Language",
-    heroLabel: "Portfolio",
-    heroTitle: "Websites that instantly\ncommand trust.",
-    heroText: "From high-end hair studios to marketing agencies — every project here is built as a real, modern website.",
-    stat1Value: "15+",
-    stat1Label: "Templates",
-    stat2Value: "12+",
-    stat2Label: "Sectors",
-    stat3Value: "100%",
-    stat3Label: "Custom",
-    ctaLabel: "Your website",
-    ctaTitle: "Want a website that instantly commands trust and quality?",
-    ctaBtn: "Book a call →",
-    viewLive: "View live →",
-    viewSite: "View site →",
-    searchPlaceholder: "Search by sector, style or feature…",
-    allCategories: "All",
-    results: "results",
-    noResults: "No results found",
-    noResultsSub: "Try a different search term or filter.",
-    clearSearch: "Clear search",
-  },
-};
+interface Project {
+  id: string;
+  title: string;
+  client?: string;
+  sector: string;
+  type: string;
+  addons: string[];
+  pakket: string;
+  languages: string[];
+  accent: string;
+  url: string;
+  external: boolean;
+  featured?: boolean;
+  year: number;
+  desc: string;
+  tags?: string[];
+}
 
-// ── CATEGORY FILTERS ─────────────────────────────────────────────────────────
-const CATEGORIES = [
-  { key: "alle", nl: "Alle", fr: "Tous", en: "All" },
-  { key: "beauty", nl: "Beauty & Kapsalon", fr: "Beauté & Coiffure", en: "Beauty & Hair" },
-  { key: "horeca", nl: "Horeca", fr: "Restauration", en: "Hospitality" },
-  { key: "immo", nl: "Immo & Bouw", fr: "Immo & Construction", en: "Real Estate" },
-  { key: "medisch", nl: "Medisch & Zorg", fr: "Médical & Santé", en: "Medical" },
-  { key: "fitness", nl: "Fitness & Sport", fr: "Fitness & Sport", en: "Fitness & Sport" },
-  { key: "business", nl: "Business & B2B", fr: "Business & B2B", en: "Business & B2B" },
-  { key: "events", nl: "Events", fr: "Événements", en: "Events" },
-  { key: "creatief", nl: "Creatief", fr: "Créatif", en: "Creative" },
-];
+/* ─────────────────────────────────────────────
+   PROJECT DATA
+   Voeg hier nieuwe projecten toe.
+   Filters worden automatisch afgeleid.
+───────────────────────────────────────────── */
 
-// ── PROJECTS ──────────────────────────────────────────────────────────────────
-// tags = zoekbare trefwoorden (titel, sector, stijl, functies, doelgroep)
-const projects = [
+const PROJECTS: Project[] = [
   {
-    title: "Maison Élise Hair Studio",
-    type: "Kapsalon website",
-    url: "/templates/kapper",
-    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Kapsalon", "Beauty", "Dames", "Afspraken", "Team", "Luxe", "Haar", "Styling"],
-  },
-  {
+    id: "haarhuys",
     title: "'t Haarhuys",
-    type: "Krullenkapper website",
+    client: "Nathalie V.",
+    sector: "Kapsalon",
+    type: "Multi-pagina",
+    addons: ["Webshop Module", "Afspraakmodule"],
+    pakket: "Website Essential",
+    languages: ["NL"],
+    accent: "#c97d4e",
     url: "/templates/haarhuys",
-    image: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Kapsalon", "Krullen", "Curly Hair", "Webshop", "Workshop", "Afspraken", "Multi-page", "Haar"],
+    external: false,
+    featured: true,
+    year: 2025,
+    desc: "Curly hair specialist in Nijlen. Donker luxury design met webshop en workshopmodule.",
+    tags: ["Dark", "Webshop", "Workshops"],
   },
   {
-    title: "Fade Club Barbershop",
-    type: "Barbershop website",
-    url: "/templates/kapper3",
-    image: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Barbershop", "Kapper", "Heren", "Urban", "Prijslijst", "Barbers", "Haar", "Afspraken"],
-  },
-  {
-    title: "Noir Dining",
-    type: "Restaurant website",
-    url: "/templates/restaurant",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
-    category: "horeca",
-    tags: ["Restaurant", "Horeca", "Menu", "Events", "Reservatie", "Fine Dining", "Luxe"],
-  },
-  {
-    title: "Vandor Luxury Real Estate",
-    type: "Immo website",
-    url: "/templates/immo",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-    category: "immo",
-    tags: ["Immo", "Vastgoed", "Luxe", "Premium", "Appartementen", "Huizen", "Real Estate"],
-  },
-  {
-    title: "Belle Âme Beauty",
-    type: "Beauty website",
-    url: "/templates/beauty",
-    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Beauty", "Wellness", "Nagels", "Schoonheid", "Afspraken", "Dames", "Spa"],
-  },
-  {
-    title: "Forge Fitness Coaching",
-    type: "Fitness website",
-    url: "/templates/fitness",
-    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
-    category: "fitness",
-    tags: ["Fitness", "Sport", "Coaching", "Personal Training", "Abonnementen", "Gym", "Premium"],
-  },
-  {
-    title: "Aureus Law",
-    type: "Advocatenkantoor website",
-    url: "/templates/advocaat",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80",
-    category: "business",
-    tags: ["Advocaat", "Juridisch", "B2B", "Premium", "Team", "Consulting", "Kantoor"],
-  },
-  {
-    title: "Brixon Construct",
-    type: "Bouwbedrijf website",
-    url: "/templates/bouwbedrijf",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
-    category: "immo",
-    tags: ["Bouw", "Constructie", "Projecten", "Multi-page", "Portfolio", "Renovatie", "Aannemer"],
-  },
-  {
-    title: "Lumi Dental Care",
-    type: "Tandarts website",
-    url: "/templates/tandarts",
-    image: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=800&q=80",
-    category: "medisch",
-    tags: ["Tandarts", "Medisch", "Zorg", "Team", "Afspraken", "Gezondheid", "Kliniek"],
-  },
-  {
-    title: "Haras Noir",
-    type: "Springstal website",
-    url: "/templates/haras-noir",
-    image: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&w=800&q=80",
-    category: "fitness",
-    tags: ["Paarden", "Stal", "Sport", "Equestrian", "Luxe", "Multi-page", "Premium", "Springconcours"],
-  },
-  {
-    title: "Clarity Consulting",
-    type: "Consultant website",
-    url: "/templates/coach",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
-    category: "business",
-    tags: ["Consulting", "B2B", "Coach", "Advies", "Premium", "Strategie", "Management"],
-  },
-  {
-    title: "Lens & Light",
-    type: "Fotograaf website",
-    url: "/templates/fotograaf",
-    image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80",
-    category: "creatief",
-    tags: ["Fotografie", "Portfolio", "Galerij", "Bruiloft", "Events", "Creatief", "Pakketten"],
-  },
-  {
-    title: "Bloc Agency",
-    type: "Marketing agency website",
-    url: "/templates/agency",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-    category: "business",
-    tags: ["Marketing", "Agency", "Digital", "Cases", "B2B", "Reclame", "Social Media"],
-  },
-  {
+    id: "bomaco",
     title: "Bomaco Winter Jumping",
-    type: "Event website",
+    client: "Bomaco vzw",
+    sector: "Events",
+    type: "Multi-pagina",
+    addons: ["Extra taal", "Afspraakmodule"],
+    pakket: "Website Essential",
+    languages: ["NL", "FR", "EN"],
+    accent: "#3b82f6",
     url: "https://bomaco-website.vercel.app/",
-    image: "/portfolio/bomaco.png",
-    category: "events",
-    tags: ["Events", "Sport", "Paarden", "Springconcours", "Tickets", "Live", "Agenda"],
+    external: true,
+    featured: true,
+    year: 2025,
+    desc: "Jaarlijks springconcours. Meertalige site met agenda, inschrijvingen en ticketverkoop.",
+    tags: ["Paarden", "Events", "Meertalig", "Live"],
   },
   {
-    title: "HAAR — Dameskapsalon",
-    type: "Dameskapsalon website",
-    url: "/templates/haar",
-    image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Kapsalon", "Dames", "Kleuren", "Balayage", "Minimalistisch", "Elegant", "Behandelingen", "Bruid", "Highlights"],
+    id: "hippique",
+    title: "Hippique.immo",
+    client: "Demo",
+    sector: "Vastgoed",
+    type: "Multi-pagina",
+    addons: ["Blog Module"],
+    pakket: "Website Essential",
+    languages: ["NL"],
+    accent: "#ed6e21",
+    url: "/templates/alba-immo",
+    external: false,
+    featured: false,
+    year: 2025,
+    desc: "Cinematic luxury vastgoedsite voor hippisch & landelijk. Property cards, gallerij en blog.",
+    tags: ["Vastgoed", "Luxury", "Cinematic"],
   },
   {
-    title: "Kapsalon Nijlen — Imad & Mahmoud",
-    type: "Barbershop website",
+    id: "vls",
+    title: "VLS Verwarming",
+    client: "VLS bvba",
+    sector: "Verwarming & Sanitair",
+    type: "Multi-pagina",
+    addons: ["Google Boost"],
+    pakket: "Website Essential",
+    languages: ["NL"],
+    accent: "#2563eb",
+    url: "/templates/vls-verwarming",
+    external: false,
+    featured: false,
+    year: 2025,
+    desc: "Premium template met scroll-driven animatie, depannage-CTA en klantreviews.",
+    tags: ["Dark", "Animatie", "Lokaal"],
+  },
+  {
+    id: "kapper-nijlen",
+    title: "Kapsalon Nijlen",
+    client: "IMAD & Mahmoud",
+    sector: "Barbershop",
+    type: "One-pager",
+    addons: ["Afspraakmodule", "Google Boost"],
+    pakket: "Website Essential",
+    languages: ["NL"],
+    accent: "#e53e3e",
     url: "/templates/kapper-nijlen",
-    image: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=80",
-    category: "beauty",
-    tags: ["Kapsalon", "Barbershop", "Heren", "Nijlen", "Baard", "Afspraken", "Fresha", "Broers", "Modern", "Reviews"],
+    external: false,
+    featured: false,
+    year: 2025,
+    desc: "Energieke barbershop website met online reservaties en teamoverzicht.",
+    tags: ["Rood", "Modern", "Reservaties"],
+  },
+  {
+    id: "edison",
+    title: "Edison Electricity",
+    client: "Edison bvba",
+    sector: "Elektricien",
+    type: "Multi-pagina",
+    addons: ["Google Boost"],
+    pakket: "Website Essential",
+    languages: ["NL"],
+    accent: "#18b4c8",
+    url: "/templates/edison-electricity",
+    external: false,
+    featured: false,
+    year: 2024,
+    desc: "32+ jaar ervaring. Teal design met 24/7 noodservice-CTA en projectengalerij.",
+    tags: ["Teal", "Noodservice", "Projecten"],
   },
 ];
 
-// ── COMPONENT ────────────────────────────────────────────────────────────────
-export default function PortfolioPage() {
-  const [lang, setLang] = useState<Lang>("nl");
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("alle");
-  const t = translations[lang];
+/* ─────────────────────────────────────────────
+   FILTER OPTIONS (dynamisch afgeleid)
+───────────────────────────────────────────── */
 
+const ALL_SECTORS  = [...new Set(PROJECTS.map((p) => p.sector))].sort();
+const ALL_TYPES    = [...new Set(PROJECTS.map((p) => p.type))].sort();
+const ALL_ADDONS   = [...new Set(PROJECTS.flatMap((p) => p.addons))].sort();
+const ALL_LANGS    = [...new Set(PROJECTS.flatMap((p) => p.languages))].sort();
+
+/* ─────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────── */
+
+function toggle(arr: string[], val: string): string[] {
+  return arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val];
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENT
+───────────────────────────────────────────── */
+
+export default function PortfolioGallery() {
+  const [navScrolled, setNavScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const cursorDotRef  = useRef<HTMLDivElement>(null);
+  const cursorGlowRef = useRef<HTMLDivElement>(null);
+
+  // Filters
+  const [search,    setSearch]    = useState("");
+  const [sectors,   setSectors]   = useState<string[]>([]);
+  const [types,     setTypes]     = useState<string[]>([]);
+  const [addonSel,  setAddonSel]  = useState<string[]>([]);
+  const [langSel,   setLangSel]   = useState<string[]>([]);
+  const [sortBy,    setSortBy]    = useState<"featured" | "newest" | "az">("featured");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  // Cursor
+  useEffect(() => {
+    const dot  = cursorDotRef.current;
+    const glow = cursorGlowRef.current;
+    if (!dot || !glow) return;
+    const mv = (e: MouseEvent) => {
+      dot.style.left  = glow.style.left  = e.clientX + "px";
+      dot.style.top   = glow.style.top   = e.clientY + "px";
+    };
+    window.addEventListener("mousemove", mv);
+    return () => window.removeEventListener("mousemove", mv);
+  }, []);
+
+  // Nav scroll
+  useEffect(() => {
+    const fn = () => setNavScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", fn, { passive: true });
+    fn();
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  // Scroll reveal
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in"); }),
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale")
+      .forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  // Filtered + sorted projects
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    return projects.filter((p) => {
-      // Category filter
-      if (activeCategory !== "alle" && p.category !== activeCategory) return false;
-      // Search filter — matches title, type, or any tag
-      if (!q) return true;
-      return (
-        p.title.toLowerCase().includes(q) ||
-        p.type.toLowerCase().includes(q) ||
-        p.tags.some((tag) => tag.toLowerCase().includes(q))
-      );
+    let list = PROJECTS.filter((p) => {
+      if (q && !p.title.toLowerCase().includes(q) &&
+               !p.sector.toLowerCase().includes(q) &&
+               !p.desc.toLowerCase().includes(q) &&
+               !(p.tags || []).some((t) => t.toLowerCase().includes(q))) return false;
+      if (sectors.length   && !sectors.includes(p.sector))                      return false;
+      if (types.length     && !types.includes(p.type))                          return false;
+      if (addonSel.length  && !addonSel.some((a) => p.addons.includes(a)))      return false;
+      if (langSel.length   && !langSel.some((l) => p.languages.includes(l)))    return false;
+      return true;
     });
-  }, [search, activeCategory]);
 
-  function clearSearch() {
-    setSearch("");
-    setActiveCategory("alle");
-  }
+    if (sortBy === "featured") list = [...list].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+    if (sortBy === "newest")   list = [...list].sort((a, b) => b.year - a.year);
+    if (sortBy === "az")       list = [...list].sort((a, b) => a.title.localeCompare(b.title));
 
-  const hasFilter = search !== "" || activeCategory !== "alle";
+    return list;
+  }, [search, sectors, types, addonSel, langSel, sortBy]);
+
+  const activeCount = sectors.length + types.length + addonSel.length + langSel.length;
+
+  const clearAll = () => {
+    setSearch(""); setSectors([]); setTypes([]); setAddonSel([]); setLangSel([]);
+  };
 
   return (
-    <main>
-      {/* Ambient orbs */}
-      <div className="heroOrbs" aria-hidden="true">
-        <div className="heroOrb heroOrb1" />
-        <div className="heroOrb heroOrb2" />
-      </div>
+    <>
+      {/* Cursor */}
+      <div ref={cursorDotRef}  className="cursorDot"  aria-hidden="true" />
+      <div ref={cursorGlowRef} className="cursorGlow" aria-hidden="true" />
 
-      {/* ── Nav ── */}
-      <header className="siteNav scrolled">
-        <nav className="navLinks">
-          <a href="/portfolio">{t.portfolio}</a>
-          <a href="/#packages">{t.packages}</a>
+      {/* Nav */}
+      <header className={`lxNav${navScrolled ? " scrolled" : ""}`}>
+        <nav className="lxNavLinks">
+          <Link href="/">Home</Link>
+          <a href="/#packages">Pakketten</a>
+          <Link href="/login">Klantengedeelte</Link>
         </nav>
-        <a className="brand" href="/">
+        <Link href="/" className="lxNavBrand">
           <img src="/portfolio/logo.png" alt="MS Webdesign" />
-        </a>
-        <div className="navRight">
-          <div className="langSwitch">
-            <select value={lang} onChange={(e) => setLang(e.target.value as Lang)} aria-label={t.language}>
-              <option value="nl">NL</option>
-              <option value="fr">FR</option>
-              <option value="en">EN</option>
-            </select>
-          </div>
-          <a className="navBtn" href="/#planning">{t.booking}</a>
+        </Link>
+        <div className="lxNavRight">
+          <a href="/#planning" className="lxNavCta"><span>Afspraak inplannen</span></a>
           <button
             className={`hamburger${mobileOpen ? " open" : ""}`}
             aria-label="Menu"
@@ -306,183 +261,303 @@ export default function PortfolioPage() {
         </div>
       </header>
 
-      {/* Mobile nav */}
       <nav className={`mobileNav${mobileOpen ? " open" : ""}`}>
-        <a href="/portfolio" data-idx="01" onClick={() => setMobileOpen(false)}>{t.portfolio}</a>
-        <a href="/#packages" data-idx="02" onClick={() => setMobileOpen(false)}>{t.packages}</a>
-        <div className="mobileNavDivider" />
-        <a href="/#planning" className="mobileNavCta" onClick={() => setMobileOpen(false)}>{t.booking}</a>
+        <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
+        <a href="/#packages" onClick={() => setMobileOpen(false)}>Pakketten</a>
+        <Link href="/login" onClick={() => setMobileOpen(false)}>Klantengedeelte</Link>
+        <a href="/#planning" onClick={() => setMobileOpen(false)}>Afspraak inplannen</a>
       </nav>
 
-      {/* ── Hero ── */}
-      <section className="pfHero">
-        <div className="pfHeroInner">
-          <span className="sectionLabel">{t.heroLabel}</span>
-          <h1 className="pfHeroTitle">
-            {t.heroTitle.split("\n").map((line, i) => (
-              <span key={i} className={i === 0 ? "lineLight" : "lineAccent"}>{line}</span>
-            ))}
-          </h1>
-          <p className="pfHeroText">{t.heroText}</p>
-          <div className="pfHeroStats">
-            <div className="pfStat">
-              <span className="pfStatValue">{t.stat1Value}</span>
-              <span className="pfStatLabel">{t.stat1Label}</span>
+      <div className="pfRoot">
+
+        {/* ── HERO ── */}
+        <section className="pfHero">
+          <div className="pfHeroOrb1" aria-hidden="true" />
+          <div className="pfHeroOrb2" aria-hidden="true" />
+          <div className="pfHeroInner">
+            <div className="pfHeroText">
+              <div className="pfEye">Portfolio · MS Webdesign</div>
+              <h1 className="pfHeroTitle">
+                Websites die<br />
+                <span className="pfHeroGrad">resultaat leveren.</span>
+              </h1>
+              <p className="pfHeroSub">
+                {PROJECTS.length} projecten — van kapsalon tot vastgoed, van barbershop tot elektricien.
+                Elk volledig op maat gebouwd.
+              </p>
             </div>
-            <div className="pfStatDiv" />
-            <div className="pfStat">
-              <span className="pfStatValue">{t.stat2Value}</span>
-              <span className="pfStatLabel">{t.stat2Label}</span>
-            </div>
-            <div className="pfStatDiv" />
-            <div className="pfStat">
-              <span className="pfStatValue">{t.stat3Value}</span>
-              <span className="pfStatLabel">{t.stat3Label}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Search & Filter toolbar ── */}
-      <div className="pfToolbar">
-        <div className="pfToolbarInner">
-          {/* Search input */}
-          <div className="pfSearchWrap">
-            <svg className="pfSearchIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8" />
-              <path d="M21 21l-4.35-4.35" />
-            </svg>
-            <input
-              className="pfSearchInput"
-              type="text"
-              placeholder={t.searchPlaceholder}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              autoComplete="off"
-            />
-            {search && (
-              <button className="pfSearchClear" onClick={() => setSearch("")} aria-label="Wissen">
-                ×
-              </button>
-            )}
-          </div>
-
-          {/* Category chips */}
-          <div className="pfCategoryRow">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.key}
-                className={`pfCatChip${activeCategory === cat.key ? " active" : ""}`}
-                onClick={() => setActiveCategory(cat.key)}
-              >
-                {cat[lang]}
-              </button>
-            ))}
-          </div>
-
-          {/* Result count + clear */}
-          <div className="pfResultBar">
-            <span className="pfResultCount">
-              <strong>{filtered.length}</strong> {t.results}
-            </span>
-            {hasFilter && (
-              <button className="pfClearAll" onClick={clearSearch}>
-                {t.clearSearch} ×
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ── Project grid ── */}
-      <section className="pfGrid">
-        <div className="pfGridInner">
-          {filtered.length === 0 ? (
-            <div className="pfNoResults">
-              <div className="pfNoResultsIcon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="M21 21l-4.35-4.35" />
-                </svg>
+            {/* Stats */}
+            <div className="pfHeroStats">
+              <div className="pfHeroStat">
+                <span className="pfHeroStatNum">{PROJECTS.length}+</span>
+                <span className="pfHeroStatLabel">Projecten</span>
               </div>
-              <h3>{t.noResults}</h3>
-              <p>{t.noResultsSub}</p>
-              <button className="pfClearAll pfClearAllLarge" onClick={clearSearch}>
-                {t.clearSearch}
-              </button>
+              <div className="pfHeroStat">
+                <span className="pfHeroStatNum">{ALL_SECTORS.length}</span>
+                <span className="pfHeroStatLabel">Sectoren</span>
+              </div>
+              <div className="pfHeroStat">
+                <span className="pfHeroStatNum">2 dgn</span>
+                <span className="pfHeroStatLabel">Gemiddelde oplevering</span>
+              </div>
             </div>
-          ) : (
-            filtered.map((project, i) => (
-              <a
-                key={project.title}
-                className="pfCard"
-                href={project.url}
-                target={project.url.startsWith("http") ? "_blank" : undefined}
-                rel={project.url.startsWith("http") ? "noreferrer" : undefined}
-                style={{ animationDelay: `${(i % 4) * 0.06}s` }}
-              >
-                <div className="pfCardImage">
-                  <img src={project.image} alt={project.title} loading="lazy" />
-                  <div className="pfCardOverlay">
-                    <span className="pfCardCta">
-                      {project.url.startsWith("http") ? t.viewLive : t.viewSite}
-                    </span>
-                  </div>
-                </div>
-                <div className="pfCardBody">
-                  <span className="pfCardType">{project.type}</span>
-                  <h2 className="pfCardTitle">{project.title}</h2>
-                  <div className="pfCardTags">
-                    {project.tags.slice(0, 4).map((tag) => (
+          </div>
+        </section>
+
+        {/* ── STICKY FILTER BAR ── */}
+        <div className="pfFiltersWrap">
+          <div className="pfFiltersInner">
+            {/* Row 1: Search + sort + toggle */}
+            <div className="pfFiltersTop">
+              <div className="pfSearchWrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="pfSearchIcon">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input
+                  className="pfSearch"
+                  type="text"
+                  placeholder="Zoek op naam, sector, beschrijving…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                {search && (
+                  <button className="pfSearchClear" onClick={() => setSearch("")} aria-label="Wis zoekterm">×</button>
+                )}
+              </div>
+
+              <div className="pfFiltersTopRight">
+                <button
+                  className={`pfFilterToggleBtn${filtersOpen ? " open" : ""}${activeCount > 0 ? " hasFilters" : ""}`}
+                  onClick={() => setFiltersOpen((v) => !v)}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+                  </svg>
+                  Filters{activeCount > 0 && <span className="pfFilterBadge">{activeCount}</span>}
+                </button>
+
+                <select
+                  className="pfSort"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as "featured" | "newest" | "az")}
+                >
+                  <option value="featured">Uitgelicht eerst</option>
+                  <option value="newest">Nieuwste eerst</option>
+                  <option value="az">A → Z</option>
+                </select>
+
+                <span className="pfCount">
+                  {filtered.length} / {PROJECTS.length}
+                </span>
+              </div>
+            </div>
+
+            {/* Row 2: Filter panels (collapsible) */}
+            {filtersOpen && (
+              <div className="pfFilterPanel">
+                <div className="pfFilterGroup">
+                  <span className="pfFilterGroupLabel">Sector</span>
+                  <div className="pfPills">
+                    {ALL_SECTORS.map((s) => (
                       <button
-                        key={tag}
-                        className="pfCardTag pfCardTagBtn"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setSearch(tag);
-                          setActiveCategory("alle");
-                          window.scrollTo({ top: 0, behavior: "smooth" });
-                        }}
+                        key={s}
+                        className={`pfPill${sectors.includes(s) ? " active" : ""}`}
+                        onClick={() => setSectors((v) => toggle(v, s))}
                       >
-                        {tag}
+                        {s}
                       </button>
                     ))}
-                    {project.tags.length > 4 && (
-                      <span className="pfCardTag pfCardTagMore">+{project.tags.length - 4}</span>
-                    )}
                   </div>
                 </div>
-              </a>
-            ))
-          )}
-        </div>
-      </section>
 
-      {/* ── Bottom CTA ── */}
-      <section className="pfCta">
-        <div className="pfCtaInner">
-          <span className="sectionLabel">{t.ctaLabel}</span>
-          <h2 className="pfCtaTitle">{t.ctaTitle}</h2>
-          <a className="btn" href="/#planning">{t.ctaBtn}</a>
-        </div>
-      </section>
+                <div className="pfFilterGroup">
+                  <span className="pfFilterGroupLabel">Type website</span>
+                  <div className="pfPills">
+                    {ALL_TYPES.map((t) => (
+                      <button
+                        key={t}
+                        className={`pfPill${types.includes(t) ? " active" : ""}`}
+                        onClick={() => setTypes((v) => toggle(v, t))}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footerInner">
-          <div className="footerBrand">
-            <img src="/portfolio/logo.png" alt="MS Webdesign" />
-                        <p>Premium webdesign voor ambitieuze bedrijven.</p>
+                <div className="pfFilterGroup">
+                  <span className="pfFilterGroupLabel">Add-ons</span>
+                  <div className="pfPills">
+                    {ALL_ADDONS.map((a) => (
+                      <button
+                        key={a}
+                        className={`pfPill${addonSel.includes(a) ? " active" : ""}`}
+                        onClick={() => setAddonSel((v) => toggle(v, a))}
+                      >
+                        {a}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pfFilterGroup">
+                  <span className="pfFilterGroupLabel">Taal</span>
+                  <div className="pfPills">
+                    {ALL_LANGS.map((l) => (
+                      <button
+                        key={l}
+                        className={`pfPill${langSel.includes(l) ? " active" : ""}`}
+                        onClick={() => setLangSel((v) => toggle(v, l))}
+                      >
+                        {l}
+                      </button>
+                    ))}
+                    <button
+                      className={`pfPill${langSel.length > 1 ? " active" : ""}`}
+                      onClick={() => setLangSel(langSel.length > 1 ? [] : ALL_LANGS)}
+                    >
+                      Meertalig
+                    </button>
+                  </div>
+                </div>
+
+                {activeCount > 0 && (
+                  <button className="pfClearAll" onClick={clearAll}>
+                    Wis alle filters
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Active filter chips */}
+            {activeCount > 0 && (
+              <div className="pfActiveChips">
+                {sectors.map((s) => (
+                  <button key={s} className="pfChip" onClick={() => setSectors((v) => toggle(v, s))}>
+                    {s} <span>×</span>
+                  </button>
+                ))}
+                {types.map((t) => (
+                  <button key={t} className="pfChip" onClick={() => setTypes((v) => toggle(v, t))}>
+                    {t} <span>×</span>
+                  </button>
+                ))}
+                {addonSel.map((a) => (
+                  <button key={a} className="pfChip addon" onClick={() => setAddonSel((v) => toggle(v, a))}>
+                    {a} <span>×</span>
+                  </button>
+                ))}
+                {langSel.map((l) => (
+                  <button key={l} className="pfChip lang" onClick={() => setLangSel((v) => toggle(v, l))}>
+                    {l} <span>×</span>
+                  </button>
+                ))}
+                <button className="pfChipClear" onClick={clearAll}>Wis alles</button>
+              </div>
+            )}
           </div>
-          <nav className="footerNav">
-            <a href="/portfolio">{t.portfolio}</a>
-            <a href="/#packages">{t.packages}</a>
-            <a href="/#planning">{t.booking}</a>
-          </nav>
-          <div className="footerCopy">{new Date().getFullYear()} MS Webdesign</div>
         </div>
-      </footer>
-    </main>
+
+        {/* ── PROJECT GRID ── */}
+        <main className="pfMain">
+          {filtered.length === 0 ? (
+            <div className="pfEmpty">
+              <div className="pfEmptyIcon">🔍</div>
+              <h3>Geen projecten gevonden</h3>
+              <p>Pas je zoekopdracht of filters aan.</p>
+              <button className="pfEmptyReset" onClick={clearAll}>Wis alle filters</button>
+            </div>
+          ) : (
+            <div className="pfGrid">
+              {filtered.map((p, i) => (
+                <article key={p.id} className={`pfCard reveal${p.featured ? " pfCardFeatured" : ""}`} style={{ "--accent": p.accent } as React.CSSProperties}>
+                  {/* Accent bar */}
+                  <div className="pfCardBar" style={{ background: p.accent }} />
+
+                  {/* Card header */}
+                  <div className="pfCardHead">
+                    <span className="pfCardNum">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {p.featured && <span className="pfCardFeatBadge">Featured</span>}
+                  </div>
+
+                  {/* Main content */}
+                  <div className="pfCardBody">
+                    <h2 className="pfCardTitle">{p.title}</h2>
+
+                    <div className="pfCardMeta">
+                      <span className="pfCardSector" style={{ color: p.accent }}>{p.sector}</span>
+                      <span className="pfCardDot">·</span>
+                      <span className="pfCardType">{p.type}</span>
+                    </div>
+
+                    <p className="pfCardDesc">{p.desc}</p>
+
+                    {/* Add-on chips */}
+                    {p.addons.length > 0 && (
+                      <div className="pfCardAddons">
+                        {p.addons.map((a) => (
+                          <span key={a} className="pfCardAddon">{a}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="pfCardFooter">
+                    <div className="pfCardLangs">
+                      {p.languages.map((l) => (
+                        <span key={l} className="pfCardLang">{l}</span>
+                      ))}
+                    </div>
+                    <a
+                      href={p.url}
+                      target={p.external ? "_blank" : undefined}
+                      rel={p.external ? "noopener noreferrer" : undefined}
+                      className="pfCardBtn"
+                      style={{ "--accent": p.accent } as React.CSSProperties}
+                    >
+                      Bekijk{p.external ? " ↗" : " →"}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </main>
+
+        {/* ── CTA ── */}
+        <section className="pfCta">
+          <div className="pfCtaInner reveal">
+            <div className="pfEye" style={{ justifyContent: "center" }}>Uw project</div>
+            <h2 className="pfCtaTitle">Klaar om te starten?</h2>
+            <p className="pfCtaSub">
+              Vertel me over uw bedrijf. De eerste versie staat er binnen 2 dagen.
+            </p>
+            <div className="pfCtaBtns">
+              <Link href="/#planning" className="btnGrad">Afspraak inplannen →</Link>
+              <Link href="/" className="btnOutline">Bekijk pakketten</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FOOTER ── */}
+        <footer className="lxFooter">
+          <div className="lxFooterInner">
+            <div className="lxFooterBrand">
+              <img src="/portfolio/logo.png" alt="MS Webdesign" />
+              <p>Premium webdesign voor ambitieuze bedrijven.</p>
+            </div>
+            <nav className="lxFooterNav">
+              <Link href="/">Home</Link>
+              <a href="/#packages">Pakketten</a>
+              <a href="/#planning">Afspraak</a>
+            </nav>
+            <div className="lxFooterCopy">© {new Date().getFullYear()} MS Webdesign</div>
+          </div>
+        </footer>
+      </div>
+    </>
   );
 }

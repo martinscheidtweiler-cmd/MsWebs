@@ -50,11 +50,10 @@ export default function HaarPage() {
         <div className="hr-hero-inner">
           {/* Left: copy */}
           <div className="hr-hero-left">
-            <h1 className="hr-hero-h1">
-              <span className="hr-hero-caps">Shana Verberck</span>
-              HAAR
-            </h1>
-            <p className="hr-hero-tagline">Kleurspecialist · Dames snitten · Antwerpen</p>
+            <div className="hr-hero-eyebrow">Shana Verberck</div>
+            <h1 className="hr-hero-h1">HAAR</h1>
+            <span className="hr-hero-rule" />
+            <p className="hr-hero-tagline">Kleurspecialist &nbsp;·&nbsp; Dames snitten &nbsp;·&nbsp; Antwerpen</p>
             <div className="hr-hero-actions">
               <a className="hr-btn hr-btn-white" href={WA_LINK} target="_blank" rel="noopener noreferrer">
                 Stuur een bericht
@@ -69,6 +68,10 @@ export default function HaarPage() {
           <div className="hr-hero-right">
             <div className="hr-hero-right-img">Foto salon</div>
             <div className="hr-hero-name">Quality over quantity</div>
+            <div className="hr-scroll-indicator">
+              <div className="hr-scroll-indicator-line" />
+              <div className="hr-scroll-indicator-text">Scroll</div>
+            </div>
           </div>
         </div>
       </section>
@@ -81,6 +84,7 @@ export default function HaarPage() {
             <br />
             Quality over quantity.
           </p>
+          <div className="hr-statement-divider" />
           <div className="hr-statement-sub">
             HAAR<br />
             Shana Verberck
@@ -268,7 +272,9 @@ export default function HaarPage() {
       <section className="hr-about" id="over">
         <div className="hr-container">
           <div className="hr-about-grid">
-            <div className="hr-about-img">Foto Shana</div>
+            <div className="hr-about-img-wrap">
+              <div className="hr-about-img">Foto Shana</div>
+            </div>
             <div className="hr-about-content">
               <div className="hr-label">Over Shana Verberck</div>
               <h2>
@@ -409,7 +415,6 @@ export default function HaarPage() {
             <div className="hr-footer-logo">HAAR</div>
             <nav className="hr-footer-links">
               <a href="#diensten">Diensten</a>
-              <a href="#boeken">Boeken</a>
               <a href="#over">Over</a>
               <a href="#contact">Contact</a>
             </nav>

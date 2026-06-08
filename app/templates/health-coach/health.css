@@ -1,0 +1,75 @@
+@import url(\'https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;1,400;1,600&display=swap\');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --emerald:#059669;--emerald2:#047857;--emerald3:#d1fae5;--emerald4:#f0fdf4;
+  --amber:#f59e0b;--amber2:#fef3c7;
+  --white:#fff;--cream:#fafdf8;--text:#0c2218;--muted:#6b8c78;--border:rgba(5,150,105,.1);
+  --ff:\'Manrope\',system-ui,sans-serif;--fd:\'Lora\',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+.hcNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:76px;background:rgba(250,253,248,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.hcLogo{font-size:18px;font-weight:800;color:var(--text)}
+.hcLogo span{color:var(--emerald)}
+.hcNavLinks{display:flex;gap:36px}
+.hcNavLinks a{font-size:13px;font-weight:600;color:var(--muted);transition:color .2s}
+.hcNavLinks a:hover{color:var(--emerald)}
+.hcNavBtn{padding:12px 26px;border-radius:100px;background:var(--emerald);color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.hcNavBtn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(5,150,105,.3)}
+.hcHero{min-height:100vh;padding-top:76px;display:grid;grid-template-columns:1fr 1fr;background:var(--white)}
+.hcHeroLeft{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px}
+.hcHeroTag{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:100px;background:var(--emerald3);font-size:11px;font-weight:700;color:var(--emerald2);margin-bottom:36px;width:fit-content;letter-spacing:.04em}
+.hcHeroTitle{font-size:clamp(42px,4.5vw,68px);font-weight:800;color:var(--text);line-height:1.05;letter-spacing:-.03em;margin-bottom:24px}
+.hcHeroTitle em{font-style:normal;color:var(--emerald)}
+.hcHeroSub{font-family:var(--fd);font-size:17px;font-style:italic;color:var(--muted);line-height:1.85;max-width:440px;margin-bottom:48px}
+.hcHeroBtns{display:flex;gap:16px;flex-wrap:wrap}
+.hcBtn{padding:14px 32px;border-radius:100px;background:var(--emerald);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.hcBtn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(5,150,105,.35)}
+.hcBtnOutline{padding:14px 32px;border-radius:100px;background:transparent;color:var(--text);font-size:14px;font-weight:600;border:2px solid rgba(12,34,24,.15);cursor:pointer;transition:border-color .2s,color .2s}
+.hcBtnOutline:hover{border-color:var(--emerald);color:var(--emerald)}
+.hcHeroRight{position:relative;overflow:hidden;background:var(--emerald4)}
+.hcHeroRight img{width:100%;height:100%;object-fit:cover}
+.hcHeroQuote{position:absolute;bottom:32px;left:32px;right:32px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-radius:20px;padding:22px 24px;border-left:4px solid var(--emerald)}
+.hcHeroQuote p{font-family:var(--fd);font-size:15px;font-style:italic;color:var(--text);line-height:1.6}
+.hcHeroQuote span{font-size:12px;font-weight:700;color:var(--emerald);display:block;margin-top:10px}
+.hcOffers{padding:100px 0;background:var(--cream)}
+.hcOffInner{max-width:1200px;margin:0 auto;padding:0 56px}
+.hcSectionHead{text-align:center;margin-bottom:64px}
+.hcSectionHead span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald);font-weight:700;display:block;margin-bottom:16px}
+.hcSectionHead h2{font-size:clamp(36px,4vw,56px);font-weight:800;color:var(--text);letter-spacing:-.03em;line-height:1}
+.hcOffGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.hcOffCard{background:var(--white);border-radius:24px;padding:36px;transition:box-shadow .3s,transform .3s;border:1px solid var(--border)}
+.hcOffCard:hover{box-shadow:0 16px 48px rgba(5,150,105,.1);transform:translateY(-4px)}
+.hcOffIcon{width:56px;height:56px;border-radius:18px;background:var(--emerald3);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:24px}
+.hcOffCard h3{font-size:20px;font-weight:800;color:var(--text);margin-bottom:12px;letter-spacing:-.02em}
+.hcOffCard p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.hcOffDur{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--emerald);background:var(--emerald3);padding:5px 14px;border-radius:100px}
+.hcProcess{padding:100px 0;background:var(--emerald);position:relative;overflow:hidden}
+.hcProcessBg{position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:28px 28px}
+.hcProcInner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 56px;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center}
+.hcProcText span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700;display:block;margin-bottom:20px}
+.hcProcText h2{font-size:clamp(36px,4.5vw,56px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:24px;line-height:1}
+.hcProcText p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.85;margin-bottom:36px}
+.hcProcSteps{display:flex;flex-direction:column;gap:20px}
+.hcProcStep{display:flex;gap:20px;align-items:flex-start;padding:24px;background:rgba(255,255,255,.08);border-radius:16px;border:1px solid rgba(255,255,255,.1)}
+.hcProcStepNum{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
+.hcProcStepBody h4{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.hcProcStepBody p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.65}
+.hcCta{padding:100px 0;background:var(--white);text-align:center}
+.hcCtaInner{max-width:620px;margin:0 auto;padding:0 48px}
+.hcCtaInner span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald);font-weight:700;display:block;margin-bottom:20px}
+.hcCtaInner h2{font-size:clamp(34px,4.5vw,54px);font-weight:800;color:var(--text);letter-spacing:-.03em;margin-bottom:20px;line-height:1}
+.hcCtaInner p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:44px;font-family:var(--fd);font-style:italic}
+.hcFooter{background:var(--text);padding:60px 0}
+.hcFooterInner{max-width:1200px;margin:0 auto;padding:0 56px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.hcFooterLogo{font-size:18px;font-weight:800;color:#fff}
+.hcFooterLogo span{color:var(--emerald)}
+.hcFooterCopy{font-size:11px;color:rgba(255,255,255,.25)}
+@media(max-width:1024px){
+  .hcNav{padding:0 24px}.hcHero{grid-template-columns:1fr}
+  .hcHeroLeft{padding:60px 24px}.hcHeroRight{height:70vw}
+  .hcOffInner,.hcProcInner,.hcFooterInner{padding:0 24px}
+  .hcOffGrid{grid-template-columns:1fr 1fr}.hcProcInner{grid-template-columns:1fr}
+  .hcNavLinks{display:none}
+}

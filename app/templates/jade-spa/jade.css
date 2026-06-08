@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --jade:#1a4a3a;--jade2:#245244;--jade3:#2f6455;--jade4:#d4e8e1;--jade5:#edf5f2;
+  --gold:#b8956a;--gold2:#d4a97a;--cream:#faf8f4;--white:#ffffff;
+  --text:#1a1a1a;--muted:#7a7a7a;--border:rgba(26,74,58,.1);
+  --ff:'Jost',system-ui,sans-serif;--fc:'Cormorant Garamond',Georgia,serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}
+
+.jdNav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 60px;height:80px;transition:background .4s,box-shadow .4s}
+.jdNavScrolled{background:rgba(250,248,244,.97);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border)}
+.jdLogo{font-family:var(--fc);font-size:24px;font-weight:400;letter-spacing:.08em;color:var(--white);transition:color .4s}
+.jdNavScrolled .jdLogo{color:var(--jade)}
+.jdLogo span{color:var(--gold)}
+.jdNavLinks{display:flex;gap:40px}
+.jdNavLinks a{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .2s}
+.jdNavLinks a:hover{color:var(--gold)}
+.jdNavScrolled .jdNavLinks a{color:var(--muted)}
+.jdNavScrolled .jdNavLinks a:hover{color:var(--jade)}
+.jdNavBtn{padding:12px 28px;border:1px solid rgba(184,149,106,.6);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:transparent;cursor:pointer;transition:background .2s,color .2s;border-radius:2px}
+.jdNavBtn:hover{background:var(--gold);color:var(--white)}
+.jdNavScrolled .jdNavBtn{border-color:var(--jade);color:var(--jade)}
+.jdNavScrolled .jdNavBtn:hover{background:var(--jade);color:var(--white)}
+
+.jdHero{position:relative;height:100vh;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.jdHeroLeft{position:relative;display:flex;flex-direction:column;justify-content:center;padding:120px 72px 80px;background:var(--jade);z-index:2}
+.jdHeroDeco{position:absolute;top:0;right:-1px;width:120px;height:100%;background:var(--jade);clip-path:polygon(0 0,100% 0,100% 100%,30% 100%)}
+.jdHeroTag{display:flex;align-items:center;gap:16px;margin-bottom:36px}
+.jdHeroTag::before{content:'';width:36px;height:1px;background:var(--gold)}
+.jdHeroTag span{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.jdHeroTitle{font-family:var(--fc);font-size:clamp(52px,5.5vw,80px);font-weight:300;color:var(--white);line-height:1.0;letter-spacing:.02em;margin-bottom:28px}
+.jdHeroTitle em{font-style:italic;color:var(--gold2)}
+.jdHeroSub{font-size:15px;color:rgba(255,255,255,.55);line-height:1.9;font-weight:300;max-width:380px;margin-bottom:48px}
+.jdBtnGold{padding:15px 36px;background:var(--gold);color:var(--white);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,transform .2s;border-radius:2px}
+.jdBtnGold:hover{background:var(--gold2);transform:translateY(-2px)}
+.jdHeroRight{position:relative;overflow:hidden}
+.jdHeroRight img{width:100%;height:100%;object-fit:cover;filter:brightness(.9) saturate(.85)}
+.jdHeroScent{position:absolute;bottom:32px;right:32px;background:rgba(250,248,244,.92);backdrop-filter:blur(12px);border-radius:16px;padding:18px 22px;text-align:center}
+.jdHeroScentNum{font-family:var(--fc);font-size:28px;color:var(--jade)}
+.jdHeroScentLabel{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+.jdTreatments{padding:120px 0;background:var(--cream)}
+.jdTreatInner{max-width:1280px;margin:0 auto;padding:0 60px}
+.jdSectionHead{text-align:center;margin-bottom:72px}
+.jdSectionHead span{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:20px}
+.jdSectionHead h2{font-family:var(--fc);font-size:clamp(42px,5vw,68px);font-weight:300;color:var(--jade);line-height:1.05}
+.jdSectionHead h2 em{font-style:italic;color:var(--gold)}
+.jdTreatGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.jdTreatCard{background:var(--white);border-radius:4px;overflow:hidden;transition:box-shadow .3s}
+.jdTreatCard:hover{box-shadow:0 16px 48px rgba(26,74,58,.1)}
+.jdTreatImg{aspect-ratio:4/3;overflow:hidden}
+.jdTreatImg img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.jdTreatCard:hover .jdTreatImg img{transform:scale(1.06)}
+.jdTreatBody{padding:28px 28px 32px}
+.jdTreatCat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px}
+.jdTreatBody h3{font-family:var(--fc);font-size:26px;font-weight:400;color:var(--jade);margin-bottom:12px}
+.jdTreatBody p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.jdTreatMeta{display:flex;justify-content:space-between;align-items:center;padding-top:18px;border-top:1px solid var(--border)}
+.jdTreatDuration{font-size:12px;color:var(--muted);font-weight:500}
+.jdTreatPrice{font-family:var(--fc);font-size:20px;color:var(--jade)}
+
+.jdRitual{padding:120px 0;background:var(--jade);position:relative;overflow:hidden}
+.jdRitualBg{position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(45deg,var(--gold) 0px,var(--gold) 1px,transparent 1px,transparent 60px)}
+.jdRitualInner{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.jdRitualText span{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:24px}
+.jdRitualText h2{font-family:var(--fc);font-size:clamp(40px,4.5vw,64px);font-weight:300;color:var(--white);line-height:1.05;margin-bottom:24px}
+.jdRitualText h2 em{font-style:italic;color:var(--gold2)}
+.jdRitualText p{font-size:15px;color:rgba(255,255,255,.5);line-height:1.9;font-weight:300;margin-bottom:40px}
+.jdBtnLight{padding:15px 36px;background:transparent;border:1px solid rgba(184,149,106,.5);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;border-radius:2px}
+.jdBtnLight:hover{background:var(--gold);color:var(--white)}
+.jdRitualSteps{display:flex;flex-direction:column;gap:0}
+.jdStep{display:grid;grid-template-columns:56px 1fr;gap:24px;align-items:start;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.jdStep:last-child{border-bottom:none}
+.jdStepNum{font-family:var(--fc);font-size:36px;color:var(--gold);opacity:.6;line-height:1;font-style:italic}
+.jdStepBody h4{font-family:var(--fc);font-size:20px;font-weight:400;color:var(--white);margin-bottom:8px}
+.jdStepBody p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7}
+
+.jdBook{padding:100px 0;background:var(--jade5);text-align:center}
+.jdBookInner{max-width:680px;margin:0 auto;padding:0 48px}
+.jdBookInner span{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:24px}
+.jdBookInner h2{font-family:var(--fc);font-size:clamp(38px,4.5vw,60px);font-weight:300;color:var(--jade);margin-bottom:20px;line-height:1.05}
+.jdBookInner p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:44px}
+.jdBtnJade{padding:17px 44px;background:var(--jade);color:var(--white);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,transform .2s;border-radius:2px}
+.jdBtnJade:hover{background:var(--jade2);transform:translateY(-3px)}
+
+.jdFooter{background:var(--jade);padding:60px 0}
+.jdFooterInner{max-width:1280px;margin:0 auto;padding:0 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.jdFooterLogo{font-family:var(--fc);font-size:22px;font-weight:300;color:var(--white);letter-spacing:.08em}
+.jdFooterLogo span{color:var(--gold)}
+.jdFooterCopy{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.04em}
+
+@media(max-width:1024px){
+  .jdNav{padding:0 24px}.jdHero{grid-template-columns:1fr}
+  .jdHeroLeft{padding:120px 24px 60px}.jdHeroRight{height:60vw}
+  .jdTreatInner,.jdRitualInner,.jdFooterInner{padding:0 24px}
+  .jdTreatGrid{grid-template-columns:1fr 1fr}.jdRitualInner{grid-template-columns:1fr}
+  .jdNavLinks{display:none}
+}
