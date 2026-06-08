@@ -7,7 +7,6 @@ import { useLang } from "../LangContext";
 
 const BASE = "/templates/alba-immo";
 
-// Warm orange-tinted dark gradients — overrides any blue values from API/DB
 const WARM_GRADS = [
   "linear-gradient(135deg, #1a160f 0%, #2d2115 50%, #1e1a10 100%)",
   "linear-gradient(135deg, #1a1208 0%, #2a1e0c 50%, #1c1408 100%)",
@@ -20,11 +19,10 @@ const WARM_GRADS = [
 ];
 const warmGrad = (i: number) => WARM_GRADS[i % WARM_GRADS.length];
 
-const TYPES      = ["Alle types", "Stoeterij", "Manège", "Pensionstallen", "Landgoed", "Kasteeldomein", "Hoeve"];
-const PROVINCES  = ["Alle provincies", "Antwerpen", "Oost-Vlaanderen", "Limburg", "Namen", "Calvados"];
-const COUNTRIES  = ["Alle landen", "België", "Nederland", "Frankrijk"];
+const TYPES     = ["Stoeterij", "Manège", "Pensionstallen", "Landgoed", "Kasteeldomein", "Hoeve"];
+const PROVINCES = ["Antwerpen", "Oost-Vlaanderen", "Limburg", "Namen", "Calvados"];
+const COUNTRIES = ["België", "Nederland", "Frankrijk"];
 const PRICE_RANGES = [
-  { label: "Alle prijzen", min: 0,       max: Infinity },
   { label: "< €1.000.000", min: 0,       max: 999999 },
   { label: "€1M – €2M",    min: 1000000, max: 2000000 },
   { label: "€2M – €4M",    min: 2000000, max: 4000000 },
@@ -34,8 +32,8 @@ const PRICE_RANGES = [
 
 export default function AanbodPage() {
   const { t } = useLang();
-  // Live data from API (falls back to static)
   const [allProps, setAllProps] = useState<Property[]>(STATIC_PROPS);
+
   useEffect(() => {
     fetch("/api/alba-immo/properties")
       .then(r => r.json())
@@ -43,7 +41,6 @@ export default function AanbodPage() {
       .catch(() => {});
   }, []);
 
-  // Reveal
   useEffect(() => {
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("hi-vis"); }),
@@ -53,32 +50,29 @@ export default function AanbodPage() {
     return () => obs.disconnect();
   }, []);
 
-  // Filters
   const [search,      setSearch]      = useState("");
-  const [typeFilter,  setTypeFilter]  = useState("Alle types");
-  const [provFilter,  setProvFilter]  = useState("Alle provincies");
-  const [countFilter, setCountFilter] = useState("Alle landen");
-  const [priceIdx,    setPriceIdx]    = useState(0);
+  const [typeFilter,  setTypeFilter]  = useState<string | null>(null);
+  const [provFilter,  setProvFilter]  = useState<string | null>(null);
+  const [countFilter, setCountFilter] = useState<string | null>(null);
+  const [priceIdx,    setPriceIdx]    = useState<number | null>(null);
   const [indoorOnly,  setIndoorOnly]  = useState(false);
   const [outdoorOnly, setOutdoorOnly] = useState(false);
-  const [minStalls,   setMinStalls]   = useState(0);
   const [sortBy,      setSortBy]      = useState<"default" | "price_asc" | "price_desc" | "surface">("default");
-  const [view,        setView]        = useState<"grid" | "masonry">("grid");
 
   const filtered = useMemo(() => {
-    const pr = PRICE_RANGES[priceIdx];
     let list = allProps.filter((p) => {
       if (search && !`${p.title} ${p.location} ${p.type}`.toLowerCase().includes(search.toLowerCase())) return false;
-      if (typeFilter  !== "Alle types"     && p.type     !== typeFilter)  return false;
-      if (provFilter  !== "Alle provincies" && p.province !== provFilter) return false;
-      if (countFilter !== "Alle landen"    && p.country  !== countFilter) return false;
+      if (typeFilter  && p.type     !== typeFilter)  return false;
+      if (provFilter  && p.province !== provFilter)  return false;
+      if (countFilter && p.country  !== countFilter) return false;
       if (indoorOnly  && !p.indoorArena)  return false;
       if (outdoorOnly && !p.outdoorArena) return false;
-      if (minStalls > 0 && p.stalls < minStalls) return false;
-      if (pr.min === -1) { return p.priceOnRequest; }
-      if (!p.priceOnRequest) {
-        if (p.price === null) return false;
-        if (p.price < pr.min || p.price > pr.max) return false;
+      if (priceIdx !== null) {
+        const pr = PRICE_RANGES[priceIdx];
+        if (pr.min === -1) { if (!p.priceOnRequest) return false; }
+        else if (!p.priceOnRequest) {
+          if (p.price === null || p.price < pr.min || p.price > pr.max) return false;
+        }
       }
       return true;
     });
@@ -86,47 +80,127 @@ export default function AanbodPage() {
     if (sortBy === "price_desc") list = [...list].sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
     if (sortBy === "surface")    list = [...list].sort((a, b) => b.groundSurface - a.groundSurface);
     return list;
-  }, [allProps, search, typeFilter, provFilter, countFilter, priceIdx, indoorOnly, outdoorOnly, minStalls, sortBy]);
+  }, [allProps, search, typeFilter, provFilter, countFilter, priceIdx, indoorOnly, outdoorOnly, sortBy]);
 
+  const hasFilters = search || typeFilter || provFilter || countFilter || priceIdx !== null || indoorOnly || outdoorOnly;
   const resetFilters = () => {
-    setSearch(""); setTypeFilter("Alle types"); setProvFilter("Alle provincies");
-    setCountFilter("Alle landen"); setPriceIdx(0); setIndoorOnly(false);
-    setOutdoorOnly(false); setMinStalls(0); setSortBy("default");
+    setSearch(""); setTypeFilter(null); setProvFilter(null);
+    setCountFilter(null); setPriceIdx(null); setIndoorOnly(false);
+    setOutdoorOnly(false); setSortBy("default");
   };
 
-  const hasFilters = search || typeFilter !== "Alle types" || provFilter !== "Alle provincies" ||
-    countFilter !== "Alle landen" || priceIdx !== 0 || indoorOnly || outdoorOnly || minStalls > 0;
+  /* Sidebar pill toggle */
+  const FilterPill = ({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) => (
+    <button
+      onClick={onClick}
+      style={{
+        display: "block",
+        width: "100%",
+        textAlign: "left",
+        padding: "9px 14px",
+        borderRadius: 3,
+        border: `1px solid ${active ? "var(--orange)" : "transparent"}`,
+        background: active ? "rgba(237,110,33,0.12)" : "transparent",
+        color: active ? "var(--orange)" : "var(--stone)",
+        fontSize: 13,
+        letterSpacing: "0.02em",
+        cursor: "pointer",
+        transition: "all 0.18s ease",
+      }}
+    >
+      {active && <span style={{ marginRight: 8, fontSize: 10 }}>●</span>}
+      {label}
+    </button>
+  );
+
+  const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+    <p style={{
+      fontSize: 10,
+      letterSpacing: "0.14em",
+      textTransform: "uppercase" as const,
+      color: "var(--orange)",
+      fontWeight: 600,
+      marginBottom: 10,
+      paddingBottom: 8,
+      borderBottom: "1px solid rgba(237,110,33,0.2)",
+    }}>
+      {children}
+    </p>
+  );
 
   return (
-    <div className="hi-page hi-aanbod-wrap">
-      {/* ── Header ─────────────────────────────── */}
-      <div className="hi-aanbod-header">
-        <span className="hi-label hi-r">{t.aanbod_label}</span>
-        <h1
-          className="hi-r hi-r-d1"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(36px,5vw,72px)",
-            fontWeight: 400,
-            letterSpacing: "-0.02em",
-            lineHeight: 1.05,
-            marginTop: 12,
-          }}
-        >
-          {t.aanbod_title1}<br />
-          <em style={{ fontStyle: "italic", color: "var(--orange)" }}>{t.aanbod_title2}</em>
-        </h1>
-        <p style={{ color: "var(--stone)", marginTop: 16, maxWidth: 560, fontSize: 16 }} className="hi-r hi-r-d2">
-          {allProps.length} {t.aanbod_desc}
-        </p>
-      </div>
+    <div className="hi-page" style={{ background: "var(--black)", minHeight: "100vh" }}>
 
-      {/* ── Body: sidebar + main ─────────────── */}
-      <div className="hi-aanbod-body">
+      {/* ── HERO ───────────────────────────────────────── */}
+      <section
+        style={{
+          paddingTop: "var(--nav-h)",
+          background: "linear-gradient(135deg, #1a0e04 0%, #2d1a08 40%, #1a0e04 100%)",
+          borderBottom: "1px solid rgba(237,110,33,0.15)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Warm radial glow */}
+        <div style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "radial-gradient(ellipse at 60% 50%, rgba(237,110,33,0.18) 0%, rgba(237,110,33,0.04) 45%, transparent 70%)",
+        }} />
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(237,110,33,0.4), transparent)",
+        }} />
 
-        {/* SIDEBAR */}
-        <aside className="hi-aanbod-sidebar">
-          <div style={{ marginBottom: 24 }}>
+        <div className="hi-container" style={{ padding: "80px 60px 64px", position: "relative", zIndex: 2 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "flex-end", gap: 40 }}>
+            <div>
+              <span className="hi-label hi-r" style={{ display: "block", marginBottom: 16, color: "var(--orange)" }}>
+                {t.aanbod_label}
+              </span>
+              <h1
+                className="hi-r hi-r-d1"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(38px, 5.5vw, 72px)",
+                  fontWeight: 400,
+                  lineHeight: 1.04,
+                  letterSpacing: "-0.03em",
+                  color: "var(--warm-white)",
+                }}
+              >
+                {t.aanbod_title1}<br />
+                <em style={{ fontStyle: "italic", color: "var(--orange)" }}>{t.aanbod_title2}</em>
+              </h1>
+            </div>
+            <div className="hi-r hi-r-d2" style={{ paddingBottom: 6, textAlign: "right" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: 48, color: "var(--orange)", lineHeight: 1 }}>
+                {filtered.length}
+              </div>
+              <div style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "var(--stone)", marginTop: 4 }}>
+                {t.aanbod_results ?? "eigendommen"}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BODY: sidebar + grid ───────────────────────── */}
+      <div
+        className="hi-container"
+        style={{
+          padding: "0 60px",
+          display: "grid",
+          gridTemplateColumns: "280px 1fr",
+          gap: 48,
+          alignItems: "start",
+        }}
+      >
+
+        {/* ── SIDEBAR ──────────────────────────────────── */}
+        <aside style={{ paddingTop: 48, paddingBottom: 80, position: "sticky", top: "var(--nav-h)" }}>
+
+          {/* Search */}
+          <div style={{ marginBottom: 32 }}>
             <div className="hi-search-wrap">
               <span className="hi-search-icon">⌕</span>
               <input
@@ -139,98 +213,99 @@ export default function AanbodPage() {
           </div>
 
           {/* Type */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">{t.nav_aanbod}</p>
-            <div className="hi-checkbox-group">
-              {TYPES.slice(1).map((t) => (
-                <label key={t} className="hi-checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={typeFilter === t}
-                    onChange={() => setTypeFilter(typeFilter === t ? "Alle types" : t)}
-                  />
-                  <span>{t}</span>
-                </label>
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Type eigendom</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              {TYPES.map((type) => (
+                <FilterPill
+                  key={type}
+                  label={type}
+                  active={typeFilter === type}
+                  onClick={() => setTypeFilter(typeFilter === type ? null : type)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Country */}
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Land</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              {COUNTRIES.map((c) => (
+                <FilterPill
+                  key={c}
+                  label={c}
+                  active={countFilter === c}
+                  onClick={() => setCountFilter(countFilter === c ? null : c)}
+                />
               ))}
             </div>
           </div>
 
           {/* Province */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">{t === t ? (t as any).aanbod_prov ?? "Provincie" : "Provincie"}</p>
-            <select
-              className="hi-filter-select"
-              value={provFilter}
-              onChange={(e) => setProvFilter(e.target.value)}
-              style={{ width: "100%" }}
-            >
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Provincie</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
               {PROVINCES.map((p) => (
-                <option key={p} value={p}>{p}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Country */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">Land</p>
-            <div className="hi-checkbox-group">
-              {COUNTRIES.slice(1).map((c) => (
-                <label key={c} className="hi-checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={countFilter === c}
-                    onChange={() => setCountFilter(countFilter === c ? "Alle landen" : c)}
-                  />
-                  <span>{c}</span>
-                </label>
+                <FilterPill
+                  key={p}
+                  label={p}
+                  active={provFilter === p}
+                  onClick={() => setProvFilter(provFilter === p ? null : p)}
+                />
               ))}
             </div>
           </div>
 
           {/* Price */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">Prijsklasse</p>
-            <div className="hi-checkbox-group">
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Prijsklasse</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
               {PRICE_RANGES.map((pr, i) => (
-                <label key={pr.label} className="hi-checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={priceIdx === i}
-                    onChange={() => setPriceIdx(priceIdx === i ? 0 : i)}
-                  />
-                  <span>{pr.label}</span>
-                </label>
+                <FilterPill
+                  key={pr.label}
+                  label={pr.label}
+                  active={priceIdx === i}
+                  onClick={() => setPriceIdx(priceIdx === i ? null : i)}
+                />
               ))}
             </div>
           </div>
 
-          {/* Infrastructuur */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">Infrastructuur</p>
-            <div className="hi-checkbox-group">
-              <label className="hi-checkbox-item">
-                <input type="checkbox" checked={indoorOnly} onChange={(e) => setIndoorOnly(e.target.checked)} />
-                <span>{t.feat_indoorArena.replace("✓ ", "")}</span>
-              </label>
-              <label className="hi-checkbox-item">
-                <input type="checkbox" checked={outdoorOnly} onChange={(e) => setOutdoorOnly(e.target.checked)} />
-                <span>{t.feat_outdoorArena.replace("✓ ", "")}</span>
-              </label>
+          {/* Infra */}
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Infrastructuur</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              <FilterPill
+                label="Overdekte rijhal"
+                active={indoorOnly}
+                onClick={() => setIndoorOnly(!indoorOnly)}
+              />
+              <FilterPill
+                label="Buitenpiste"
+                active={outdoorOnly}
+                onClick={() => setOutdoorOnly(!outdoorOnly)}
+              />
             </div>
           </div>
 
-          {/* Min stalls */}
-          <div className="hi-filter-section">
-            <p className="hi-filter-section-title">Minimum stallen: {minStalls === 0 ? "—" : `${minStalls}+`}</p>
-            <input
-              type="range"
-              className="hi-range-input"
-              min={0} max={50} step={5}
-              value={minStalls}
-              onChange={(e) => setMinStalls(Number(e.target.value))}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--grey)", marginTop: 4 }}>
-              <span>0</span><span>25</span><span>50+</span>
+          {/* Sort */}
+          <div style={{ marginBottom: 28 }}>
+            <SectionTitle>Sorteren</SectionTitle>
+            <div style={{ display: "flex", flexDirection: "column" as const, gap: 2 }}>
+              {([
+                { key: "default",    label: "Standaard" },
+                { key: "price_asc",  label: "Prijs laag → hoog" },
+                { key: "price_desc", label: "Prijs hoog → laag" },
+                { key: "surface",    label: "Grootste oppervlakte" },
+              ] as const).map((s) => (
+                <FilterPill
+                  key={s.key}
+                  label={s.label}
+                  active={sortBy === s.key}
+                  onClick={() => setSortBy(s.key)}
+                />
+              ))}
             </div>
           </div>
 
@@ -239,188 +314,48 @@ export default function AanbodPage() {
             <button
               onClick={resetFilters}
               style={{
-                width: "100%", padding: "10px", marginTop: 8,
-                border: "1px solid var(--border)",
-                borderRadius: 2,
+                width: "100%",
+                padding: "11px",
+                border: "1px solid var(--orange)",
+                borderRadius: 3,
+                background: "transparent",
                 color: "var(--orange)",
-                fontSize: 13,
+                fontSize: 12,
                 letterSpacing: "0.08em",
+                textTransform: "uppercase" as const,
                 cursor: "pointer",
-                background: "var(--orange-subtle)",
                 transition: "background 0.2s",
               }}
             >
-              {t.aanbod_noResultsBtn}
+              Filters wissen
             </button>
           )}
         </aside>
 
-        {/* MAIN */}
-        <div className="hi-aanbod-main">
-          {/* Toolbar */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 28,
-              flexWrap: "wrap",
-              gap: 16,
-            }}
-          >
-            <div className="hi-results-count">
-              <strong>{filtered.length}</strong> {t.aanbod_results}
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              {/* Sort */}
-              <select
-                className="hi-filter-select"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              >
-                <option value="default">{t.aanbod_sortNewest}</option>
-                <option value="price_asc">{t.aanbod_sortPriceLow}</option>
-                <option value="price_desc">{t.aanbod_sortPriceHigh}</option>
-                <option value="surface">Oppervlakte</option>
-              </select>
+        {/* ── MAIN GRID ────────────────────────────────── */}
+        <div style={{ paddingTop: 48, paddingBottom: 80 }}>
 
-              {/* View toggle */}
-              <div style={{ display: "flex", border: "1px solid var(--border-dark)", borderRadius: 2, overflow: "hidden" }}>
-                {(["grid", "masonry"] as const).map((v) => (
-                  <button
-                    key={v}
-                    onClick={() => setView(v)}
-                    style={{
-                      padding: "8px 14px",
-                      fontSize: 12,
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      background: view === v ? "var(--orange)" : "transparent",
-                      color: view === v ? "#fff" : "var(--stone)",
-                      transition: "all 0.2s",
-                      cursor: "pointer",
-                      border: "none",
-                    }}
-                  >
-                    {v === "grid" ? "⊞ Grid" : "⊡ Masonry"}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Active filter chips */}
-          {hasFilters && (
-            <div className="hi-active-chips">
-              {search       && <span className="hi-chip" onClick={() => setSearch("")}>"{search}" ×</span>}
-              {typeFilter  !== "Alle types"      && <span className="hi-chip" onClick={() => setTypeFilter("Alle types")}>{typeFilter} ×</span>}
-              {provFilter  !== "Alle provincies" && <span className="hi-chip" onClick={() => setProvFilter("Alle provincies")}>{provFilter} ×</span>}
-              {countFilter !== "Alle landen"     && <span className="hi-chip" onClick={() => setCountFilter("Alle landen")}>{countFilter} ×</span>}
-              {priceIdx    !== 0                 && <span className="hi-chip" onClick={() => setPriceIdx(0)}>{PRICE_RANGES[priceIdx].label} ×</span>}
-              {indoorOnly  && <span className="hi-chip" onClick={() => setIndoorOnly(false)}>Rijhal ×</span>}
-              {outdoorOnly && <span className="hi-chip" onClick={() => setOutdoorOnly(false)}>Buitenpiste ×</span>}
-              {minStalls > 0 && <span className="hi-chip" onClick={() => setMinStalls(0)}>{minStalls}+ stallen ×</span>}
-            </div>
-          )}
-
-          {/* Results */}
           {filtered.length === 0 ? (
             <div
               style={{
                 textAlign: "center",
-                padding: "80px 24px",
+                padding: "100px 24px",
                 border: "1px solid var(--border-dark)",
                 borderRadius: 4,
                 color: "var(--stone)",
               }}
             >
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 32, marginBottom: 12, color: "var(--warm-white)" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: 36, marginBottom: 12, color: "var(--warm-white)" }}>
                 {t.aanbod_noResults}
               </div>
-              <p style={{ marginBottom: 20 }}>{t.aanbod_noResults}</p>
-              <button onClick={resetFilters} className="hi-btn hi-btn-orange" style={{ margin: "0 auto" }}>
-                Filters wissen
+              <button onClick={resetFilters} className="hi-btn hi-btn-orange" style={{ margin: "24px auto 0", display: "inline-flex" }}>
+                {t.aanbod_noResultsBtn ?? "Filters wissen"}
               </button>
             </div>
-          ) : view === "grid" ? (
+          ) : (
             <div className="hi-prop-grid">
               {filtered.map((p, i) => (
-                <Link key={p.id} href={`${BASE}/aanbod/${p.id}`} className={`hi-prop-card hi-r hi-r-d${(i % 3) + 1}`}>
-                  <div className="hi-prop-img-wrap hi-img-reveal">
-                    <div className="hi-prop-img-placeholder" style={{ background: warmGrad(i) }} />
-                  </div>
-                  {p.tag && <span className="hi-prop-tag">{p.tag}</span>}
-                  {p.featured && <span className="hi-prop-featured-badge">{t.feat_featured}</span>}
-                  <div className="hi-prop-body">
-                    <p className="hi-prop-loc">{p.province}, {p.country}</p>
-                    <h3 className="hi-prop-title">{p.title}</h3>
-                    <p style={{ fontSize: 13, color: "var(--grey)", marginBottom: 12, lineHeight: 1.5 }}>
-                      {p.subtitle}
-                    </p>
-                    <div className="hi-prop-stats">
-                      <span className="hi-prop-stat">{formatSurface(p.groundSurface)}</span>
-                      <span className="hi-prop-stat">{p.stalls} {t.aanbod_stalls}</span>
-                      <span className="hi-prop-stat">{p.type}</span>
-                    </div>
-                    {/* Badges */}
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-                      {p.indoorArena && (
-                        <span style={{ padding: "2px 8px", border: "1px solid var(--border)", borderRadius: 40, fontSize: 11, color: "var(--orange)" }}>
-                          Rijhal
-                        </span>
-                      )}
-                      {p.outdoorArena && (
-                        <span style={{ padding: "2px 8px", border: "1px solid var(--border-dark)", borderRadius: 40, fontSize: 11, color: "var(--stone)" }}>
-                          Buitenpiste
-                        </span>
-                      )}
-                      {p.residence && (
-                        <span style={{ padding: "2px 8px", border: "1px solid var(--border-dark)", borderRadius: 40, fontSize: 11, color: "var(--stone)" }}>
-                          Woning
-                        </span>
-                      )}
-                    </div>
-                    <div className="hi-prop-divider" />
-                    <div className="hi-prop-footer">
-                      <span className="hi-prop-price">
-                        {p.priceOnRequest ? t.aanbod_onRequest : formatPrice(p.price!)}
-                      </span>
-                      <span className="hi-prop-link">{t.aanbod_details}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="hi-masonry">
-              {filtered.map((p, i) => (
-                <Link key={p.id} href={`${BASE}/aanbod/${p.id}`} className={`hi-prop-card hi-r hi-r-d${(i % 3) + 1}`}>
-                  <div className="hi-prop-img-wrap hi-img-reveal">
-                    <div className="hi-prop-img-placeholder" style={{ background: warmGrad(i) }} />
-                  </div>
-                  {p.tag && <span className="hi-prop-tag">{p.tag}</span>}
-                  <div className="hi-prop-body">
-                    <p className="hi-prop-loc">{p.province}, {p.country}</p>
-                    <h3 className="hi-prop-title">{p.title}</h3>
-                    <div className="hi-prop-stats">
-                      <span className="hi-prop-stat">{formatSurface(p.groundSurface)}</span>
-                      <span className="hi-prop-stat">{p.stalls} {t.aanbod_stalls}</span>
-                      <span className="hi-prop-stat">{p.type}</span>
-                    </div>
-                    <div className="hi-prop-divider" />
-                    <div className="hi-prop-footer">
-                      <span className="hi-prop-price">
-                        {p.priceOnRequest ? t.aanbod_onRequest : formatPrice(p.price!)}
-                      </span>
-                      <span className="hi-prop-link">{t.aanbod_details}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+                <Link
+                  key={p.id}
+                  href={`${BASE}/aanbod/${p.id}`}
+                  className={`hi-prop-card hi-r hi-r-d${(i % 3) + 
