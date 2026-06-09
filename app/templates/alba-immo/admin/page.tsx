@@ -626,6 +626,8 @@ function PropertyModal({ prop, onClose, onSave }: { prop: Property | null; onClo
 // ═══════════════════════════════════════════════════════════════════
 
 function PandenSection({ properties, onRefresh, onToast }: { properties: Property[]; onRefresh: () => Promise<void>; onToast: (msg: string, ok?: boolean) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const [modal, setModal] = useState<Property | "new" | null>(null);
   const [confirm, setConfirm] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -750,6 +752,8 @@ function PandenSection({ properties, onRefresh, onToast }: { properties: Propert
 // ═══════════════════════════════════════════════════════════════════
 
 function BlogSection({ blog, onRefresh, onToast }: { blog: BlogPost[]; onRefresh: () => Promise<void>; onToast: (msg: string, ok?: boolean) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const [modal, setModal] = useState<BlogPost | "new" | null>(null);
   const [confirm, setConfirm] = useState<string | null>(null);
   const [form, setForm] = useState<BlogPost>(EMPTY_BLOG);
@@ -868,6 +872,8 @@ function BlogSection({ blog, onRefresh, onToast }: { blog: BlogPost[]; onRefresh
 // ═══════════════════════════════════════════════════════════════════
 
 function PartnersSection({ partners, onRefresh, onToast }: { partners: Partner[]; onRefresh: () => Promise<void>; onToast: (msg: string, ok?: boolean) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const [form, setForm] = useState<Partial<Partner>>({ name: "", dark: false });
   const [editId, setEditId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -995,6 +1001,8 @@ function PartnersSection({ partners, onRefresh, onToast }: { partners: Partner[]
 // ═══════════════════════════════════════════════════════════════════
 
 function TekstSection({ content, onRefresh, onToast }: { content: SiteContent | null; onRefresh: () => Promise<void>; onToast: (msg: string, ok?: boolean) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const [form, setForm] = useState<SiteContent | null>(null);
   const [tab, setTab] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -1151,6 +1159,8 @@ function TekstSection({ content, onRefresh, onToast }: { content: SiteContent | 
 // ═══════════════════════════════════════════════════════════════════
 
 function FotosSection({ properties, onToast }: { properties: Property[]; onToast: (msg: string, ok?: boolean) => void; }) {
+  const { lang } = useLang();
+  const aT = ADMIN_T[lang as AdminLang] ?? ADMIN_T.nl;
   const [selectedId, setSelectedId] = useState<string>(properties[0]?.id ?? "");
   const [photos, setPhotos] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
