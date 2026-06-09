@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PROPERTIES, BLOG_POSTS, formatPrice, formatSurface } from "../../data";
 
@@ -30,8 +30,9 @@ function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
-export default function PropertyDetail({ params }: { params: { id: string } }) {
-  const property = PROPERTIES.find((p) => p.id === params.id) ?? PROPERTIES[0];
+export default function PropertyDetail({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
+  const property = PROPERTIES.find((p) => p.id === resolvedParams.id) ?? PROPERTIES[0];
 
   // Reveal
   useEffect(() => {

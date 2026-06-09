@@ -899,8 +899,8 @@ const t = {
 } as const;
 
 export type TKey = keyof typeof t.nl;
-export type Translations = typeof t.nl;
+export type Translations = { readonly [K in keyof typeof t.nl]: string };
 
 export function getT(lang: Lang): Translations {
-  return t[lang];
+  return t[lang] as Translations;
 }
