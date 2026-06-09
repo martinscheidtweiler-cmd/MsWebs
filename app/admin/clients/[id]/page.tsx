@@ -115,7 +115,7 @@ export default function ClientDetailPage() {
           ].map(({label,key}) => (
             <div key={key} style={{marginBottom:12}}>
               <label style={{fontSize:11,fontWeight:600,color:"var(--s-muted)",display:"block",marginBottom:4,textTransform:"uppercase",letterSpacing:"0.06em"}}>{label}</label>
-              <input className="sd-input" value={(profile as Record<string,string>)[key] ?? ""}
+              <input className="sd-input" value={(profile as unknown as Record<string,string>)[key] ?? ""}
                 onChange={e => setProfile({...profile,[key]:e.target.value})} />
             </div>
           ))}
