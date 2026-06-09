@@ -384,7 +384,7 @@ function Sidebar({ section, onSection, onLogout, counts }: { section: Section; o
           <button key={n.id} onClick={() => onSection(n.id as Section)}
             style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 8, border: "none", cursor: "pointer", marginBottom: 2, textAlign: "left", transition: "all 0.15s", background: section === n.id ? "rgba(237,110,33,0.12)" : "transparent", color: section === n.id ? C.orange : C.muted, fontWeight: section === n.id ? 600 : 400, fontSize: 14 }}>
             <span style={{ fontSize: 16, width: 20 }}>{n.icon}</span>
-            <span style={{ flex: 1 }}>{n.label}</span>
+            <span style={{ flex: 1 }}>{NAV_LABELS[n.id] ?? n.id}</span>
             {counts[n.id] !== undefined && <span style={{ fontSize: 11, background: section === n.id ? C.orange : C.border, color: section === n.id ? "#fff" : C.muted, borderRadius: 20, padding: "1px 7px", minWidth: 22, textAlign: "center" }}>{counts[n.id]}</span>}
           </button>
         ))}
