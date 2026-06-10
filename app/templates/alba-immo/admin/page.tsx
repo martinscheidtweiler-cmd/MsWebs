@@ -1318,7 +1318,7 @@ function FotosSection({ properties, onToast }: { properties: Property[]; onToast
 
   const handleDelete = async (url: string) => {
     if (!confirm(aT.foto_del_confirm)) return;
-    await fetch(`/api/alba-immo/photos/${selectedId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename }) });
+    await fetch(`/api/alba-immo/photos/${selectedId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename: url }) });
     onToast(aT.foto_deleted);
     await loadPhotos(selectedId);
   };
