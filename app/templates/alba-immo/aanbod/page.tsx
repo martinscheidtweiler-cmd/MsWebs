@@ -31,7 +31,7 @@ const warmGrad = (i: number) => WARM_GRADS[i % WARM_GRADS.length];
 
 const TYPES = ["Stoeterij", "Manège", "Pensionstallen", "Landgoed", "Kasteeldomein", "Hoeve"];
 const PROVINCES = ["Antwerpen", "Oost-Vlaanderen", "Limburg", "Namen", "Calvados"];
-const COUNTRIES = ["België", "Nederland", "Frankrijk"];
+const COUNTRIES = ["België", "Nederland", "Frankrijk", "Spanje"];
 const PRICE_RANGES = [
   { label: "< €1.000.000",  min: 0,       max: 999999 },
   { label: "€1M – €2M",     min: 1000000, max: 2000000 },

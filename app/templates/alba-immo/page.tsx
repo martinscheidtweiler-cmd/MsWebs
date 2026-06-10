@@ -152,33 +152,18 @@ export default function HippiqueHome() {
         </div>
 
         {/* Bottom info strip */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0, left: 0, right: 0,
-            height: 72,
-            background: "rgba(8,7,5,0.7)",
-            backdropFilter: "blur(12px)",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            display: "flex",
-            alignItems: "center",
-            padding: "0 80px",
-            gap: 48,
-            zIndex: 3,
-            animation: "fadeIn 1s 1.6s both",
-          }}
-        >
+        <div className="hi-hero-stats" style={{ animation: "fadeIn 1s 1.6s both" }}>
           {[
             { label: t.hero_stat1_label, val: t.hero_stat1_val },
             { label: t.hero_stat2_label, val: t.hero_stat2_val },
             { label: t.hero_stat3_label, val: t.hero_stat3_val },
             { label: t.hero_stat4_label, val: t.hero_stat4_val },
           ].map((s) => (
-            <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <span style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--grey)" }}>
+            <div key={s.label} className="hi-hero-stats-item">
+              <span className="hi-hero-stats-label">
                 {s.label}
               </span>
-              <span style={{ fontFamily: "var(--font-display)", fontSize: 18, color: "var(--warm-white)", fontWeight: 400 }}>
+              <span className="hi-hero-stats-val">
                 {s.val}
               </span>
             </div>
@@ -252,14 +237,7 @@ export default function HippiqueHome() {
           )}
 
           {/* 3-grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 24,
-              marginTop: 24,
-            }}
-          >
+          <div className="hi-feat-grid-3">
             {featured.slice(1, 4).map((p, i) => (
               <Link
                 key={p.id}
@@ -322,7 +300,7 @@ export default function HippiqueHome() {
               { label: t.stat1_label, num: 340, suffix: "+" },
               { label: t.stat2_label, num: 15, suffix: "" },
               { label: t.stat3_label, num: 58, suffix: "" },
-              { label: t.stat4_label, num: 3, suffix: "" },
+              { label: t.stat4_label, num: 98, suffix: "%" },
             ].map((s) => (
               <div key={s.label} className="hi-stat-item hi-r">
                 <div className="hi-stat-num">
@@ -407,15 +385,7 @@ export default function HippiqueHome() {
       <section className="hi-sell-section hi-section">
         <div className="hi-sell-bg-gradient" />
         <div className="hi-container">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 80,
-              alignItems: "center",
-              marginBottom: 80,
-            }}
-          >
+          <div className="hi-sell-top">
             <div>
               <span className="hi-label hi-r">{t.sell_label}</span>
               <h2 className="hi-section-title hi-r hi-r-d1" style={{ marginTop: 12 }}>
@@ -561,7 +531,7 @@ export default function HippiqueHome() {
       ══════════════════════════════════════════ */}
       <section id="blog" className="hi-section" style={{ background: "var(--anthracite)" }}>
         <div className="hi-container">
-          <div className="hi-section-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="hi-section-head hi-section-head-row">
             <div>
               <span className="hi-label hi-r">{t.blog_label}</span>
               <h2 className="hi-section-title hi-r hi-r-d1">{t.blog_title}</h2>

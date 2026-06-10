@@ -138,7 +138,7 @@ export default function OverOnsPage() {
             {[
               { name: "Hoofdkantoor",  role: "Verrebroek (Beveren-Waas)", init: "HI" },
               { name: "Specialisatie", role: "Hippisch & landelijk vastgoed", init: "H" },
-              { name: "Bereik",        role: "Benelux & Noord-Frankrijk", init: "B" },
+              { name: "Bereik",        role: "Binnen- en buitenland", init: "B" },
               { name: "IPI 504.064",   role: "BIV erkend makelaar", init: "BIV" },
             ].map((member, i) => (
               <div key={member.name} className={`hi-team-card hi-r hi-r-d${i + 1}`}>

@@ -6,6 +6,9 @@ import { useLang } from "../LangContext";
 // TYPES
 // ═══════════════════════════════════════════════════════════════════
 
+interface PropertyDocument {
+  name: string; url: string; type: "plan" | "fiche" | "notary" | "other";
+}
 interface Property {
   id: string; title: string; subtitle: string; type: string;
   location: string; municipality: string; province: string; country: string;
@@ -15,6 +18,16 @@ interface Property {
   paddocks: number; pastures: number; boxes: number; residence: boolean;
   permits: string[]; description: string; features: string[];
   tag: string; featured: boolean; year: number; gradient: string;
+  status: "active" | "sold" | "reserved" | "option";
+  epcScore: number | null;
+  epcLabel: string | null;
+  cadastralRef: string;
+  cadastralSurface: number;
+  heatingType: string;
+  waterConnection: string;
+  electricalPower: string;
+  images: string[];
+  documents: PropertyDocument[];
 }
 interface BlogPost {
   id: string; title: string; excerpt: string; category: string;
@@ -292,6 +305,11 @@ const EMPTY_PROP: Property = {
   permits: [], description: "", features: [],
   tag: "Nieuw", featured: false, year: new Date().getFullYear(),
   gradient: "linear-gradient(135deg, #1a160f 0%, #2d2115 50%, #1e1a10 100%)",
+  status: "active",
+  epcScore: null, epcLabel: null,
+  cadastralRef: "", cadastralSurface: 0,
+  heatingType: "", waterConnection: "", electricalPower: "",
+  images: [], documents: [],
 };
 
 const EMPTY_BLOG: BlogPost = {
@@ -471,8 +489,19 @@ function PropertyModal({ prop, onClose, onSave }: { prop: Property | null; onClo
   const [saving, setSaving] = useState(false);
   const [featuresText, setFeaturesText] = useState((prop?.features ?? []).join("\n"));
   const [permitsText, setPermitsText] = useState((prop?.permits ?? []).join("\n"));
+  const [imagesText, setImagesText] = useState((prop?.images ?? []).join("\n"));
 
   const set = (key: keyof Property, val: unknown) => setForm(f => ({ ...f, [key]: val }));
+
+  const setDoc = (idx: number, key: keyof PropertyDocument, val: string) => {
+    setForm(f => {
+      const docs = [...f.documents];
+      docs[idx] = { ...docs[idx], [key]: val } as PropertyDocument;
+      return { ...f, documents: docs };
+    });
+  };
+  const addDoc = () => setForm(f => ({ ...f, documents: [...f.documents, { name: "", url: "", type: "fiche" }] }));
+  const removeDoc = (idx: number) => setForm(f => ({ ...f, documents: f.documents.filter((_, i) => i !== idx) }));
 
   const handleSave = async () => {
     setSaving(true);
@@ -480,11 +509,29 @@ function PropertyModal({ prop, onClose, onSave }: { prop: Property | null; onClo
       ...form,
       features: featuresText.split("\n").map(s => s.trim()).filter(Boolean),
       permits: permitsText.split("\n").map(s => s.trim()).filter(Boolean),
+      images: imagesText.split("\n").map(s => s.trim()).filter(Boolean),
     });
     setSaving(false);
   };
 
-  const TABS = ["Basis", "Locatie", "Prijs", "Infrastructuur", "Beschrijving", "Weergave"];
+  const TABS = ["Basis", "Locatie", "Prijs", "Infrastructuur", "Beschrijving", "Energie & EPC", "Kadaster", "Weergave"];
+  const EPC_LABELS = ["A+", "A", "B", "C", "D", "E", "F", "G"];
+  const EPC_COLORS: Record<string, string> = {
+    "A+": "#0ea36e", "A": "#22c55e", "B": "#84cc16", "C": "#eab308",
+    "D": "#f59e0b", "E": "#f97316", "F": "#ef4444", "G": "#b91c1c",
+  };
+  const STATUS_OPTIONS: { key: Property["status"]; label: string; color: string }[] = [
+    { key: "active", label: "Te koop", color: C.success },
+    { key: "sold", label: "Verkocht", color: C.danger },
+    { key: "reserved", label: "Gereserveerd", color: "#f59e0b" },
+    { key: "option", label: "Onder optie", color: "#a855f7" },
+  ];
+  const DOC_TYPES: { key: PropertyDocument["type"]; label: string }[] = [
+    { key: "plan", label: "Plan" },
+    { key: "fiche", label: "Fiche" },
+    { key: "notary", label: "Notarieel" },
+    { key: "other", label: "Andere" },
+  ];
 
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 1000, display: "flex", alignItems: "flex-start", justifyContent: "center", overflowY: "auto", padding: "40px 20px" }}>
@@ -586,6 +633,73 @@ function PropertyModal({ prop, onClose, onSave }: { prop: Property | null; onClo
           )}
           {tab === 5 && (
             <div style={{ display: "grid", gap: 16 }}>
+              <div style={s.row}>
+                <div style={s.col}>
+                  <label style={s.label}>EPC label</label>
+                  <select style={s.select} value={form.epcLabel ?? ""} onChange={e => set("epcLabel", e.target.value || null)}>
+                    <option value="">— Niet opgegeven —</option>
+                    {EPC_LABELS.map(l => <option key={l} value={l}>{l}</option>)}
+                  </select>
+                </div>
+                <div style={s.col}>
+                  <label style={s.label}>EPC score (kWh/m²/jaar)</label>
+                  <input type="number" style={s.input} value={form.epcScore ?? ""} onChange={e => set("epcScore", e.target.value ? Number(e.target.value) : null)} placeholder="bv. 245" />
+                </div>
+              </div>
+              {form.epcLabel && (
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 10, background: EPC_COLORS[form.epcLabel] ?? C.muted, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 800, color: "#0d0d0d" }}>{form.epcLabel}</div>
+                  <div style={{ color: C.text, fontSize: 14 }}>
+                    {form.epcScore !== null ? `${form.epcScore} kWh/m²/jaar` : "Geen score opgegeven"}
+                  </div>
+                </div>
+              )}
+              <div style={s.row}>
+                <div style={s.col}><label style={s.label}>Verwarming</label><input style={s.input} value={form.heatingType} onChange={e => set("heatingType", e.target.value)} placeholder="bv. Aardgas (centrale verwarming)" /></div>
+                <div style={s.col}><label style={s.label}>Watervoorziening</label><input style={s.input} value={form.waterConnection} onChange={e => set("waterConnection", e.target.value)} placeholder="bv. Stadswater + regenwaterput" /></div>
+              </div>
+              <div><label style={s.label}>Elektrische installatie</label><input style={s.input} value={form.electricalPower} onChange={e => set("electricalPower", e.target.value)} placeholder="bv. Conform / 3x230V / keuring 2023" /></div>
+            </div>
+          )}
+          {tab === 6 && (
+            <div style={{ display: "grid", gap: 16 }}>
+              <div>
+                <label style={s.label}>Status</label>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {STATUS_OPTIONS.map(opt => (
+                    <button key={opt.key} type="button" onClick={() => set("status", opt.key)}
+                      style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${form.status === opt.key ? opt.color : C.border}`, background: form.status === opt.key ? `${opt.color}22` : "transparent", color: form.status === opt.key ? opt.color : C.muted, fontWeight: form.status === opt.key ? 600 : 400, fontSize: 13, cursor: "pointer" }}>
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={s.row}>
+                <div style={s.col}><label style={s.label}>Kadastrale referentie</label><input style={s.input} value={form.cadastralRef} onChange={e => set("cadastralRef", e.target.value)} placeholder="bv. Afd. 3, Sectie B, nr. 245" /></div>
+                <div style={s.col}><label style={s.label}>Perceeloppervlakte (m²)</label><input type="number" style={s.input} value={form.cadastralSurface} onChange={e => set("cadastralSurface", Number(e.target.value))} /></div>
+              </div>
+              <div>
+                <label style={s.label}>Foto&apos;s (één URL per regel)</label>
+                <textarea rows={4} style={s.textarea} value={imagesText} onChange={e => setImagesText(e.target.value)} placeholder={"https://.../foto1.jpg\nhttps://.../foto2.jpg"} />
+              </div>
+              <div>
+                <label style={s.label}>Documenten</label>
+                {form.documents.map((doc, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "center" }}>
+                    <input style={{ ...s.input, flex: 2 }} value={doc.name} onChange={e => setDoc(i, "name", e.target.value)} placeholder="Naam (bv. Grondplan)" />
+                    <select style={{ ...s.select, flex: 1 }} value={doc.type} onChange={e => setDoc(i, "type", e.target.value)}>
+                      {DOC_TYPES.map(dt => <option key={dt.key} value={dt.key}>{dt.label}</option>)}
+                    </select>
+                    <input style={{ ...s.input, flex: 3 }} value={doc.url} onChange={e => setDoc(i, "url", e.target.value)} placeholder="https://..." />
+                    <button type="button" onClick={() => removeDoc(i)} style={{ ...s.btnGhost, padding: "8px 12px" }}>✕</button>
+                  </div>
+                ))}
+                <button type="button" onClick={addDoc} style={s.btnGhost}>+ Document toevoegen</button>
+              </div>
+            </div>
+          )}
+          {tab === 7 && (
+            <div style={{ display: "grid", gap: 16 }}>
               <div>
                 <label style={s.label}>Gradient CSS</label>
                 <input style={s.input} value={form.gradient} onChange={e => set("gradient", e.target.value)} />
@@ -611,7 +725,7 @@ function PropertyModal({ prop, onClose, onSave }: { prop: Property | null; onClo
         <div style={{ display: "flex", gap: 12, justifyContent: "flex-end", padding: "20px 28px", borderTop: `1px solid ${C.border}` }}>
           <button onClick={onClose} style={s.btnSecondary}>Annuleren</button>
           <button onClick={() => tab > 0 && setTab(t => t - 1)} style={s.btnGhost} disabled={tab === 0}>← Vorige</button>
-          {tab < 5
+          {tab < 7
             ? <button onClick={() => setTab(t => t + 1)} style={s.btn}>Volgende →</button>
             : <button onClick={handleSave} disabled={saving} style={{ ...s.btn, opacity: saving ? 0.6 : 1 }}>{saving ? "Opslaan…" : "✓ Opslaan"}</button>
           }
@@ -1204,7 +1318,6 @@ function FotosSection({ properties, onToast }: { properties: Property[]; onToast
 
   const handleDelete = async (url: string) => {
     if (!confirm(aT.foto_del_confirm)) return;
-    const filename = url.split("/").pop()!;
     await fetch(`/api/alba-immo/photos/${selectedId}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filename }) });
     onToast(aT.foto_deleted);
     await loadPhotos(selectedId);
@@ -1290,10 +1403,13 @@ export default function AdminPage() {
       API.get("partners"),
       API.get("content"),
     ]);
-    setProperties(p);
-    setBlog(b);
-    setPartners(pt);
-    setContent(c);
+    setProperties(Array.isArray(p) ? p : []);
+    setBlog(Array.isArray(b) ? b : []);
+    setPartners(Array.isArray(pt) ? pt : []);
+    setContent(c && !c.error ? c : null);
+    if (!Array.isArray(p) && p?.error) console.error("properties:", p.error);
+    if (!Array.isArray(b) && b?.error) console.error("blog:", b.error);
+    if (!Array.isArray(pt) && pt?.error) console.error("partners:", pt.error);
   }, []);
 
   useEffect(() => {
@@ -1339,7 +1455,6 @@ export default function AdminPage() {
         <main style={{ flex: 1, overflowY: "auto", padding: "40px 48px" }}>
           {section === "dashboard" && <Dashboard properties={properties} blog={blog} partners={partners} onSection={setSection} />}
           {section === "panden" && <PandenSection properties={properties} onRefresh={fetchAll} onToast={showToast} />}
-          {section === "blog" && <BlogSection blog={blog} onRefresh={fetchAll} onToast={showToast} />}
           {section === "partners" && <PartnersSection partners={partners} onRefresh={fetchAll} onToast={showToast} />}
           {section === "tekst" && <TekstSection content={content} onRefresh={fetchAll} onToast={showToast} />}
           {section === "fotos" && <FotosSection properties={properties} onToast={showToast} />}

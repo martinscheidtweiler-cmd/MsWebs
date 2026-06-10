@@ -28,7 +28,7 @@ const t = {
     footer_builtBy:  "Gebouwd door",
 
     // HOMEPAGE — HERO
-    hero_eyebrow:    "Hippisch vastgoed · Benelux & Noord-Frankrijk",
+    hero_eyebrow:    "Hippisch vastgoed · Topkwaliteit & expertise",
     hero_h1_1:       "Uitzonderlijk",
     hero_h1_2:       "hippisch",
     hero_h1_3:       "vastgoed.",
@@ -41,8 +41,8 @@ const t = {
     hero_stat2_val:  "15 jaar",
     hero_stat3_label:"Transacties",
     hero_stat3_val:  "340+",
-    hero_stat4_label:"Regio's",
-    hero_stat4_val:  "BE · NL · FR",
+    hero_stat4_label:"Specialisatie",
+    hero_stat4_val:  "Hippisch vastgoed",
 
     // HOMEPAGE — FEATURED
     feat_label:      "Uitgelicht aanbod",
@@ -67,7 +67,7 @@ const t = {
     stat1_label:     "Hippische transacties",
     stat2_label:     "Jaar specialisatie",
     stat3_label:     "Eigendommen in portefeuille",
-    stat4_label:     "Landen actief",
+    stat4_label:     "Klanttevredenheid",
 
     // HOMEPAGE — EXPERTISE
     exp_label:       "Onze expertise",
@@ -126,7 +126,7 @@ const t = {
     aanbod_label:    "Ons aanbod",
     aanbod_title1:   "Exclusief hippisch",
     aanbod_title2:   "vastgoed",
-    aanbod_desc:     "Stoeterijen, maneges, landgoederen en kasteeldomeinen in België, Nederland en Noord-Frankrijk.",
+    aanbod_desc:     "Stoeterijen, maneges, landgoederen en kasteeldomeinen, zorgvuldig geselecteerd door specialisten.",
     aanbod_allTypes: "Alle types",
     aanbod_allCountries:"Alle landen",
     aanbod_search:   "Zoeken op naam of locatie...",
@@ -239,7 +239,7 @@ const t = {
     over_label:      "Over ons",
     over_title1:     "De specialisten in",
     over_title2:     "hippisch vastgoed.",
-    over_desc:       "Hippique.immo is het eerste en enige kantoor dat zich volledig toelegt op hippisch en landelijk vastgoed in de Benelux en Noord-Frankrijk.",
+    over_desc:       "Hippique.immo is het eerste en enige kantoor dat zich volledig toelegt op hippisch en landelijk vastgoed van topkwaliteit.",
     over_mission:    "Onze missie",
     over_missionText:"Elk hippisch eigendom verdient een specialist die de waarde ervan echt begrijpt — niet alleen in vierkante meters, maar in paardenstallen, rijhallen en hectares weidegrond.",
     over_values:     "Onze waarden",
@@ -324,7 +324,7 @@ const t = {
     footer_builtBy:  "Réalisé par",
 
     // HOMEPAGE — HERO
-    hero_eyebrow:    "Immobilier équestre · Benelux & Nord de la France",
+    hero_eyebrow:    "Immobilier équestre · Excellence & expertise",
     hero_h1_1:       "Immobilier",
     hero_h1_2:       "équestre",
     hero_h1_3:       "d'exception.",
@@ -337,8 +337,8 @@ const t = {
     hero_stat2_val:  "15 ans",
     hero_stat3_label:"Transactions",
     hero_stat3_val:  "340+",
-    hero_stat4_label:"Régions",
-    hero_stat4_val:  "BE · NL · FR",
+    hero_stat4_label:"Spécialisation",
+    hero_stat4_val:  "Immobilier équestre",
 
     // HOMEPAGE — FEATURED
     feat_label:      "Biens mis en avant",
@@ -363,7 +363,7 @@ const t = {
     stat1_label:     "Transactions équestres",
     stat2_label:     "Ans de spécialisation",
     stat3_label:     "Biens en portefeuille",
-    stat4_label:     "Pays actifs",
+    stat4_label:     "Satisfaction client",
 
     // HOMEPAGE — EXPERTISE
     exp_label:       "Notre expertise",
@@ -422,7 +422,7 @@ const t = {
     aanbod_label:    "Nos offres",
     aanbod_title1:   "Immobilier équestre",
     aanbod_title2:   "exclusif",
-    aanbod_desc:     "Haras, manèges, domaines et châteaux en Belgique, Pays-Bas et Nord de la France.",
+    aanbod_desc:     "Haras, manèges, domaines et châteaux, sélectionnés avec soin par des spécialistes.",
     aanbod_allTypes: "Tous les types",
     aanbod_allCountries:"Tous les pays",
     aanbod_search:   "Rechercher par nom ou localisation...",
@@ -535,7 +535,7 @@ const t = {
     over_label:      "À propos",
     over_title1:     "Les spécialistes de",
     over_title2:     "l'immobilier équestre.",
-    over_desc:       "Hippique.immo est le premier et unique cabinet entièrement dédié à l'immobilier équestre et rural au Benelux et dans le Nord de la France.",
+    over_desc:       "Hippique.immo est le premier et unique cabinet entièrement dédié à l'immobilier équestre et rural haut de gamme.",
     over_mission:    "Notre mission",
     over_missionText:"Chaque propriété équestre mérite un spécialiste qui en comprend vraiment la valeur — pas seulement en mètres carrés, mais en boxes, manèges et hectares de prairies.",
     over_values:     "Nos valeurs",
@@ -620,7 +620,7 @@ const t = {
     footer_builtBy:  "Built by",
 
     // HOMEPAGE — HERO
-    hero_eyebrow:    "Equestrian real estate · Benelux & Northern France",
+    hero_eyebrow:    "Equestrian real estate · Excellence & expertise",
     hero_h1_1:       "Exceptional",
     hero_h1_2:       "equestrian",
     hero_h1_3:       "real estate.",
@@ -633,8 +633,8 @@ const t = {
     hero_stat2_val:  "15 years",
     hero_stat3_label:"Transactions",
     hero_stat3_val:  "340+",
-    hero_stat4_label:"Regions",
-    hero_stat4_val:  "BE · NL · FR",
+    hero_stat4_label:"Specialization",
+    hero_stat4_val:  "Equestrian real estate",
 
     // HOMEPAGE — FEATURED
     feat_label:      "Featured listings",
@@ -659,7 +659,7 @@ const t = {
     stat1_label:     "Equestrian transactions",
     stat2_label:     "Years of specialisation",
     stat3_label:     "Properties in portfolio",
-    stat4_label:     "Active countries",
+    stat4_label:     "Client satisfaction",
 
     // HOMEPAGE — EXPERTISE
     exp_label:       "Our expertise",
@@ -718,7 +718,7 @@ const t = {
     aanbod_label:    "Our listings",
     aanbod_title1:   "Exclusive equestrian",
     aanbod_title2:   "real estate",
-    aanbod_desc:     "Stud farms, riding schools, country estates and châteaux in Belgium, the Netherlands and Northern France.",
+    aanbod_desc:     "Stud farms, riding schools, country estates and châteaux, carefully selected by specialists.",
     aanbod_allTypes: "All types",
     aanbod_allCountries:"All countries",
     aanbod_search:   "Search by name or location...",
@@ -831,7 +831,7 @@ const t = {
     over_label:      "About us",
     over_title1:     "The specialists in",
     over_title2:     "equestrian real estate.",
-    over_desc:       "Hippique.immo is the first and only agency entirely dedicated to equestrian and rural real estate in the Benelux and Northern France.",
+    over_desc:       "Hippique.immo is the first and only agency entirely dedicated to premium equestrian and rural real estate.",
     over_mission:    "Our mission",
     over_missionText:"Every equestrian property deserves a specialist who truly understands its value — not just in square metres, but in stalls, arenas and hectares of pastureland.",
     over_values:     "Our values",

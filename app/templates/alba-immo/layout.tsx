@@ -7,7 +7,7 @@ import { LangProvider } from "./LangContext";
 export const metadata = {
   title: "Hippique.immo — Exclusief Hippisch Vastgoed",
   description:
-    "Het meest gespecialiseerde kantoor voor stoeterijen, maneges, landgoederen en hippisch vastgoed in de Benelux en Noord-Frankrijk.",
+    "Het meest gespecialiseerde kantoor voor stoeterijen, maneges, landgoederen en hippisch vastgoed in binnen- en buitenland.",
 };
 
 export default function HippiqueLayout({

@@ -161,11 +161,11 @@ export default function PropertyDetail({ params }: { params: Promise<{ id: strin
         <div className="hi-gallery-count">{galleryIdx + 1} / {GALLERY_COUNT}</div>
 
         {/* Top left: breadcrumb + badges */}
-        <div style={{ position: "absolute", top: 90, left: 48, display: "flex", flexDirection: "column" as const, gap: 10, zIndex: 5 }}>
+        <div className="hi-gallery-badges">
           <Link href={`${BASE}/aanbod`} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--stone)", letterSpacing: "0.06em", transition: "color 0.25s" }}>
             {t.detail_back}
           </Link>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="hi-gallery-badges-row">
             {property.tag && (
               <span style={{ padding: "4px 12px", background: "var(--orange)", color: "#fff", fontSize: 10, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" as const, borderRadius: 2 }}>
                 {property.tag}
@@ -178,11 +178,11 @@ export default function PropertyDetail({ params }: { params: Promise<{ id: strin
         </div>
 
         {/* Bottom left: title */}
-        <div style={{ position: "absolute", bottom: 48, left: 48, zIndex: 5, maxWidth: 600 }}>
-          <p style={{ fontSize: 12, color: "var(--orange)", letterSpacing: "0.14em", textTransform: "uppercase" as const, marginBottom: 8 }}>
+        <div className="hi-gallery-title-block">
+          <p className="hi-gallery-eyebrow">
             {property.type} · {property.location}
           </p>
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(32px,4vw,56px)", fontWeight: 400, lineHeight: 1.05, letterSpacing: "-0.02em", color: "var(--warm-white)" }}>
+          <h1 className="hi-gallery-title">
             {property.title}
           </h1>
         </div>

@@ -45,8 +45,8 @@ export default function ContactPage() {
             background: "radial-gradient(ellipse at 60% 40%, rgba(237,110,33,0.07) 0%, transparent 55%)",
           }}
         />
-        <div className="hi-container" style={{ padding: "80px 80px 0", position: "relative", zIndex: 2 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "end" }}>
+        <div className="hi-container hi-contact-hero-container" style={{ position: "relative", zIndex: 2 }}>
+          <div className="hi-contact-hero-grid">
             <div>
               <span className="hi-label hi-r" style={{ display: "block", marginBottom: 16 }}>{t.nav_contact}</span>
               <h1
@@ -90,7 +90,7 @@ export default function ContactPage() {
       {/* FORM + MAP */}
       <section className="hi-section" style={{ background: "var(--black)" }}>
         <div className="hi-container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 420px", gap: 64, alignItems: "start" }}>
+          <div className="hi-contact-form-grid">
 
             {/* FORM */}
             <div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
               ) : (
                 <form onSubmit={handleSubmit}>
                   {/* Request type tabs */}
-                  <div style={{ display: "flex", gap: 8, marginBottom: 32 }}>
+                  <div className="hi-contact-tabs">
                     {([
                       { key: "info",      label: t.contact_tabInfo },
                       { key: "schatting", label: t.contact_tabEst },
@@ -299,10 +299,10 @@ export default function ContactPage() {
 
       {/* Bottom strip */}
       <section
+        className="hi-contact-bottom"
         style={{
           background: "var(--anthracite)",
           borderTop: "1px solid var(--border-dark)",
-          padding: "48px 80px",
         }}
       >
         <div className="hi-container">
