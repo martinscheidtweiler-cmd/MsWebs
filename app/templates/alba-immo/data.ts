@@ -378,17 +378,6 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "12 mei 2025",
     readTime: 7,
     gradient: "linear-gradient(135deg, #1a160a 0%, #2a2010 100%)",
-
-    status: 'active' as const,
-    epcScore: null,
-    epcLabel: null,
-    cadastralRef: '',
-    cadastralSurface: 0,
-    heatingType: '',
-    waterConnection: '',
-    electricalPower: '',
-    images: [],
-    documents: [],
   },
   {
     id: "waardebepaling-stoeterij",
@@ -398,17 +387,6 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "28 april 2025",
     readTime: 9,
     gradient: "linear-gradient(135deg, #181410 0%, #2a1e0c 100%)",
-
-    status: 'active' as const,
-    epcScore: null,
-    epcLabel: null,
-    cadastralRef: '',
-    cadastralSurface: 0,
-    heatingType: '',
-    waterConnection: '',
-    electricalPower: '',
-    images: [],
-    documents: [],
   },
   {
     id: "hippisch-vastgoed-2025",
@@ -418,17 +396,6 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "3 maart 2025",
     readTime: 6,
     gradient: "linear-gradient(135deg, #160a0c 0%, #220e12 100%)",
-
-    status: 'active' as const,
-    epcScore: null,
-    epcLabel: null,
-    cadastralRef: '',
-    cadastralSurface: 0,
-    heatingType: '',
-    waterConnection: '',
-    electricalPower: '',
-    images: [],
-    documents: [],
   },
 ];
 
