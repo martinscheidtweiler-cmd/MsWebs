@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLang } from "../LangContext";
 import { LANGS } from "../i18n";
-
 const BASE = "/templates/alba-immo";
 
 export default function HipNav() {
@@ -31,20 +30,10 @@ export default function HipNav() {
         <div className="hi-nav-inner">
           {/* Logo */}
           <Link href={BASE} className="hi-logo">
-            <img
-              src="/hippique/logo-dark.png"
-              alt="Hippique.immo"
-              style={{ height: 64, width: "auto", borderRadius: 4 }}
-              onError={(e) => {
-                const img = e.currentTarget;
-                img.style.display = "none";
-                const next = img.nextElementSibling as HTMLElement | null;
-                if (next) next.style.display = "inline";
-              }}
-            />
-            <span className="hi-logo-text" style={{ display: "none" }}>
+            <span className="hi-logo-text">
               Hippique<span className="hi-logo-dot">.</span>immo
             </span>
+
           </Link>
 
           {/* Desktop links */}

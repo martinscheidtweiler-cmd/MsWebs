@@ -3,6 +3,12 @@
  * Converts between camelCase TypeScript types and snake_case Supabase columns.
  */
 
+export interface PropertyDocument {
+  name: string;
+  url: string;
+  type: "plan" | "fiche" | "notary" | "other";
+}
+
 export interface Property {
   id: string; title: string; subtitle: string; type: string;
   location: string; municipality: string; province: string; country: string;
@@ -12,6 +18,16 @@ export interface Property {
   paddocks: number; pastures: number; boxes: number; residence: boolean;
   permits: string[]; description: string; features: string[];
   tag: string; featured: boolean; year: number; gradient: string;
+  status: "active" | "sold" | "reserved" | "option";
+  epcScore: number | null;
+  epcLabel: string | null;
+  cadastralRef: string;
+  cadastralSurface: number;
+  heatingType: string;
+  waterConnection: string;
+  electricalPower: string;
+  images: string[];
+  documents: PropertyDocument[];
 }
 
 export interface BlogPost {
@@ -22,8 +38,6 @@ export interface BlogPost {
 export interface Partner {
   id: string; name: string; file: string; dark: boolean;
 }
-
-// ── Property conversions ──────────────────────────────────────
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function propFromRow(r: any): Property {
@@ -40,6 +54,16 @@ export function propFromRow(r: any): Property {
     features: r.features ?? [], tag: r.tag ?? "",
     featured: r.featured ?? false, year: r.year ?? new Date().getFullYear(),
     gradient: r.gradient ?? "",
+    status: r.status ?? "active",
+    epcScore: r.epc_score ?? null,
+    epcLabel: r.epc_label ?? null,
+    cadastralRef: r.cadastral_ref ?? "",
+    cadastralSurface: r.cadastral_surface ?? 0,
+    heatingType: r.heating_type ?? "",
+    waterConnection: r.water_connection ?? "",
+    electricalPower: r.electrical_power ?? "",
+    images: r.images ?? [],
+    documents: r.documents ?? [],
   };
 }
 
@@ -71,10 +95,18 @@ export function propToRow(p: Partial<Property>) {
   if (p.featured        !== undefined) row.featured         = p.featured;
   if (p.year            !== undefined) row.year             = p.year;
   if (p.gradient        !== undefined) row.gradient         = p.gradient;
+  if (p.status          !== undefined) row.status           = p.status;
+  if (p.epcScore        !== undefined) row.epc_score        = p.epcScore;
+  if (p.epcLabel        !== undefined) row.epc_label        = p.epcLabel;
+  if (p.cadastralRef    !== undefined) row.cadastral_ref    = p.cadastralRef;
+  if (p.cadastralSurface !== undefined) row.cadastral_surface = p.cadastralSurface;
+  if (p.heatingType     !== undefined) row.heating_type     = p.heatingType;
+  if (p.waterConnection !== undefined) row.water_connection = p.waterConnection;
+  if (p.electricalPower !== undefined) row.electrical_power = p.electricalPower;
+  if (p.images          !== undefined) row.images           = p.images;
+  if (p.documents       !== undefined) row.documents        = p.documents;
   return row;
 }
-
-// ── Blog conversions ──────────────────────────────────────────
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function blogFromRow(r: any): BlogPost {
@@ -97,8 +129,6 @@ export function blogToRow(b: Partial<BlogPost>) {
   if (b.gradient !== undefined) row.gradient  = b.gradient;
   return row;
 }
-
-// ── Slug generator ────────────────────────────────────────────
 
 export function toSlug(text: string): string {
   return text

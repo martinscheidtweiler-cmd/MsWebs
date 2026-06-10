@@ -1,3 +1,9 @@
+export interface PropertyDocument {
+  name: string;
+  url: string;
+  type: "plan" | "fiche" | "notary" | "other";
+}
+
 export interface Property {
   id: string;
   title: string;
@@ -25,6 +31,17 @@ export interface Property {
   featured: boolean;
   year: number;
   gradient: string;
+  // Extended fields
+  status: "active" | "sold" | "reserved" | "option";
+  epcScore: number | null;
+  epcLabel: string | null;
+  cadastralRef: string;
+  cadastralSurface: number;
+  heatingType: string;
+  waterConnection: string;
+  electricalPower: string;
+  images: string[];
+  documents: PropertyDocument[];
 }
 
 export interface BlogPost {
@@ -65,6 +82,17 @@ export const PROPERTIES: Property[] = [
     featured: true,
     year: 2024,
     gradient: "linear-gradient(135deg, #1a160f 0%, #2d2115 50%, #1e1a10 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "manege-le-chateau",
@@ -93,6 +121,17 @@ export const PROPERTIES: Property[] = [
     featured: true,
     year: 2024,
     gradient: "linear-gradient(135deg, #1a1510 0%, #2a1e0c 50%, #1e1810 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "domein-van-den-berg",
@@ -121,6 +160,17 @@ export const PROPERTIES: Property[] = [
     featured: false,
     year: 2023,
     gradient: "linear-gradient(135deg, #18100a 0%, #241808 50%, #1c1206 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "pensionstallen-de-klokke",
@@ -149,6 +199,17 @@ export const PROPERTIES: Property[] = [
     featured: false,
     year: 2024,
     gradient: "linear-gradient(135deg, #180c0a 0%, #281408 50%, #1a1008 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "haras-du-bois-noble",
@@ -177,6 +238,17 @@ export const PROPERTIES: Property[] = [
     featured: true,
     year: 2024,
     gradient: "linear-gradient(135deg, #181410 0%, #261a0c 50%, #1c1410 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "hoeve-de-waterput",
@@ -205,6 +277,17 @@ export const PROPERTIES: Property[] = [
     featured: false,
     year: 2023,
     gradient: "linear-gradient(135deg, #100e08 0%, #1c1a0e 50%, #141208 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "kasteel-d-arenberg",
@@ -233,6 +316,17 @@ export const PROPERTIES: Property[] = [
     featured: true,
     year: 2024,
     gradient: "linear-gradient(135deg, #10080a 0%, #1e1010 50%, #160a0c 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "centre-equestre-namur",
@@ -261,6 +355,17 @@ export const PROPERTIES: Property[] = [
     featured: false,
     year: 2024,
     gradient: "linear-gradient(135deg, #161410 0%, #241c0c 50%, #1a1610 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
 ];
 
@@ -273,6 +378,17 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "12 mei 2025",
     readTime: 7,
     gradient: "linear-gradient(135deg, #1a160a 0%, #2a2010 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "waardebepaling-stoeterij",
@@ -282,6 +398,17 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "28 april 2025",
     readTime: 9,
     gradient: "linear-gradient(135deg, #181410 0%, #2a1e0c 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
   {
     id: "hippisch-vastgoed-2025",
@@ -291,6 +418,17 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "3 maart 2025",
     readTime: 6,
     gradient: "linear-gradient(135deg, #160a0c 0%, #220e12 100%)",
+
+    status: 'active' as const,
+    epcScore: null,
+    epcLabel: null,
+    cadastralRef: '',
+    cadastralSurface: 0,
+    heatingType: '',
+    waterConnection: '',
+    electricalPower: '',
+    images: [],
+    documents: [],
   },
 ];
 
