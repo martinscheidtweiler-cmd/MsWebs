@@ -171,9 +171,11 @@ export default function PropertyDetail({ params }: { params: Promise<{ id: strin
                 {property.tag}
               </span>
             )}
-            <span style={{ padding: "4px 12px", borderRadius: 2, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, background: status.bg, color: status.color, border: `1px solid ${status.color}`, backdropFilter: "blur(8px)" }}>
-              {status.label}
-            </span>
+            {property.status && property.status !== "active" && (
+              <span style={{ padding: "4px 12px", borderRadius: 2, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, background: status.bg, color: status.color, border: `1px solid ${status.color}`, backdropFilter: "blur(8px)" }}>
+                {status.label}
+              </span>
+            )}
           </div>
         </div>
 
@@ -389,11 +391,13 @@ export default function PropertyDetail({ params }: { params: Promise<{ id: strin
               {property.priceOnRequest ? t.detail_contactDesc : `${property.type} · ${property.province}, ${property.country}`}
             </p>
 
-            {/* Status */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 40, marginBottom: 20, background: status.bg, border: `1px solid ${status.color}40` }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: status.color, flexShrink: 0 }} />
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: status.color }}>{status.label}</span>
-            </div>
+            {/* Status (alleen tonen als het pand niet gewoon te koop staat) */}
+            {property.status && property.status !== "active" && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 12px", borderRadius: 40, marginBottom: 20, background: status.bg, border: `1px solid ${status.color}40` }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: status.color, flexShrink: 0 }} />
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", color: status.color }}>{status.label}</span>
+              </div>
+            )}
 
             {/* Quick stats */}
             <div className="hi-detail-key-stats">

@@ -1528,6 +1528,13 @@ input, textarea, select {
 }
 .hi-aanbod-sidebar::-webkit-scrollbar { width: 4px; }
 .hi-aanbod-sidebar::-webkit-scrollbar-thumb { background: var(--mid); border-radius: 2px; }
+.hi-aanbod-filter-aside {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mid) transparent;
+}
+.hi-aanbod-filter-aside::-webkit-scrollbar { width: 4px; }
+.hi-aanbod-filter-aside::-webkit-scrollbar-track { background: transparent; }
+.hi-aanbod-filter-aside::-webkit-scrollbar-thumb { background: var(--mid); border-radius: 2px; }
 .hi-aanbod-main { padding: 48px 48px 80px; }
 
 .hi-filter-section {

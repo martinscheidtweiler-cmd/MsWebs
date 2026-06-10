@@ -207,7 +207,7 @@ export default function AanbodPage() {
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "240px 1fr", minHeight: "80vh" }}>
 
         {/* ── SIDEBAR ── */}
-        <aside style={{
+        <aside className="hi-aanbod-filter-aside" style={{
           background: "#0e0d0b",
           borderRight: isMobile ? "none" : "1px solid var(--border-dark)",
           borderBottom: isMobile ? "1px solid var(--border-dark)" : "none",
@@ -455,19 +455,22 @@ export default function AanbodPage() {
                         <div className="hi-prop-img-placeholder" style={{ background: warmGrad(i) }} />
                       )}
                     </div>
-                    {/* Status badge */}
-                    <span style={{
-                      position: "absolute", top: 12, right: 12, zIndex: 4,
-                      padding: "3px 10px", borderRadius: 40, fontSize: 10, fontWeight: 700,
-                      letterSpacing: "0.06em", textTransform: "uppercase" as const,
-                      background: status.bg, color: status.color,
-                      border: `1px solid ${status.color}`,
-                      backdropFilter: "blur(8px)",
-                    }}>
-                      {status.label}
-                    </span>
+                    {/* Top-right badges (status + featured), stacked to avoid overlap */}
+                    <div style={{ position: "absolute", top: 12, right: 12, zIndex: 4, display: "flex", flexDirection: "column" as const, alignItems: "flex-end" as const, gap: 6 }}>
+                      {p.status && p.status !== "active" && (
+                        <span style={{
+                          padding: "3px 10px", borderRadius: 40, fontSize: 10, fontWeight: 700,
+                          letterSpacing: "0.06em", textTransform: "uppercase" as const,
+                          background: status.bg, color: status.color,
+                          border: `1px solid ${status.color}`,
+                          backdropFilter: "blur(8px)",
+                        }}>
+                          {status.label}
+                        </span>
+                      )}
+                      {p.featured && <span className="hi-prop-featured-badge" style={{ position: "static" as const }}>{t.feat_featured}</span>}
+                    </div>
                     {p.tag && <span className="hi-prop-tag">{p.tag}</span>}
-                    {p.featured && <span className="hi-prop-featured-badge">{t.feat_featured}</span>}
                     <div className="hi-prop-body">
                       <p className="hi-prop-loc">{p.province}, {p.country}</p>
                       <h3 className="hi-prop-title">{p.title}</h3>
