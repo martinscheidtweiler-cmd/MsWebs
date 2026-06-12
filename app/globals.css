@@ -189,7 +189,7 @@ button { font-family: inherit; cursor: none; }
 
 .lxNavBrand { display: flex; align-items: center; justify-content: center; }
 .lxNavBrand img {
-  height: 52px; width: auto;
+  height: 40px; width: auto;
   filter: drop-shadow(0 0 12px rgba(168,85,247,.3));
   transition: filter .3s;
 }

@@ -24,6 +24,7 @@ interface Project {
   year: number;
   desc: string;
   tags?: string[];
+  image?: string;
 }
 
 /* ─────────────────────────────────────────────
@@ -49,6 +50,7 @@ const PROJECTS: Project[] = [
     year: 2025,
     desc: "Curly hair specialist in Nijlen. Donker luxury design met webshop en workshopmodule.",
     tags: ["Dark", "Webshop", "Workshops"],
+    image: "/portfolio/haarhuyspic.png",
   },
   {
     id: "bomaco",
@@ -66,6 +68,7 @@ const PROJECTS: Project[] = [
     year: 2025,
     desc: "Jaarlijks springconcours. Meertalige site met agenda, inschrijvingen en ticketverkoop.",
     tags: ["Paarden", "Events", "Meertalig", "Live"],
+    image: "/portfolio/bomacopic.png",
   },
   {
     id: "hippique",
@@ -83,6 +86,7 @@ const PROJECTS: Project[] = [
     year: 2025,
     desc: "Cinematic luxury vastgoedsite voor hippisch & landelijk. Property cards, gallerij en blog.",
     tags: ["Vastgoed", "Luxury", "Cinematic"],
+    image: "/portfolio/hippiquepic.png",
   },
   {
     id: "vls",
@@ -100,6 +104,7 @@ const PROJECTS: Project[] = [
     year: 2025,
     desc: "Premium template met scroll-driven animatie, depannage-CTA en klantreviews.",
     tags: ["Dark", "Animatie", "Lokaal"],
+    image: "/portfolio/vlspic.png",
   },
   {
     id: "kapper-nijlen",
@@ -110,6 +115,7 @@ const PROJECTS: Project[] = [
     addons: ["Afspraakmodule", "Google Boost"],
     pakket: "Website Essential",
     languages: ["NL"],
+    image: "/portfolio/kapsalonnijlenpic.png",
     accent: "#e53e3e",
     url: "/templates/kapper-nijlen",
     external: false,
@@ -232,6 +238,53 @@ export default function PortfolioGallery() {
   const clearAll = () => {
     setSearch(""); setSectors([]); setTypes([]); setAddonSel([]); setLangSel([]);
   };
+
+  /* ── SLIDER ── */
+  const sliderTrackRef = useRef<HTMLDivElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const scrollToSlide = (idx: number) => {
+    const track = sliderTrackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll<HTMLElement>(":scope > .pfSlide"));
+    const target = cards[idx];
+    const base = cards[0];
+    if (!target || !base) return;
+    track.scrollTo({ left: target.offsetLeft - base.offsetLeft, behavior: "smooth" });
+  };
+
+  const goToSlide = (dir: number) => {
+    const next = Math.max(0, Math.min(filtered.length - 1, slideIndex + dir));
+    setSlideIndex(next);
+    scrollToSlide(next);
+  };
+
+  // Reset slider naar het begin zodra de filters/zoekopdracht veranderen
+  useEffect(() => {
+    setSlideIndex(0);
+    const track = sliderTrackRef.current;
+    if (track) track.scrollTo({ left: 0, behavior: "auto" });
+  }, [filtered.length]);
+
+  // Houd bij welke kaart actief is tijdens handmatig scrollen/swipen
+  useEffect(() => {
+    const track = sliderTrackRef.current;
+    if (!track) return;
+    const onScroll = () => {
+      const cards = Array.from(track.querySelectorAll<HTMLElement>(":scope > .pfSlide"));
+      if (!cards.length) return;
+      const base = cards[0].offsetLeft;
+      let closest = 0;
+      let min = Infinity;
+      cards.forEach((c, idx) => {
+        const diff = Math.abs((c.offsetLeft - base) - track.scrollLeft);
+        if (diff < min) { min = diff; closest = idx; }
+      });
+      setSlideIndex(closest);
+    };
+    track.addEventListener("scroll", onScroll, { passive: true });
+    return () => track.removeEventListener("scroll", onScroll);
+  }, [filtered.length]);
 
   return (
     <>
@@ -458,74 +511,101 @@ export default function PortfolioGallery() {
           </div>
         </div>
 
-        {/* ── PROJECT GRID ── */}
-        <main className="pfMain">
-          {filtered.length === 0 ? (
+        {/* ── PROJECT SLIDER ── */}
+        {filtered.length === 0 ? (
+          <main className="pfMain">
             <div className="pfEmpty">
               <div className="pfEmptyIcon">🔍</div>
               <h3>Geen projecten gevonden</h3>
               <p>Pas je zoekopdracht of filters aan.</p>
               <button className="pfEmptyReset" onClick={clearAll}>Wis alle filters</button>
             </div>
-          ) : (
-            <div className="pfGrid">
-              {filtered.map((p, i) => (
-                <article key={p.id} className={`pfCard reveal${p.featured ? " pfCardFeatured" : ""}`} style={{ "--accent": p.accent } as React.CSSProperties}>
-                  {/* Accent bar */}
-                  <div className="pfCardBar" style={{ background: p.accent }} />
+          </main>
+        ) : (
+            <div className="pfSliderSection">
+              <div className="pfSliderNav">
+                <span className="pfSliderCount">
+                  <span className="pfSliderCountActive">{String(slideIndex + 1).padStart(2, "0")}</span>
+                  <span className="pfSliderCountSep">/</span>
+                  <span>{String(filtered.length).padStart(2, "0")}</span>
+                </span>
+                <div className="pfSliderBtns">
+                  <button
+                    className="pfSliderBtn"
+                    onClick={() => goToSlide(-1)}
+                    disabled={slideIndex === 0}
+                    aria-label="Vorig project"
+                  >
+                    ←
+                  </button>
+                  <button
+                    className="pfSliderBtn"
+                    onClick={() => goToSlide(1)}
+                    disabled={slideIndex === filtered.length - 1}
+                    aria-label="Volgend project"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
 
-                  {/* Card header */}
-                  <div className="pfCardHead">
-                    <span className="pfCardNum">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {p.featured && <span className="pfCardFeatBadge">Featured</span>}
-                  </div>
-
-                  {/* Main content */}
-                  <div className="pfCardBody">
-                    <h2 className="pfCardTitle">{p.title}</h2>
-
-                    <div className="pfCardMeta">
-                      <span className="pfCardSector" style={{ color: p.accent }}>{p.sector}</span>
-                      <span className="pfCardDot">·</span>
-                      <span className="pfCardType">{p.type}</span>
-                    </div>
-
-                    <p className="pfCardDesc">{p.desc}</p>
-
-                    {/* Add-on chips */}
-                    {p.addons.length > 0 && (
-                      <div className="pfCardAddons">
-                        {p.addons.map((a) => (
-                          <span key={a} className="pfCardAddon">{a}</span>
-                        ))}
+              <div className="pfSliderTrack" ref={sliderTrackRef}>
+                {filtered.map((p, i) => (
+                  <a
+                    key={p.id}
+                    href={p.url}
+                    target={p.external ? "_blank" : undefined}
+                    rel={p.external ? "noopener noreferrer" : undefined}
+                    className={`pfSlide${p.featured ? " pfSlideFeatured" : ""}`}
+                    style={{ "--accent": p.accent } as React.CSSProperties}
+                  >
+                    {/* Background */}
+                    {p.image ? (
+                      <div className="pfSlideImgFrame">
+                        <img src={p.image} alt={p.title} className="pfSlideImg" loading="lazy" />
+                      </div>
+                    ) : (
+                      <div className="pfSlideBg">
+                        <div className="pfSlideMesh" />
                       </div>
                     )}
-                  </div>
+                    <div className="pfSlideScrim" />
 
-                  {/* Footer */}
-                  <div className="pfCardFooter">
-                    <div className="pfCardLangs">
-                      {p.languages.map((l) => (
-                        <span key={l} className="pfCardLang">{l}</span>
-                      ))}
+                    {/* Top row */}
+                    <div className="pfSlideTop">
+                      <span className="pfSlideNum">{String(i + 1).padStart(2, "0")}</span>
+                      {p.featured && <span className="pfSlideFeatBadge">Featured</span>}
                     </div>
-                    <a
-                      href={p.url}
-                      target={p.external ? "_blank" : undefined}
-                      rel={p.external ? "noopener noreferrer" : undefined}
-                      className="pfCardBtn"
-                      style={{ "--accent": p.accent } as React.CSSProperties}
-                    >
-                      Bekijk{p.external ? " ↗" : " →"}
-                    </a>
-                  </div>
-                </article>
-              ))}
+
+                    {/* Bottom content */}
+                    <div className="pfSlideContent">
+                      <div className="pfSlideMeta">
+                        <span style={{ color: p.accent }}>{p.sector}</span>
+                        <span className="pfSlideDot">·</span>
+                        <span>{p.type}</span>
+                        <span className="pfSlideDot">·</span>
+                        <span>{p.year}</span>
+                      </div>
+                      <h2 className="pfSlideTitle">{p.title}</h2>
+                      <p className="pfSlideDesc">{p.desc}</p>
+                      <div className="pfSlideTags">
+                        {p.languages.map((l) => (
+                          <span key={l} className="pfSlideLang">{l}</span>
+                        ))}
+                        {p.addons.map((a) => (
+                          <span key={a} className="pfSlideAddon">{a}</span>
+                        ))}
+                      </div>
+                      <span className="pfSlideCta">
+                        {p.external ? "Bekijk live website" : "Bekijk project"}
+                        <span className="pfSlideCtaArrow">{p.external ? "↗" : "→"}</span>
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
-          )}
-        </main>
+        )}
 
         {/* ── CTA ── */}
         <section className="pfCta">

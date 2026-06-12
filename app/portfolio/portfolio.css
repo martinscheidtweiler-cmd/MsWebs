@@ -67,8 +67,12 @@
   display: flex; flex-direction: column; gap: 20px; align-items: flex-end;
   padding-bottom: 4px;
 }
-.pfHeroStat { text-align: right; }
+.pfHeroStat {
+  display: flex; flex-direction: column; align-items: flex-end;
+  text-align: right;
+}
 .pfHeroStatNum {
+  display: block;
   font-family: 'Space Mono', monospace;
   font-size: clamp(22px, 2.5vw, 32px); font-weight: 700; letter-spacing: -.06em;
   background: var(--grad-text); background-size: 200%;
@@ -76,8 +80,9 @@
   animation: gradShift 6s ease infinite; line-height: 1;
 }
 .pfHeroStatLabel {
+  display: block;
   font-size: 10px; color: var(--subtle); letter-spacing: .1em;
-  text-transform: uppercase; font-family: 'Space Mono', monospace; margin-top: 2px;
+  text-transform: uppercase; font-family: 'Space Mono', monospace; margin-top: 6px;
 }
 
 /* ── STICKY FILTER BAR ── */
@@ -272,152 +277,232 @@
   padding: 48px 60px 80px;
 }
 
-/* ── PROJECT GRID ── */
+/* ── PROJECT SLIDER ── */
 
-.pfGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 16px;
+@keyframes pfCardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── PROJECT CARD ── */
-
-.pfCard {
+.pfSliderSection {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: 18px;
+  padding: 48px 0 80px;
+}
+
+.pfSliderNav {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: 1320px;
+  margin: 0 auto 28px;
+  padding: 0 60px;
+}
+.pfSliderCount {
+  font-family: 'Space Mono', monospace;
+  display: flex; align-items: baseline; gap: 8px;
+  color: var(--subtle); letter-spacing: .08em; font-size: 13px;
+}
+.pfSliderCountActive { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+.pfSliderCountSep { color: var(--border2); }
+
+.pfSliderBtns { display: flex; gap: 10px; }
+.pfSliderBtn {
+  width: 48px; height: 48px; border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--glass);
-  backdrop-filter: blur(16px);
-  overflow: hidden;
-  transition: border-color .25s, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s;
+  color: #fff; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: border-color .2s, background .2s, transform .2s, opacity .2s;
 }
-.pfCard:hover {
-  border-color: rgba(var(--accent-rgb, 168,85,247), .4);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+.pfSliderBtn:hover:not(:disabled) {
+  border-color: rgba(168,85,247,.45);
+  background: rgba(124,58,237,.12);
+  transform: translateY(-2px);
 }
-.pfCardFeatured {
-  border-color: rgba(168,85,247,.2);
-  background: linear-gradient(160deg, rgba(124,58,237,.07), rgba(224,64,251,.04));
-}
+.pfSliderBtn:disabled { opacity: .3; cursor: default; }
 
-/* Accent bar top */
-.pfCardBar {
-  height: 3px;
-  width: 100%;
-  flex-shrink: 0;
-  opacity: .8;
-  transition: opacity .25s;
-}
-.pfCard:hover .pfCardBar { opacity: 1; }
-
-/* Card header (number + badge) */
-.pfCardHead {
+.pfSliderTrack {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px 0;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding: 4px 60px 16px;
+  /* Keep the start/end padding visible even when scroll-snap pulls the
+     first/last card to the edge — without this, mandatory snapping
+     scrolls straight past the padding on load. */
+  scroll-padding-left: 60px;
+  scroll-padding-right: 60px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-.pfCardNum {
+.pfSliderTrack::-webkit-scrollbar { display: none; }
+
+/* ── SLIDE CARD ── */
+
+.pfSlide {
+  position: relative;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: min(440px, 78vw);
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  overflow: hidden;
+  isolation: isolate;
+  text-decoration: none;
+  animation: pfCardIn .5s cubic-bezier(.22,1,.36,1) both;
+  transition: border-color .3s, transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s;
+}
+.pfSlide:hover {
+  border-color: rgba(var(--accent-rgb, 168,85,247), .45);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 70px rgba(0,0,0,.4);
+}
+.pfSlideFeatured { border-color: rgba(168,85,247,.25); }
+
+/* Background layer (mesh fallback, no real screenshot) */
+.pfSlideBg { position: absolute; inset: 0; z-index: 0; }
+
+/* Screenshot preview — fits inside the card, clipped by the card's rounded corners */
+.pfSlideImgFrame {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 56%;
+  z-index: 0;
+  overflow: hidden;
+}
+.pfSlideImgFrame::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 55%, var(--bg2) 100%);
+}
+.pfSlideImg {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+  transition: transform .8s cubic-bezier(.22,1,.36,1);
+}
+.pfSlide:hover .pfSlideImgFrame .pfSlideImg { transform: scale(1.05); }
+
+/* Fallback "mesh" background using the project accent color */
+.pfSlideMesh {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 14%, color-mix(in srgb, var(--accent) 55%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 86% 92%, color-mix(in srgb, var(--accent) 40%, transparent) 0%, transparent 50%),
+    linear-gradient(155deg, var(--bg2) 0%, #060509 100%);
+  transition: transform .8s cubic-bezier(.22,1,.36,1);
+}
+.pfSlide:hover .pfSlideMesh { transform: scale(1.05); }
+.pfSlideMesh::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mix-blend-mode: overlay;
+  opacity: .5;
+}
+
+/* Scrim for text legibility */
+.pfSlideScrim {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(0deg, rgba(6,5,9,.96) 0%, rgba(6,5,9,.55) 42%, rgba(6,5,9,.08) 75%);
+}
+
+/* Top row: index + featured badge */
+.pfSlideTop {
+  position: absolute; top: 24px; left: 24px; right: 24px;
+  z-index: 2;
+  display: flex; align-items: flex-start; justify-content: space-between;
+}
+.pfSlideNum {
   font-family: 'Space Mono', monospace;
-  font-size: 10px; color: var(--border2); letter-spacing: .1em;
+  font-size: 13px; font-weight: 700; letter-spacing: .16em;
+  color: rgba(255,255,255,.85);
+  padding: 5px 11px; border-radius: 100px;
+  background: rgba(6,5,9,.45);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(6px);
 }
-.pfCardFeatBadge {
+.pfSlideFeatBadge {
   font-family: 'Space Mono', monospace;
   font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
   color: var(--purple2);
-  padding: 3px 10px; border-radius: 100px;
-  background: rgba(124,58,237,.1); border: 1px solid rgba(168,85,247,.25);
+  padding: 5px 12px; border-radius: 100px;
+  background: rgba(124,58,237,.25); border: 1px solid rgba(168,85,247,.4);
+  backdrop-filter: blur(6px);
 }
 
-/* Card body */
-.pfCardBody {
-  flex: 1;
-  padding: 16px 20px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* Bottom content */
+.pfSlideContent {
+  position: relative; z-index: 2;
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 8px;
 }
 
-.pfCardTitle {
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -.04em;
-  color: #fff;
-  line-height: 1.15;
+.pfSlideMeta {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--subtle);
+}
+.pfSlideDot { color: rgba(255,255,255,.25); }
+
+.pfSlideTitle {
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 900; letter-spacing: -.04em; color: #fff; line-height: 1.08;
 }
 
-.pfCardMeta {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 12px;
-}
-.pfCardSector { font-weight: 700; font-size: 11px; }
-.pfCardDot { color: var(--border2); }
-.pfCardType { color: var(--subtle); font-size: 11px; }
-
-.pfCardDesc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.65;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+.pfSlideDesc {
+  font-size: 13px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.6;
+  max-width: 380px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Add-on chips */
-.pfCardAddons {
-  display: flex; flex-wrap: wrap; gap: 5px;
-  margin-top: 2px;
-}
-.pfCardAddon {
-  padding: 3px 9px;
-  border-radius: 100px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--border);
-  font-size: 10px; font-weight: 600;
-  color: var(--subtle); letter-spacing: .02em;
-}
-
-/* Card footer */
-.pfCardFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px 18px;
-  border-top: 1px solid var(--border);
-  margin-top: auto;
-}
-
-.pfCardLangs {
-  display: flex; gap: 4px;
-}
-.pfCardLang {
+.pfSlideTags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.pfSlideLang {
   font-family: 'Space Mono', monospace;
-  font-size: 9px; font-weight: 700; letter-spacing: .12em;
-  padding: 3px 8px; border-radius: 4px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--border);
-  color: var(--subtle);
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  padding: 4px 10px; border-radius: 4px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.75);
+}
+.pfSlideAddon {
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  font-size: 11px; font-weight: 600;
+  color: rgba(255,255,255,.75); letter-spacing: .02em;
 }
 
-.pfCardBtn {
-  display: inline-flex; align-items: center;
-  padding: 7px 16px;
-  border-radius: 8px;
-  background: var(--glass2);
-  border: 1px solid var(--border2);
-  color: rgba(255,255,255,.8);
-  font-size: 12px; font-weight: 700;
-  transition: background .2s, border-color .2s, color .2s, transform .2s;
+.pfSlideCta {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 14px;
+  font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .02em;
 }
-.pfCardBtn:hover {
-  background: rgba(var(--accent-rgb, 124,58,237), .15);
-  border-color: var(--accent, rgba(168,85,247,.5));
-  color: #fff;
-  transform: translateX(2px);
+.pfSlideCtaArrow {
+  display: flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(10,9,8,.4);
+  backdrop-filter: blur(6px);
+  font-size: 14px;
+  transition: background .25s, border-color .25s, transform .25s;
+}
+.pfSlide:hover .pfSlideCtaArrow {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: rotate(45deg);
 }
 
 /* ── EMPTY STATE ── */
@@ -473,13 +558,14 @@
   .pfHero { padding: 140px 40px 60px; }
   .pfFiltersInner, .pfMain { padding-left: 40px; padding-right: 40px; }
   .pfHeroInner { gap: 40px; }
+  .pfSliderNav { padding: 0 40px; }
+  .pfSliderTrack { padding: 4px 40px 16px; scroll-padding-left: 40px; scroll-padding-right: 40px; }
 }
 
 @media (max-width: 900px) {
   .pfHeroInner { grid-template-columns: 1fr; }
   .pfHeroStats { flex-direction: row; align-items: flex-start; }
   .pfHeroStat { text-align: left; }
-  .pfGrid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
   .pfFilterGroup { flex-direction: column; gap: 8px; }
   .pfFilterGroupLabel { min-width: auto; }
 }
@@ -490,9 +576,11 @@
   .pfFiltersTop { flex-wrap: wrap; }
   .pfFiltersTopRight { width: 100%; justify-content: space-between; }
   .pfCta { padding: 72px 24px; }
-  .pfGrid { grid-template-columns: 1fr 1fr; gap: 12px; }
-}
-
-@media (max-width: 520px) {
-  .pfGrid { grid-template-columns: 1fr; }
+  .pfSliderNav { padding: 0 20px; }
+  .pfSliderTrack { gap: 16px; padding: 4px 20px 16px; scroll-padding-left: 20px; scroll-padding-right: 20px; }
+  .pfSlide { width: min(360px, 86vw); height: 440px; }
+  .pfSlideContent { padding: 22px; }
+  .pfSlideTitle { font-size: clamp(20px, 5.5vw, 28px); }
+  .pfSliderNav { margin-bottom: 20px; }
+  .pfSliderBtn { width: 42px; height: 42px; font-size: 16px; }
 }
