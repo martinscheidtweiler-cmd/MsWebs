@@ -528,7 +528,7 @@ button { font-family: inherit; cursor: none; }
 ============================================================ */
 
 .storyWrap {
-  height: 280vh;
+  height: 210vh;
   position: relative;
 }
 .storySticky {
@@ -543,6 +543,32 @@ button { font-family: inherit; cursor: none; }
   position: absolute; inset: 0;
   background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(124,58,237,.12), transparent);
   pointer-events: none;
+  z-index: 1;
+}
+
+/* Generic "tech" video backgrounds, crossfading per claim */
+.storyBgWrap {
+  position: absolute; inset: 0;
+  z-index: 0;
+}
+.storyBg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: brightness(.85);
+  transform: scale(1.06);
+  transition: opacity 1.4s cubic-bezier(.22,1,.36,1), transform 8s cubic-bezier(.22,1,.36,1);
+}
+.storyBg.active {
+  opacity: .9;
+  transform: scale(1);
+}
+
+.storyBgWrap::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 45%, var(--bg) 100%);
 }
 
 .storyClaim {
@@ -554,6 +580,7 @@ button { font-family: inherit; cursor: none; }
   transform: translateY(60px);
   transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
   pointer-events: none;
+  z-index: 2;
 }
 .storyClaim.active {
   opacity: 1; transform: translateY(0); pointer-events: auto;
@@ -579,6 +606,7 @@ button { font-family: inherit; cursor: none; }
   position: absolute; bottom: 48px; left: 50%;
   transform: translateX(-50%);
   display: flex; gap: 8px;
+  z-index: 2;
 }
 .storyDot {
   width: 6px; height: 6px; border-radius: 50%;
@@ -654,6 +682,26 @@ button { font-family: inherit; cursor: none; }
   transition: opacity .4s, transform .6s;
 }
 .pfCard:hover .pfCardBg { opacity: .28; transform: scale(1.05); }
+
+/* Real screenshot background for cards with an `image` */
+.pfCardImgWrap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 52%;
+  overflow: hidden;
+}
+.pfCardImgWrap::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(6,5,15,0) 45%, var(--surface) 100%);
+}
+.pfCardImg {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  opacity: .9;
+  transition: opacity .4s, transform .8s cubic-bezier(.22,1,.36,1);
+}
+.pfCard:hover .pfCardImg { opacity: 1; transform: scale(1.05); }
 
 .pfCardContent {
   position: absolute; inset: 0;

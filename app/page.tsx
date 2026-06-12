@@ -153,11 +153,11 @@ const translations = {
 };
 
 const PROJECTS = [
-  { id: "haarhuys", title: "'t Haarhuys", type: "Kapsalon · Curly Hair Specialist", tags: ["Kapsalon", "Webshop", "Dark", "Workshops"], accent: "#c97d4e", url: "/templates/haarhuys", external: false },
-  { id: "bomaco", title: "Bomaco Winter Jumping", type: "Springconcours · Events", tags: ["Paarden", "Events", "Meertalig", "Live"], accent: "#3b82f6", url: "https://bomaco-website.vercel.app/", external: true },
-  { id: "hippique", title: "Hippique.immo", type: "Vastgoed · Hippisch & Landelijk", tags: ["Vastgoed", "Luxury", "Paarden", "Cinematic"], accent: "#ed6e21", url: "/templates/alba-immo", external: false },
-  { id: "vls", title: "VLS Verwarming", type: "Verwarming · Sanitair · Airco", tags: ["Verwarming", "Dark", "Animatie", "Lokaal"], accent: "#2563eb", url: "/templates/vls-verwarming", external: false },
-  { id: "kapper", title: "Kapsalon Nijlen", type: "Barbershop · IMAD & Mahmoud", tags: ["Barbershop", "Rood", "Modern", "Reservaties"], accent: "#e53e3e", url: "/templates/kapper-nijlen", external: false },
+  { id: "haarhuys", title: "'t Haarhuys", type: "Kapsalon · Curly Hair Specialist", tags: ["Kapsalon", "Webshop", "Dark", "Workshops"], accent: "#c97d4e", url: "/templates/haarhuys", external: false, image: "/portfolio/haarhuyspic.png" },
+  { id: "bomaco", title: "Bomaco Winter Jumping", type: "Springconcours · Events", tags: ["Paarden", "Events", "Meertalig", "Live"], accent: "#3b82f6", url: "https://bomaco-website.vercel.app/", external: true, image: "/portfolio/bomacopic.png" },
+  { id: "hippique", title: "Hippique.immo", type: "Vastgoed · Hippisch & Landelijk", tags: ["Vastgoed", "Luxury", "Paarden", "Cinematic"], accent: "#ed6e21", url: "/templates/alba-immo", external: false, image: "/portfolio/hippiquepic.png" },
+  { id: "vls", title: "VLS Verwarming", type: "Verwarming · Sanitair · Airco", tags: ["Verwarming", "Dark", "Animatie", "Lokaal"], accent: "#2563eb", url: "/templates/vls-verwarming", external: false, image: "/portfolio/vlspic.png" },
+  { id: "kapper", title: "Kapsalon Nijlen", type: "Barbershop · IMAD & Mahmoud", tags: ["Barbershop", "Rood", "Modern", "Reservaties"], accent: "#e53e3e", url: "/templates/kapper-nijlen", external: false, image: "/portfolio/kapsalonnijlenpic.png" },
   { id: "edison", title: "Edison Electricity", type: "Elektricien · Nijlen & omgeving", tags: ["Elektricien", "Teal", "Noodservice"], accent: "#18b4c8", url: "/templates/edison-electricity", external: false },
 ];
 
@@ -188,7 +188,6 @@ const ADDONS = [
 const STORY_CLAIMS = [
   { before: "Websites die niet alleen", accent: "mooi zijn —", after: "ze converteren." },
   { before: "Van idee tot", accent: "live website", after: "in 2 werkdagen." },
-  { before: "Alles inbegrepen.", accent: "Geen", after: "verrassingen." },
   { before: "Professioneel online", accent: "vanaf €29,99", after: "per maand." },
 ];
 
@@ -292,7 +291,13 @@ export default function Home() {
       const totalScroll = el.offsetHeight - window.innerHeight;
       const scrolled = -rect.top;
       const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
-      const idx = Math.min(STORY_CLAIMS.length - 1, Math.floor(progress * STORY_CLAIMS.length));
+      // Last slide gets a smaller scroll budget (last 25%) so it's visible
+      // for a moment, then the sticky section releases naturally and
+      // slide 3 scrolls up out of view as the next section appears.
+      const lastShare = 0.25;
+      let idx = 0;
+      if (progress >= 1 - lastShare) idx = STORY_CLAIMS.length - 1;
+      else idx = Math.min(STORY_CLAIMS.length - 2, Math.floor((progress / (1 - lastShare)) * (STORY_CLAIMS.length - 1)));
       setStoryIdx(idx);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -502,6 +507,19 @@ export default function Home() {
       {/* ── STORY — STICKY SCROLL ── */}
       <section ref={storyRef as React.RefObject<HTMLElement>} className="storyWrap">
         <div className="storySticky">
+          <div className="storyBgWrap">
+            {STORY_CLAIMS.map((_, i) => (
+              <video
+                key={i}
+                className={`storyBg${storyIdx === i ? " active" : ""}`}
+                src={`/story/file${i + 1}.mp4`}
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            ))}
+          </div>
           {STORY_CLAIMS.map((claim, i) => (
             <div key={i} className={`storyClaim${storyIdx === i ? " active" : ""}`}>
               <p className="storyClaimText">
@@ -548,10 +566,16 @@ export default function Home() {
                   e.currentTarget.style.transform = "";
                 }}
               >
-                <div
-                  className="pfCardBg"
-                  style={{ background: `radial-gradient(ellipse 120% 120% at 50% 50%, ${p.accent}55, ${p.accent}11 50%, transparent)` }}
-                />
+                {p.image ? (
+                  <div className="pfCardImgWrap">
+                    <img src={p.image} alt={p.title} className="pfCardImg" loading="lazy" />
+                  </div>
+                ) : (
+                  <div
+                    className="pfCardBg"
+                    style={{ background: `radial-gradient(ellipse 120% 120% at 50% 50%, ${p.accent}55, ${p.accent}11 50%, transparent)` }}
+                  />
+                )}
                 <div className="pfCardContent">
                   <div className="pfCardType">{p.type}</div>
                   <div className="pfCardTitle">{p.title}</div>
