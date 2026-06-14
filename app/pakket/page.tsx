@@ -22,6 +22,17 @@ const translations: Record<Lang, {
   heroTitleL2: string;
   heroText: string;
   heroBackLink: string;
+  domainEye: string;
+  domainTitle: string;
+  domainText: string;
+  domainPlaceholder: string;
+  domainBtn: string;
+  domainBtnChecking: string;
+  domainAvailable: string;
+  domainTaken: string;
+  domainInvalid: string;
+  domainError: string;
+  domainCta: string;
   packageEye: string;
   packageTitle: string;
   packagePrice: string;
@@ -54,6 +65,17 @@ const translations: Record<Lang, {
     heroTitleL2: "Zo veel mogelijkheden.",
     heroText: "Op deze pagina leggen we het Website Essential pakket volledig uit en beschrijven we elke add-on in detail — zodat je precies weet wat je krijgt en wat je eventueel kan toevoegen om jouw website helemaal van jou te maken.",
     heroBackLink: "← Terug naar de homepage",
+    domainEye: "Domeincheck",
+    domainTitle: "Is jouw domeinnaam nog vrij?",
+    domainText: "Check meteen of de domeinnaam voor jouw website nog beschikbaar is. Nog geen idee? Geen probleem, we denken graag mee tijdens het kennismakingsgesprek.",
+    domainPlaceholder: "bv. jouwbedrijf.be",
+    domainBtn: "Check beschikbaarheid",
+    domainBtnChecking: "Even checken…",
+    domainAvailable: "is nog vrij! 🎉",
+    domainTaken: "is helaas al in gebruik.",
+    domainInvalid: "Vul een geldige domeinnaam in (bv. jouwbedrijf.be).",
+    domainError: "Domeincheck is even niet beschikbaar. Probeer het later opnieuw.",
+    domainCta: "Plan je gratis gesprek →",
     packageEye: "Het pakket",
     packageTitle: "Website Essential",
     packagePrice: "€29,99",
@@ -86,6 +108,17 @@ const translations: Record<Lang, {
     heroTitleL2: "Une infinité de possibilités.",
     heroText: "Sur cette page, nous expliquons en détail la formule Website Essential et décrivons chaque add-on — pour que vous sachiez exactement ce que vous obtenez et ce que vous pouvez ajouter pour faire de votre site quelque chose qui vous ressemble entièrement.",
     heroBackLink: "← Retour à l'accueil",
+    domainEye: "Vérification de domaine",
+    domainTitle: "Votre nom de domaine est-il disponible ?",
+    domainText: "Vérifiez immédiatement si le nom de domaine de votre site est encore disponible. Pas encore d'idée ? Aucun souci, nous y réfléchirons ensemble lors de l'appel découverte.",
+    domainPlaceholder: "ex. votreentreprise.be",
+    domainBtn: "Vérifier la disponibilité",
+    domainBtnChecking: "Vérification…",
+    domainAvailable: "est disponible ! 🎉",
+    domainTaken: "est malheureusement déjà pris.",
+    domainInvalid: "Indiquez un nom de domaine valide (ex. votreentreprise.be).",
+    domainError: "La vérification de domaine est temporairement indisponible. Réessayez plus tard.",
+    domainCta: "Planifier mon appel gratuit →",
     packageEye: "La formule",
     packageTitle: "Website Essential",
     packagePrice: "29,99€",
@@ -118,6 +151,17 @@ const translations: Record<Lang, {
     heroTitleL2: "Endless possibilities.",
     heroText: "On this page we explain the Website Essential package in full detail and describe every add-on — so you know exactly what you get and what you can add on top to make your website completely your own.",
     heroBackLink: "← Back to homepage",
+    domainEye: "Domain check",
+    domainTitle: "Is your domain name still available?",
+    domainText: "Check right away whether the domain name for your website is still available. No idea yet? No problem, we're happy to brainstorm during the intro call.",
+    domainPlaceholder: "e.g. yourbusiness.be",
+    domainBtn: "Check availability",
+    domainBtnChecking: "Checking…",
+    domainAvailable: "is still available! 🎉",
+    domainTaken: "is unfortunately already taken.",
+    domainInvalid: "Enter a valid domain name (e.g. yourbusiness.be).",
+    domainError: "Domain check is temporarily unavailable. Please try again later.",
+    domainCta: "Book my free call →",
     packageEye: "The package",
     packageTitle: "Website Essential",
     packagePrice: "€29.99",
@@ -154,6 +198,38 @@ export default function PakketPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorGlowRef = useRef<HTMLDivElement>(null);
+
+  // Domeincheck
+  const [domainQuery, setDomainQuery] = useState("");
+  const [domainChecking, setDomainChecking] = useState(false);
+  const [domainResult, setDomainResult] = useState<{ domain: string; available: boolean } | null>(null);
+  const [domainError, setDomainError] = useState("");
+
+  async function checkDomain() {
+    const value = domainQuery.trim().toLowerCase();
+    setDomainResult(null);
+    setDomainError("");
+
+    if (!value || !/^(?!-)[a-z0-9-]{1,63}(?<!-)(\.[a-z0-9-]{1,63})*\.[a-z]{2,24}$/.test(value)) {
+      setDomainError(t.domainInvalid);
+      return;
+    }
+
+    setDomainChecking(true);
+    try {
+      const res = await fetch(`/api/domain-check?domain=${encodeURIComponent(value)}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setDomainError(data.error || t.domainError);
+      } else {
+        setDomainResult({ domain: data.domain, available: data.available });
+      }
+    } catch {
+      setDomainError(t.domainError);
+    } finally {
+      setDomainChecking(false);
+    }
+  }
 
   // Cursor
   useEffect(() => {
@@ -248,6 +324,48 @@ export default function PakketPage() {
             </h1>
             <p className="pkHeroText">{t.heroText}</p>
             <Link href="/" className="pkBackLink">{t.heroBackLink}</Link>
+          </div>
+        </section>
+
+        {/* ── DOMEINCHECK ── */}
+        <section className="pkDomainSection">
+          <div className="pkInner">
+            <div className="pkDomainCard reveal">
+              <div className="pkDomainHead">
+                <div className="sectionEye">{t.domainEye}</div>
+                <h2>{t.domainTitle}</h2>
+                <p>{t.domainText}</p>
+              </div>
+              <form
+                className="pkDomainForm"
+                onSubmit={(e) => { e.preventDefault(); checkDomain(); }}
+              >
+                <input
+                  type="text"
+                  className="pkDomainInput"
+                  placeholder={t.domainPlaceholder}
+                  value={domainQuery}
+                  onChange={(e) => setDomainQuery(e.target.value)}
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                />
+                <button type="submit" className="priceCta pkDomainBtn" disabled={domainChecking}>
+                  {domainChecking ? t.domainBtnChecking : t.domainBtn}
+                </button>
+              </form>
+              {domainError && (
+                <div className="pkDomainResult pkDomainResult--error">{domainError}</div>
+              )}
+              {domainResult && (
+                <div className={`pkDomainResult ${domainResult.available ? "pkDomainResult--ok" : "pkDomainResult--taken"}`}>
+                  <strong>{domainResult.domain}</strong> {domainResult.available ? t.domainAvailable : t.domainTaken}
+                  {domainResult.available && (
+                    <a href="/#planning" className="pkDomainCtaLink">{t.domainCta}</a>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
