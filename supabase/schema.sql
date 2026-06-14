@@ -6,6 +6,7 @@
 -- PROFILES (extends auth.users)
 CREATE TABLE IF NOT EXISTS public.profiles (
   id                  UUID        REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  email               TEXT,
   business_name       TEXT        NOT NULL DEFAULT '',
   contact_person      TEXT        NOT NULL DEFAULT '',
   phone               TEXT,
@@ -19,6 +20,8 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   minutes_included    INTEGER     NOT NULL DEFAULT 30,
   since               DATE        NOT NULL DEFAULT CURRENT_DATE,
   last_update         DATE        NOT NULL DEFAULT CURRENT_DATE,
+  stripe_customer_id     TEXT,
+  stripe_subscription_id TEXT,
   created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -97,8 +100,8 @@ CREATE POLICY "own_uploads_insert" ON public.uploads FOR INSERT WITH CHECK (auth
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, contact_person)
-  VALUES (new.id, COALESCE(new.raw_user_meta_data->>'contact_person', ''))
+  INSERT INTO public.profiles (id, email, contact_person)
+  VALUES (new.id, new.email, COALESCE(new.raw_user_meta_data->>'contact_person', ''))
   ON CONFLICT (id) DO NOTHING;
   RETURN new;
 END;

@@ -39,6 +39,10 @@
   background: var(--s-off);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  cursor: auto;
+}
+.saas-root * {
+  cursor: inherit;
 }
 
 /* ── Login page ── */
@@ -909,6 +913,7 @@
 .sd-alert-info { background: rgba(59,130,246,0.08); color: #1D4ED8; border: 1px solid rgba(59,130,246,0.2); }
 .sd-alert-success { background: rgba(16,185,129,0.08); color: #065F46; border: 1px solid rgba(16,185,129,0.2); }
 .sd-alert-warning { background: rgba(245,158,11,0.08); color: #92400E; border: 1px solid rgba(245,158,11,0.2); }
+.sd-alert-error { background: rgba(239,68,68,0.08); color: #991B1B; border: 1px solid rgba(239,68,68,0.2); }
 
 /* Responsive */
 @media (max-width: 900px) {

@@ -1,0 +1,303 @@
+/* ============================================================
+   PAKKET & ADD-ONS — pagina-specifieke stijlen
+   (globale classes zoals .priceCard, .addonTileIcon, .lxNav,
+   .lxFooter, .sectionEye, .reveal komen uit globals.css)
+============================================================ */
+
+.pkRoot {
+  background: var(--bg);
+}
+
+/* ── HERO ── */
+.pkHero {
+  position: relative;
+  overflow: hidden;
+  padding: 200px 0 100px;
+  background: var(--bg);
+}
+.pkHero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(124,58,237,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 20% 70%, rgba(224,64,251,.1) 0%, transparent 60%);
+  pointer-events: none; z-index: 1;
+}
+
+.pkHeroInner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 60px;
+  text-align: center;
+}
+.pkHeroInner .sectionEye {
+  justify-content: center;
+}
+.pkHeroTitle {
+  font-size: clamp(40px, 6vw, 88px);
+  font-weight: 900;
+  letter-spacing: -.07em;
+  line-height: .96;
+  color: #fff;
+}
+.pkHeroText {
+  margin: 28px auto 0;
+  max-width: 640px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.75;
+}
+.pkBackLink {
+  display: inline-flex;
+  margin-top: 36px;
+  color: var(--purple2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: opacity .2s;
+}
+.pkBackLink:hover { opacity: .75; }
+
+/* ── SHARED INNER WRAPPER ── */
+.pkInner {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+/* ── PAKKET SECTION ── */
+.pkPackageSection {
+  padding: 60px 0 120px;
+}
+.pkPackageHead {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 64px;
+}
+.pkPackageHead .sectionEye {
+  justify-content: center;
+}
+.pkPackageHead h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 900;
+  letter-spacing: -.06em;
+  line-height: 1.02;
+  color: #fff;
+}
+.pkPackageIntro {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.pkPackageGrid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.pkPriceCard {
+  position: sticky;
+  top: 110px;
+}
+
+.pkFeatureList h3 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: #fff;
+  margin-bottom: 28px;
+}
+.pkFeatureItem {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+.pkFeatureItem:last-child {
+  border-bottom: none;
+}
+.pkFeatureNum {
+  flex-shrink: 0;
+  width: 36px;
+  padding-top: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple2);
+}
+.pkFeatureBody h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.pkFeatureBody p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+@media (max-width: 1100px) {
+  .pkPackageGrid { grid-template-columns: 340px 1fr; gap: 32px; }
+}
+@media (max-width: 900px) {
+  .pkPackageGrid { grid-template-columns: 1fr; }
+  .pkPriceCard { position: static; max-width: 520px; margin: 0 auto; width: 100%; }
+}
+
+/* ── ADD-ONS SECTION ── */
+.pkAddonsSection {
+  padding: 0 0 120px;
+}
+.pkAddonsHead {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 64px;
+}
+.pkAddonsHead .sectionEye {
+  justify-content: center;
+}
+.pkAddonsHead h2 {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 900;
+  letter-spacing: -.06em;
+  line-height: 1.02;
+  color: #fff;
+}
+.pkAddonsHead p {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.pkAddonsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.pkAddonCard {
+  padding: 36px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  transition: border-color .3s, transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+}
+.pkAddonCard:hover {
+  border-color: rgba(168,85,247,.35);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(124,58,237,.12);
+}
+
+.pkAddonHead {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.pkAddonHead .addonTileIcon {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+.pkAddonHeadText h3 {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.pkAddonPrice {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple2);
+}
+
+.pkAddonDesc {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.pkAddonFeaturesLabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 12px;
+}
+.pkAddonFeatures {
+  margin-bottom: 20px;
+}
+.pkAddonFeatures li {
+  font-size: 13.5px;
+}
+
+.pkAddonIdeal {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.pkAddonIdeal strong {
+  color: #fff;
+}
+
+@media (max-width: 1500px) {
+  .pkAddonsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .pkAddonsGrid { grid-template-columns: 1fr; }
+}
+
+/* ── CTA SECTION ── */
+.pkCtaSection {
+  padding: 0 0 140px;
+}
+.pkCtaInner {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 64px 48px;
+  border-radius: 28px;
+  border: 1px solid rgba(168,85,247,.4);
+  background: linear-gradient(160deg, rgba(124,58,237,.12), rgba(224,64,251,.06));
+}
+.pkCtaInner h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 900;
+  letter-spacing: -.05em;
+  color: #fff;
+}
+.pkCtaInner p {
+  margin: 18px auto 32px;
+  max-width: 480px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.pkCtaBtn {
+  display: inline-flex;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  .pkHero { padding: 160px 0 70px; }
+  .pkHeroInner { padding: 0 24px; }
+  .pkInner { padding: 0 24px; }
+  .pkCtaInner { padding: 48px 28px; }
+}

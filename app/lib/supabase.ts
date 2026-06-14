@@ -8,6 +8,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // ── Types ──────────────────────────────────────────────
 export type Profile = {
   id: string;
+  email: string | null;
   business_name: string;
   contact_person: string;
   phone: string | null;
@@ -21,6 +22,8 @@ export type Profile = {
   minutes_included: number;
   since: string;
   last_update: string;
+  stripe_customer_id: string | null;
+  stripe_subscription_id: string | null;
   created_at: string;
 };
 

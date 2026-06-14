@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import "./globals.css";
+import { ADDONS } from "./lib/addons-data";
 
 type Lang = "nl" | "fr" | "en";
 
@@ -13,11 +14,20 @@ const times = [
 
 const translations = {
   nl: {
-    heroLine1: "Websites die",
-    heroAccentWord: "prestige uitstralen.",
-    heroText: "Een moderne website met premium uitstraling, duidelijke structuur en een professionele mobiele ervaring.",
+    heroLine1: "Een website die",
+    heroAccentWord: "nieuwe klanten oplevert.",
+    heroText: "Professioneel, snel en goed vindbaar in Google. Wij bouwen een website die écht werkt voor jouw zaak — online binnen 2 werkdagen, vanaf €29,99/maand.",
     portfolioBtn: "Bekijk portfolio",
     planningBtn: "Afspraak inplannen",
+    heroStat1Num: "2 dgn",
+    heroStat1Label: "Eerste versie",
+    heroStat2Num: "€29",
+    heroStat2Label: "Vanaf per maand",
+    heroStat3Num: "156",
+    heroStat3Label: "Projecten opgeleverd",
+    heroStat4Num: "100%",
+    heroStat4Label: "Op maat gebouwd",
+    marqueeItems: "Kapsalon · Elektricien · Verwarming · Vastgoed · Events · Barbershop · Wellness · Bouwbedrijf · Paardensport · Webshop · Zelfstandige · Tandarts",
     process1Title: "Kennismaking",
     process1Text: "We starten met een call van 30 minuten waarin we bespreken wat je bedrijf doet en welke stijl je mooi vindt.",
     process2Title: "Eerste versie",
@@ -47,6 +57,7 @@ const translations = {
     accentColor: "Accentkleur",
     inspiration: "Inspiratie websites",
     addLink: "+ Link toevoegen",
+    websiteLinkLabel: "Website link",
     discussCall: "Ik bespreek dit liever gewoon tijdens de call",
     submit: "Afspraak aanvragen",
     sending: "Aanvragen...",
@@ -57,13 +68,61 @@ const translations = {
     clientAreaLink: "Klantengedeelte",
     portfolio: "Portfolio",
     packageLabel: "Pakketten",
+    pakketLink: "Pakket & add-ons",
+    storyEye: "Reviews",
+    storyHeadingL1: "Wat klanten",
+    storyHeadingL2: "over ons zeggen",
+    portfolioHeadingL1: "Geselecteerde",
+    portfolioHeadingL2: "projecten",
+    portfolioViewAll: "Volledig portfolio bekijken →",
+    pricingHeadingL1: "Eén pakket.",
+    pricingHeadingL2: "Alles wat je nodig hebt.",
+    pricingSub: "Geen verborgen kosten, geen ingewikkelde keuzes. Eén heldere prijs voor een website die voor jou werkt — vul aan met de add-ons die jouw zaak nodig heeft.",
+    packageName: "Website Essential",
+    packagePrice: "€29,99",
+    packageNote: "Geen setup kosten · Premium service voor iedereen",
+    packageDesc: "Eén vast bedrag per maand. Jouw website altijd online, veilig en up-to-date — zonder dat je er zelf naar moet omkijken.",
+    packageFeatures: [
+      "Volledig op maat ontwerp",
+      "Mobielvriendelijk & snel geladen",
+      "Hosting, SSL & domein inbegrepen",
+      "30 min/mnd aanpassingen",
+      "Basis SEO-optimalisatie",
+      "Online binnen 2 werkdagen",
+      "Premium onderhoud & voorrang bij support",
+    ],
+    addonsEye: "Add-ons",
+    addonsSub: "Combineer de opties die jij nodig hebt. Geen verborgen kosten.",
+    addonPerMonth: "/mnd",
+    viewAllAddons: "Bekijk alle add-ons →",
+    howEye: "Hoe werkt het",
+    howHeadingL1: "Van call tot",
+    howHeadingL2: "live website.",
+    howSub: "Een transparant proces zonder verrassingen. Jij vertelt wat je wil — wij bouwen het.",
+    bookingFeature1: "Gratis kennismakingsgesprek",
+    bookingFeature2: "30 minuten via Google Meet",
+    bookingFeature3: "Geen verplichtingen",
+    successTitle: "Afspraak aangevraagd! ✨",
+    successConfirm: "Een bevestiging wordt verstuurd naar",
+    newBooking: "+ Nieuwe afspraak maken",
+    footerTagline: "Professionele websites die nieuwe klanten opleveren voor zelfstandigen en KMO's.",
+    footerAppointment: "Afspraak",
   },
   fr: {
-    heroLine1: "Des sites qui",
-    heroAccentWord: "inspirent confiance.",
-    heroText: "Un site moderne avec une image premium, une structure claire et une expérience mobile professionnelle.",
+    heroLine1: "Un site qui",
+    heroAccentWord: "attire de nouveaux clients.",
+    heroText: "Professionnel, rapide et bien visible sur Google. Nous créons un site qui fonctionne vraiment pour votre activité — en ligne en 2 jours ouvrables, à partir de 29,99€/mois.",
     portfolioBtn: "Voir le portfolio",
     planningBtn: "Prendre rendez-vous",
+    heroStat1Num: "2 j",
+    heroStat1Label: "Première version",
+    heroStat2Num: "29€",
+    heroStat2Label: "À partir de par mois",
+    heroStat3Num: "156",
+    heroStat3Label: "Projets livrés",
+    heroStat4Num: "100%",
+    heroStat4Label: "Sur mesure",
+    marqueeItems: "Salon de coiffure · Électricien · Chauffage · Immobilier · Événements · Barbershop · Bien-être · Construction · Sport équestre · Boutique en ligne · Indépendant · Dentiste",
     process1Title: "Premier appel",
     process1Text: "Nous commençons par un appel de 30 minutes pour comprendre votre activité et le style souhaité.",
     process2Title: "Première version",
@@ -93,6 +152,7 @@ const translations = {
     accentColor: "Couleur accent",
     inspiration: "Sites d'inspiration",
     addLink: "+ Ajouter un lien",
+    websiteLinkLabel: "Lien du site",
     discussCall: "Je préfère en discuter pendant l'appel",
     submit: "Demander le rendez-vous",
     sending: "Envoi...",
@@ -102,14 +162,62 @@ const translations = {
     perMonth: "/mois",
     clientAreaLink: "Espace client",
     portfolio: "Portfolio",
+    pakketLink: "Formule & add-ons",
     packageLabel: "Formules",
+    storyEye: "Avis",
+    storyHeadingL1: "Ce que disent",
+    storyHeadingL2: "nos clients",
+    portfolioHeadingL1: "Projets",
+    portfolioHeadingL2: "sélectionnés",
+    portfolioViewAll: "Voir tout le portfolio →",
+    pricingHeadingL1: "Une formule.",
+    pricingHeadingL2: "Tout ce dont vous avez besoin.",
+    pricingSub: "Pas de frais cachés, pas de choix compliqués. Un prix clair pour un site qui fonctionne pour vous — complétez avec les add-ons dont votre activité a besoin.",
+    packageName: "Website Essential",
+    packagePrice: "29,99€",
+    packageNote: "Pas de frais de mise en service · Service premium pour tous",
+    packageDesc: "Un montant fixe par mois. Votre site toujours en ligne, sécurisé et à jour — sans que vous ayez à vous en soucier.",
+    packageFeatures: [
+      "Design entièrement sur mesure",
+      "Compatible mobile & chargement rapide",
+      "Hébergement, SSL & domaine inclus",
+      "30 min/mois de modifications",
+      "Optimisation SEO de base",
+      "En ligne en 2 jours ouvrables",
+      "Maintenance premium & support prioritaire",
+    ],
+    addonsEye: "Add-ons",
+    addonsSub: "Combinez les options dont vous avez besoin. Pas de frais cachés.",
+    addonPerMonth: "/mois",
+    viewAllAddons: "Voir tous les add-ons →",
+    howEye: "Comment ça fonctionne",
+    howHeadingL1: "De l'appel au",
+    howHeadingL2: "site en ligne.",
+    howSub: "Un processus transparent, sans surprises. Vous nous dites ce que vous voulez — nous le construisons.",
+    bookingFeature1: "Premier appel gratuit",
+    bookingFeature2: "30 minutes via Google Meet",
+    bookingFeature3: "Sans engagement",
+    successTitle: "Rendez-vous demandé ! ✨",
+    successConfirm: "Une confirmation sera envoyée à",
+    newBooking: "+ Prendre un nouveau rendez-vous",
+    footerTagline: "Des sites web professionnels qui génèrent de nouveaux clients pour indépendants et PME.",
+    footerAppointment: "Rendez-vous",
   },
   en: {
-    heroLine1: "Websites that",
-    heroAccentWord: "command presence.",
-    heroText: "A modern website with a premium look, clear structure and a professional mobile experience.",
+    heroLine1: "A website that",
+    heroAccentWord: "brings in new customers.",
+    heroText: "Professional, fast and easy to find on Google. We build a website that actually works for your business — live within 2 business days, starting at €29.99/month.",
     portfolioBtn: "View portfolio",
     planningBtn: "Book a call",
+    heroStat1Num: "2 days",
+    heroStat1Label: "First version",
+    heroStat2Num: "€29",
+    heroStat2Label: "Starting per month",
+    heroStat3Num: "156",
+    heroStat3Label: "Projects delivered",
+    heroStat4Num: "100%",
+    heroStat4Label: "Custom built",
+    marqueeItems: "Hair Salon · Electrician · Heating · Real Estate · Events · Barbershop · Wellness · Construction · Equestrian · Webshop · Freelancer · Dentist",
     process1Title: "Intro call",
     process1Text: "We start with a 30-minute call to understand your business and preferred style.",
     process2Title: "First version",
@@ -139,6 +247,7 @@ const translations = {
     accentColor: "Accent color",
     inspiration: "Inspiration websites",
     addLink: "+ Add link",
+    websiteLinkLabel: "Website link",
     discussCall: "I prefer to discuss this during the call",
     submit: "Request appointment",
     sending: "Sending...",
@@ -148,7 +257,46 @@ const translations = {
     perMonth: "/month",
     clientAreaLink: "Client area",
     portfolio: "Portfolio",
+    pakketLink: "Package & add-ons",
     packageLabel: "Packages",
+    storyEye: "Reviews",
+    storyHeadingL1: "What clients",
+    storyHeadingL2: "say about us",
+    portfolioHeadingL1: "Selected",
+    portfolioHeadingL2: "projects",
+    portfolioViewAll: "View full portfolio →",
+    pricingHeadingL1: "One package.",
+    pricingHeadingL2: "Everything you need.",
+    pricingSub: "No hidden costs, no complicated choices. One clear price for a website that works for you — add the extras your business needs.",
+    packageName: "Website Essential",
+    packagePrice: "€29.99",
+    packageNote: "No setup fees · Premium service for everyone",
+    packageDesc: "One fixed amount per month. Your website always online, secure and up to date — without you having to worry about it.",
+    packageFeatures: [
+      "Fully custom design",
+      "Mobile-friendly & fast loading",
+      "Hosting, SSL & domain included",
+      "30 min/month of edits",
+      "Basic SEO optimisation",
+      "Live within 2 business days",
+      "Premium maintenance & priority support",
+    ],
+    addonsEye: "Add-ons",
+    addonsSub: "Combine the options your business needs. No hidden costs.",
+    addonPerMonth: "/mo",
+    viewAllAddons: "View all add-ons →",
+    howEye: "How it works",
+    howHeadingL1: "From call to",
+    howHeadingL2: "live website.",
+    howSub: "A transparent process with no surprises. You tell us what you want — we build it.",
+    bookingFeature1: "Free intro call",
+    bookingFeature2: "30 minutes via Google Meet",
+    bookingFeature3: "No commitment",
+    successTitle: "Appointment requested! ✨",
+    successConfirm: "A confirmation will be sent to",
+    newBooking: "+ Book a new appointment",
+    footerTagline: "Professional websites that bring new customers to freelancers and SMEs.",
+    footerAppointment: "Appointment",
   },
 };
 
@@ -161,35 +309,52 @@ const PROJECTS = [
   { id: "edison", title: "Edison Electricity", type: "Elektricien · Nijlen & omgeving", tags: ["Elektricien", "Teal", "Noodservice"], accent: "#18b4c8", url: "/templates/edison-electricity", external: false },
 ];
 
-const PACKAGE = {
-  name: "Website Essential",
-  price: "€29,99",
-  note: "Alles inbegrepen · Geen setup kosten",
-  desc: "Eén abonnement. Jouw professionele website, volledig beheerd en up-to-date.",
-  features: [
-    "Volledig op maat ontwerp",
-    "Mobielvriendelijk & snel geladen",
-    "Hosting, SSL & domein inbegrepen",
-    "30 min/mnd aanpassingen",
-    "Basis SEO-optimalisatie",
-    "Online binnen 2 werkdagen",
+const STORY_TESTIMONIALS: Record<Lang, { quote: string; author: string }[]> = {
+  nl: [
+    {
+      quote: "Binnen 2 dagen al een eerste versie, en het eindresultaat overtrof onze verwachtingen volledig. Eindelijk een website waar we trots op zijn!",
+      author: "Kapsalon, Antwerpen",
+    },
+    {
+      quote: "Sinds onze nieuwe website krijgen we wekelijks nieuwe aanvragen via Google. Top communicatie en alles werd perfect afgehandeld.",
+      author: "Vastgoedkantoor, Limburg",
+    },
+    {
+      quote: "Snel, professioneel en altijd bereikbaar voor aanpassingen. Onze klanten vinden de nieuwe site prachtig — aanrader voor elke zelfstandige!",
+      author: "Verwarmingsbedrijf, Mechelen",
+    },
+  ],
+  fr: [
+    {
+      quote: "Dès le 2e jour, une première version était prête, et le résultat final a totalement dépassé nos attentes. Enfin un site dont nous sommes fiers !",
+      author: "Salon de coiffure, Anvers",
+    },
+    {
+      quote: "Depuis notre nouveau site, nous recevons chaque semaine de nouvelles demandes via Google. Communication impeccable et tout a été parfaitement géré.",
+      author: "Agence immobilière, Limbourg",
+    },
+    {
+      quote: "Rapide, professionnel et toujours disponible pour les ajustements. Nos clients adorent le nouveau site — à recommander à tout indépendant !",
+      author: "Entreprise de chauffage, Malines",
+    },
+  ],
+  en: [
+    {
+      quote: "Within 2 days we already had a first version, and the end result completely exceeded our expectations. Finally a website we're proud of!",
+      author: "Hair salon, Antwerp",
+    },
+    {
+      quote: "Since our new website went live, we get new inquiries through Google every week. Great communication and everything was handled perfectly.",
+      author: "Real estate agency, Limburg",
+    },
+    {
+      quote: "Fast, professional and always available for adjustments. Our customers love the new site — highly recommended for any business owner!",
+      author: "Heating company, Mechelen",
+    },
   ],
 };
 
-const ADDONS = [
-  { icon: "🔍", title: "Google Boost", desc: "Google Business Profile, Maps-integratie en reviews.", price: "+€9,99/mnd" },
-  { icon: "🛍️", title: "Webshop Module", desc: "Volledige webshop met productbeheer en checkout.", price: "+€19,99/mnd" },
-  { icon: "📅", title: "Afspraakmodule", desc: "Online afspraken boeken met e-mailbevestigingen.", price: "+€19,99/mnd" },
-  { icon: "🌍", title: "Extra taal", desc: "Extra taalversie met taalwisselaar en eigen content.", price: "+€9,99/mnd" },
-  { icon: "⚡", title: "Onderhoud Premium", desc: "90 min/mnd aanpassingen met priority support.", price: "+€14,99/mnd" },
-  { icon: "✍️", title: "Blog Module", desc: "Volledig blogplatform met categoriepagina's en SEO.", price: "+€9,99/mnd" },
-];
-
-const STORY_CLAIMS = [
-  { before: "Websites die niet alleen", accent: "mooi zijn —", after: "ze converteren." },
-  { before: "Van idee tot", accent: "live website", after: "in 2 werkdagen." },
-  { before: "Professioneel online", accent: "vanaf €29,99", after: "per maand." },
-];
+const STORY_SLIDE_COUNT = 3;
 
 function getDays(lang: Lang) {
   const formatter = new Intl.DateTimeFormat(
@@ -213,6 +378,7 @@ function isSlotTooSoon(date: string, time: string) {
 export default function Home() {
   const [lang, setLang] = useState<Lang>("nl");
   const t = translations[lang];
+  const storyTestimonials = STORY_TESTIMONIALS[lang];
   const days = useMemo(() => getDays(lang), [lang]);
 
   const [selectedDay, setSelectedDay] = useState("");
@@ -241,7 +407,6 @@ export default function Home() {
   // Refs
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorGlowRef = useRef<HTMLDivElement>(null);
-  const storyRef = useRef<HTMLElement>(null);
   const portfolioRef = useRef<HTMLElement>(null);
   const portfolioTrackRef = useRef<HTMLDivElement>(null);
 
@@ -282,27 +447,18 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  // Story sticky scroll
+  // Story carousel — auto-rotate, paused while user hovers
+  const [storyPaused, setStoryPaused] = useState(false);
   useEffect(() => {
-    const onScroll = () => {
-      const el = storyRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const totalScroll = el.offsetHeight - window.innerHeight;
-      const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
-      // Last slide gets a smaller scroll budget (last 25%) so it's visible
-      // for a moment, then the sticky section releases naturally and
-      // slide 3 scrolls up out of view as the next section appears.
-      const lastShare = 0.25;
-      let idx = 0;
-      if (progress >= 1 - lastShare) idx = STORY_CLAIMS.length - 1;
-      else idx = Math.min(STORY_CLAIMS.length - 2, Math.floor((progress / (1 - lastShare)) * (STORY_CLAIMS.length - 1)));
-      setStoryIdx(idx);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (storyPaused) return;
+    const timer = setInterval(() => {
+      setStoryIdx((i) => (i + 1) % STORY_SLIDE_COUNT);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [storyPaused]);
+
+  const storyPrev = () => setStoryIdx((i) => (i - 1 + STORY_SLIDE_COUNT) % STORY_SLIDE_COUNT);
+  const storyNext = () => setStoryIdx((i) => (i + 1) % STORY_SLIDE_COUNT);
 
   // Portfolio horizontal scroll
   useEffect(() => {
@@ -410,8 +566,8 @@ export default function Home() {
       {/* ── NAV ── */}
       <header className={`lxNav${navScrolled ? " scrolled" : ""}`}>
         <nav className="lxNavLinks">
-          <Link href="/portfolio">Portfolio</Link>
-          <a href="#packages">{t.packageLabel}</a>
+          <Link href="/portfolio">{t.portfolio}</Link>
+          <Link href="/pakket">{t.pakketLink}</Link>
           <Link href="/login">{t.clientAreaLink}</Link>
         </nav>
 
@@ -427,7 +583,7 @@ export default function Home() {
               <option value="en">EN</option>
             </select>
           </div>
-          <a href="#planning" className="lxNavCta"><span>Afspraak inplannen</span></a>
+          <a href="#planning" className="lxNavCta"><span>{t.planningBtn}</span></a>
           <button
             className={`hamburger${mobileOpen ? " open" : ""}`}
             aria-label="Menu"
@@ -439,10 +595,10 @@ export default function Home() {
       </header>
 
       <nav className={`mobileNav${mobileOpen ? " open" : ""}`}>
-        <Link href="/portfolio" onClick={() => setMobileOpen(false)}>Portfolio</Link>
-        <a href="#packages" onClick={() => setMobileOpen(false)}>{t.packageLabel}</a>
+        <Link href="/portfolio" onClick={() => setMobileOpen(false)}>{t.portfolio}</Link>
+        <Link href="/pakket" onClick={() => setMobileOpen(false)}>{t.pakketLink}</Link>
         <Link href="/login" onClick={() => setMobileOpen(false)}>{t.clientAreaLink}</Link>
-        <a href="#planning" onClick={() => setMobileOpen(false)}>Afspraak inplannen</a>
+        <a href="#planning" onClick={() => setMobileOpen(false)}>{t.planningBtn}</a>
       </nav>
 
       {/* ── HERO ── */}
@@ -455,7 +611,7 @@ export default function Home() {
 
         <div className="heroContent">
           <div className="heroTag">
-            MS Webdesign · Belgische webdesign agency
+            MS Webdesign · Webdesign voor zelfstandigen &amp; KMO&apos;s
           </div>
           <h1 className="heroHeadline">
             {t.heroLine1}<br />
@@ -472,20 +628,20 @@ export default function Home() {
 
         <div className="heroStats">
           <div className="heroStat">
-            <div className="heroStatNum">2 dgn</div>
-            <span className="heroStatLabel">Eerste versie</span>
+            <div className="heroStatNum">{t.heroStat1Num}</div>
+            <span className="heroStatLabel">{t.heroStat1Label}</span>
           </div>
           <div className="heroStat">
-            <div className="heroStatNum">€29</div>
-            <span className="heroStatLabel">Vanaf per maand</span>
+            <div className="heroStatNum">{t.heroStat2Num}</div>
+            <span className="heroStatLabel">{t.heroStat2Label}</span>
           </div>
           <div className="heroStat">
-            <div className="heroStatNum">6+</div>
-            <span className="heroStatLabel">Projecten opgeleverd</span>
+            <div className="heroStatNum">{t.heroStat3Num}</div>
+            <span className="heroStatLabel">{t.heroStat3Label}</span>
           </div>
           <div className="heroStat">
-            <div className="heroStatNum">100%</div>
-            <span className="heroStatLabel">Op maat gebouwd</span>
+            <div className="heroStatNum">{t.heroStat4Num}</div>
+            <span className="heroStatLabel">{t.heroStat4Label}</span>
           </div>
         </div>
       </section>
@@ -495,43 +651,62 @@ export default function Home() {
         <div className="marqueeTrack">
           {[1, 2, 3].map((i) => (
             <span key={i} className="marqueeItem">
-              Kapsalon <em>·</em> Elektricien <em>·</em> Verwarming <em>·</em> Vastgoed{" "}
-              <em>·</em> Events <em>·</em> Barbershop <em>·</em> Wellness <em>·</em>{" "}
-              Bouwbedrijf <em>·</em> Paardensport <em>·</em> Webshop <em>·</em>{" "}
-              Zelfstandige <em>·</em> Tandarts <em>·</em>
+              {t.marqueeItems.split(" · ").map((item, idx) => (
+                <Fragment key={idx}>
+                  {item} <em>·</em>{" "}
+                </Fragment>
+              ))}
             </span>
           ))}
         </div>
       </div>
 
-      {/* ── STORY — STICKY SCROLL ── */}
-      <section ref={storyRef as React.RefObject<HTMLElement>} className="storyWrap">
-        <div className="storySticky">
-          <div className="storyBgWrap">
-            {STORY_CLAIMS.map((_, i) => (
-              <video
-                key={i}
-                className={`storyBg${storyIdx === i ? " active" : ""}`}
-                src={`/story/file${i + 1}.mp4`}
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-            ))}
+      {/* ── REVIEWS — COMPACT CAROUSEL ── */}
+      <section className="storyWrap">
+        <div className="storyInner">
+          <div className="storyHead reveal">
+            <div className="sectionEye">{t.storyEye}</div>
+            <h2>{t.storyHeadingL1}<br />{t.storyHeadingL2}</h2>
           </div>
-          {STORY_CLAIMS.map((claim, i) => (
-            <div key={i} className={`storyClaim${storyIdx === i ? " active" : ""}`}>
-              <p className="storyClaimText">
-                <span>{claim.before} </span>
-                <em>{claim.accent}</em>
-                {claim.after && <><br /><span>{claim.after}</span></>}
-              </p>
+          <div
+            className="storyCarousel reveal"
+            onMouseEnter={() => setStoryPaused(true)}
+            onMouseLeave={() => setStoryPaused(false)}
+          >
+            <button className="storyArrow storyArrowPrev" onClick={storyPrev} aria-label="Previous">‹</button>
+            <div className="storyCard">
+              <div className="storyCardMedia">
+                {storyTestimonials.map((_, i) => (
+                  <video
+                    key={i}
+                    className={`storyCardVideo${storyIdx === i ? " active" : ""}`}
+                    src={`/story/file${i + 1}.mp4`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  />
+                ))}
+              </div>
+              <div className="storyCardContent">
+                {storyTestimonials.map((item, i) => (
+                  <div key={i} className={`storyCardText${storyIdx === i ? " active" : ""}`}>
+                    <p className="storyCardQuote">&ldquo;{item.quote}&rdquo;</p>
+                    <p className="storyCardAuthor">— {item.author}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+            <button className="storyArrow storyArrowNext" onClick={storyNext} aria-label="Next">›</button>
+          </div>
           <div className="storyDots">
-            {STORY_CLAIMS.map((_, i) => (
-              <div key={i} className={`storyDot${storyIdx === i ? " active" : ""}`} />
+            {storyTestimonials.map((_, i) => (
+              <button
+                key={i}
+                className={`storyDot${storyIdx === i ? " active" : ""}`}
+                onClick={() => setStoryIdx(i)}
+                aria-label={`Slide ${i + 1}`}
+              />
             ))}
           </div>
         </div>
@@ -542,10 +717,10 @@ export default function Home() {
         <div className="portfolioSticky">
           <div className="portfolioHead">
             <div>
-              <div className="sectionEye">Portfolio</div>
-              <h2>Geselecteerde<br />projecten</h2>
+              <div className="sectionEye">{t.portfolio}</div>
+              <h2>{t.portfolioHeadingL1}<br />{t.portfolioHeadingL2}</h2>
             </div>
-            <Link href="/portfolio">Volledig portfolio bekijken →</Link>
+            <Link href="/portfolio">{t.portfolioViewAll}</Link>
           </div>
           <div ref={portfolioTrackRef} className="portfolioTrack">
             {PROJECTS.map((p, i) => (
@@ -597,51 +772,53 @@ export default function Home() {
       <section id="packages" className="pricingSection">
         <div className="pricingInner">
           <div className="pricingHead reveal">
-            <div className="sectionEye">Pakketten</div>
-            <h2>Simpel kiezen.<br />Snel online.</h2>
-            <p>Één formule, alles inbegrepen. Breid uit met de add-ons die jij nodig hebt.</p>
+            <div className="sectionEye">{t.packageLabel}</div>
+            <h2>{t.pricingHeadingL1}<br />{t.pricingHeadingL2}</h2>
+            <p>{t.pricingSub}</p>
           </div>
 
           <div className="packComboGrid">
             {/* ── Main package card ── */}
             <article className="priceCard featured packMain reveal d1">
-              <div className="priceFeaturedBadge">Alles inbegrepen</div>
-              <div className="priceName">{PACKAGE.name}</div>
+              <div className="priceName">{t.packageName}</div>
               <div className="priceNum">
-                <strong>{PACKAGE.price}</strong>
-                <span>/maand</span>
+                <strong>{t.packagePrice}</strong>
+                <span>{t.perMonth}</span>
               </div>
-              <p className="priceDesc">{PACKAGE.note}</p>
+              <p className="priceDesc">{t.packageNote}</p>
               <ul className="priceFeatures">
-                {PACKAGE.features.map((f) => <li key={f}>{f}</li>)}
+                {t.packageFeatures.map((f) => <li key={f}>{f}</li>)}
               </ul>
               <a
                 href="#planning"
                 className="priceCta"
-                onClick={() => setSelectedPackage(PACKAGE.name)}
+                onClick={() => setSelectedPackage(t.packageName)}
               >
-                Afspraak inplannen
+                {t.planningBtn}
               </a>
             </article>
 
             {/* ── Add-ons ── */}
             <div className="packAddonsCol reveal d2">
               <div className="packAddonsLabel">
-                <div className="sectionEye" style={{ marginBottom: 8 }}>Add-ons</div>
+                <div className="sectionEye" style={{ marginBottom: 8 }}>{t.addonsEye}</div>
                 <p style={{ color: "var(--muted)", fontSize: 14, lineHeight: 1.65, marginBottom: 20 }}>
-                  Combineer de opties die jij nodig hebt. Geen verborgen kosten.
+                  {t.addonsSub}
                 </p>
               </div>
               <div className="addonsGrid2col">
-                {ADDONS.map((addon) => (
-                  <div key={addon.title} className="addonTile">
+                {ADDONS[lang].slice(0, 3).map((addon, i) => (
+                  <div key={i} className="addonTile">
                     <div className="addonTileIcon">{addon.icon}</div>
                     <h4>{addon.title}</h4>
-                    <p>{addon.desc}</p>
-                    <div className="addonTilePrice">{addon.price}</div>
+                    <p>{addon.tagline}</p>
+                    <div className="addonTilePrice">{addon.price}{t.addonPerMonth}</div>
                   </div>
                 ))}
               </div>
+              <Link href="/pakket" className="addonsViewAll">
+                {t.viewAllAddons}
+              </Link>
             </div>
           </div>
         </div>
@@ -651,9 +828,9 @@ export default function Home() {
       <section className="pricingSection" style={{ background: "var(--bg)" }}>
         <div className="pricingInner">
           <div className="pricingHead reveal">
-            <div className="sectionEye">Hoe werkt het</div>
-            <h2>Van call tot<br />live website.</h2>
-            <p>Een transparant proces zonder verrassingen. Jij vertelt wat je wil — wij bouwen het.</p>
+            <div className="sectionEye">{t.howEye}</div>
+            <h2>{t.howHeadingL1}<br />{t.howHeadingL2}</h2>
+            <p>{t.howSub}</p>
           </div>
           <div className="pricingGrid">
             {[
@@ -687,15 +864,15 @@ export default function Home() {
             <div className="bookingFeatures">
               <div className="bookingFeature">
                 <div className="bookingFeatureDot">✓</div>
-                Gratis kennismakingsgesprek
+                {t.bookingFeature1}
               </div>
               <div className="bookingFeature">
                 <div className="bookingFeatureDot">✓</div>
-                30 minuten via Google Meet
+                {t.bookingFeature2}
               </div>
               <div className="bookingFeature">
                 <div className="bookingFeatureDot">✓</div>
-                Geen verplichtingen
+                {t.bookingFeature3}
               </div>
             </div>
           </div>
@@ -709,14 +886,14 @@ export default function Home() {
                     <path className="successCheck" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                   </svg>
                 </div>
-                <h3>Afspraak aangevraagd! ✨</h3>
+                <h3>{t.successTitle}</h3>
                 <div className="successSlot">
                   📅 <strong>{bookingSuccess.date}</strong>
                   <span style={{ opacity: 0.4 }}>·</span>
                   <strong>{bookingSuccess.time}</strong>
                 </div>
                 <p>
-                  Een bevestiging wordt verstuurd naar<br />
+                  {t.successConfirm}<br />
                   <strong>{bookingSuccess.email}</strong>
                 </p>
                 <button
@@ -729,7 +906,7 @@ export default function Home() {
                     setSelectedPackage("");
                   }}
                 >
-                  + Nieuwe afspraak maken
+                  {t.newBooking}
                 </button>
               </div>
             ) : (
@@ -793,12 +970,12 @@ export default function Home() {
         <div className="lxFooterInner">
           <div className="lxFooterBrand">
             <img src="/portfolio/logo.png" alt="MS Webdesign" />
-            <p>Premium webdesign voor ambitieuze bedrijven.</p>
+            <p>{t.footerTagline}</p>
           </div>
           <nav className="lxFooterNav">
-            <Link href="/portfolio">Portfolio</Link>
+            <Link href="/portfolio">{t.portfolio}</Link>
             <a href="#packages">{t.packageLabel}</a>
-            <a href="#planning">Afspraak</a>
+            <a href="#planning">{t.footerAppointment}</a>
             <Link href="/login">{t.clientAreaLink}</Link>
           </nav>
           <div className="lxFooterCopy">© {new Date().getFullYear()} MS Webdesign</div>
@@ -830,17 +1007,17 @@ export default function Home() {
                 <div className="modalPackageGrid">
                   <button
                     type="button"
-                    onClick={() => setSelectedPackage(PACKAGE.name)}
-                    className={`modalPack${selectedPackage === PACKAGE.name ? " selected" : ""}`}
+                    onClick={() => setSelectedPackage(t.packageName)}
+                    className={`modalPack${selectedPackage === t.packageName ? " selected" : ""}`}
                   >
-                    <small>{PACKAGE.note}</small>
-                    <h3>{PACKAGE.name}</h3>
+                    <small>{t.packageNote}</small>
+                    <h3>{t.packageName}</h3>
                     <div className="modalPriceWrap">
-                      <strong>{PACKAGE.price}<em>{t.perMonth}</em></strong>
+                      <strong>{t.packagePrice}<em>{t.perMonth}</em></strong>
                     </div>
-                    <p>{PACKAGE.desc}</p>
+                    <p>{t.packageDesc}</p>
                     <ul>
-                      {PACKAGE.features.slice(0, 3).map((f) => <li key={f}>{f}</li>)}
+                      {t.packageFeatures.slice(0, 3).map((f) => <li key={f}>{f}</li>)}
                     </ul>
                   </button>
                   <button
@@ -885,7 +1062,7 @@ export default function Home() {
                   <input
                     key={index}
                     type="url"
-                    placeholder={`Website link ${index + 1}`}
+                    placeholder={`${t.websiteLinkLabel} ${index + 1}`}
                     value={link}
                     onChange={(e) => updateLink(index, e.target.value)}
                   />
