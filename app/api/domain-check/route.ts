@@ -39,11 +39,26 @@ export async function GET(req: Request) {
       cache: "no-store",
     });
 
-    const data = await res.json();
+    const raw = await res.text();
+    let data: any = null;
+    if (raw) {
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        // GoDaddy gaf geen geldige JSON terug
+      }
+    }
 
     if (!res.ok) {
-      const msg = data?.message || `GoDaddy API fout (${res.status})`;
+      const msg = data?.message || `GoDaddy API fout (${res.status}${raw ? `): ${raw.slice(0, 200)}` : ", lege response)"}`;
       return NextResponse.json({ error: msg }, { status: res.status === 429 ? 429 : 502 });
+    }
+
+    if (!data) {
+      return NextResponse.json(
+        { error: `GoDaddy gaf een lege/onverwachte response terug (status ${res.status}).` },
+        { status: 502 }
+      );
     }
 
     return NextResponse.json({
@@ -54,6 +69,6 @@ export async function GET(req: Request) {
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Onbekende fout bij domeincheck.";
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: `Domeincheck mislukt: ${msg}` }, { status: 500 });
   }
 }
